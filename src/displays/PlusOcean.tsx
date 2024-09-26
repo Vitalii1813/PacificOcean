@@ -4,12 +4,9 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 const PlusOcean = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.title}>PACIFIC OCEAN</Text>
       </View>
-
-      {/* Rating Section */}
       <View style={styles.ratingContainer}>
         <Text style={styles.ratingTitle}>Rating</Text>
         
@@ -32,21 +29,17 @@ const PlusOcean = () => {
         </View>
       </View>
 
-      {/* Add My Result Button */}
+  
       <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addButtonText}>Add my result</Text>
       </TouchableOpacity>
 
-      {/* Description Section */}
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
           You can be the next champion of the Pacific Ocean! Add your result and check the rating.
         </Text>
       </View>
-
-      {/* Footer Navigation Icons (Placeholder) */}
       <View style={styles.footer}>
-        {/* Placeholder for icons (use actual icon components or images) */}
         <View style={styles.iconPlaceholder} />
         <View style={styles.iconPlaceholder} />
         <View style={styles.iconPlaceholder} />
@@ -58,9 +51,9 @@ const PlusOcean = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#00509e', // Oceanic blue background
+    backgroundColor: '#00509e',
     padding: 20,
-    paddingBottom: 50, // Spacing for footer
+    paddingBottom: 50, 
   },
   header: {
     alignItems: 'center',

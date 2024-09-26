@@ -6,13 +6,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
-import HomeIcon from './src/displays/svg/HomeIcon';
 import HomeOcean from './src/displays/HomeOcean';
 import SaveOcean from './src/displays/SaveOcean';
 import PlusOcean from './src/displays/PlusOcean';
 import QRCode from './src/displays/QRCode';
-import LoginScreen from './src/displays/LoginScreen'; // Імпортуємо сторінку входу
-
+import LoginScreen from './src/displays/LoginScreen'
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +23,7 @@ function OceanTabs() {
 
           if (route.name === 'Home') {
             // Use HomeIcon for the Home page
-            return <HomeIcon size={size} color={color} />;
+            iconName = focused ? 'heart' : 'heart-outline';
           } else if (route.name === 'Save the Ocean') {
             iconName = focused ? 'heart' : 'heart-outline';
           } else if (route.name === 'Plus') {

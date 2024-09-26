@@ -1,23 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const HomeOcean = () => {
   return (
-    <ImageBackground
-      source={{ uri: 'https://your-background-image-url.jpg' }} // Update with actual background image
-      style={styles.background}
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        {/* Header Section */}
+    <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <Text style={styles.description}>Description</Text>
           <Text style={styles.subtext}>
-            Book a ship and sail with us for fishing in the open ocean for a whole day from 9 am to 9 pm.
+            Book a ship and sail with us for fishing in 
+            the open ocean for a whole day from 9 am to 9 pm.
           </Text>
         </View>
 
-        {/* Options Section */}
         <View style={styles.options}>
           <TouchableOpacity style={styles.optionButton}>
             <Text style={styles.optionText}>Sailing yacht</Text>
@@ -27,17 +22,12 @@ const HomeOcean = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Open Map Button */}
+        <View style={styles.footer}>
         <TouchableOpacity style={styles.mapButton}>
           <Text style={styles.mapText}>Open map</Text>
         </TouchableOpacity>
-
-        {/* Footer Icons (if needed) */}
-        <View style={styles.footer}>
-          {/* Add navigation buttons or icons here */}
         </View>
-      </ScrollView>
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -83,7 +73,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   optionButton: {
-     // Dark green background for buttons
     borderRadius: 10,
     paddingVertical: 15,
     marginVertical: 10,
@@ -96,7 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   mapButton: {
-    backgroundColor: '#00897b', // Lighter green for the map button
+    backgroundColor: '#00897b',
     borderRadius: 10,
     paddingVertical: 15,
     marginVertical: 20,

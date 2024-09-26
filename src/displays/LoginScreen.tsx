@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ImageBackground } from 'react-native';
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({navigation}:any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Додайте логіку для входу
     if (email && password) {
       navigation.replace('Main');
     } else {
@@ -15,10 +14,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <ImageBackground 
-      source={{ uri: 'https://example.com/your-ocean-image.jpg' }} 
-      style={styles.background}
-    >
+
       <View style={styles.overlay}>
         <Text style={styles.title}>JOIN PACIFIC OCEAN</Text>
         <TextInput
@@ -36,7 +32,6 @@ export default function LoginScreen({ navigation }) {
         />
         <Button title="Login" onPress={handleLogin} color="#004d40" />
       </View>
-    </ImageBackground>
   );
 }
 
@@ -49,7 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // напівпрозорий фон
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     padding: 20,
   },
   title: {
@@ -67,3 +62,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
+function alert(arg0: string) {
+    throw new Error('Function not implemented.');
+}
