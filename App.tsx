@@ -1,70 +1,125 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
-import HomeOcean from './src/displays/HomeOcean';
-import SaveOcean from './src/displays/SaveOcean';
-import PlusOcean from './src/displays/PlusOcean';
-import QRCode from './src/displays/QRCode';
-import LoginScreen from './src/displays/LoginScreen'
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+import HomeOcean from './displays/HomeOcean';
+import SaveOcean from './displays/SaveOcean';
+import PlusOcean from './displays/PlusOcean';
+import QRCode from './displays/CodeOcean';
+import LoginScreen from './displays/LoginOcean';
+import Home from './svg/bottom_tab/tsx/Home';
+import AddCircle from './svg/bottom_tab/tsx/Add';
+import Save from './svg/bottom_tab/tsx/Save';
+import Code from './svg/bottom_tab/tsx/Code';
+import CodeOcean from './displays/CodeOcean';
 
-function OceanTabs() {
+const Tab = createBottomTabNavigator();
+const megaIconSizeSvg = Dimensions.get('screen').width * 0.07;
+
+
+function HomeImgIcon({ focused }: any) {
+  return (
+    <Home
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'red' : '#BB8FCE'}
+    />
+  );
+}
+
+function AddImgIcon({ focused }: any) {
+  return (
+    <AddCircle
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'red' : '#BB8FCE'}
+    />
+  );
+}
+
+function SaveImgIcon({ focused }: any) {
+  return (
+    <Save
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'red' : '#BB8FCE'}
+    />
+  );
+}
+
+function CodeImgIcon({ focused }: any) {
+  return (
+    <Code
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'red' : '#002224'}
+    />
+  );
+}
+function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-            // Use HomeIcon for the Home page
-            iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Save the Ocean') {
-            iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Plus') {
-            iconName = focused ? 'add-circle' : 'add-circle-outline';
-          } else if (route.name === 'QRcode') {
-            iconName = focused ? 'qr-code' : 'qr-code-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: '#1E90FF',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#7D3C98',
+        tabBarInactiveTintColor: '#BB8FCE',
         tabBarStyle: {
-          backgroundColor: '#0D47A1',
+          backgroundColor: '#4515A4',
+          paddingBottom: 0,
+          paddingHorizontal: 0,
         },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeOcean} />
-      <Tab.Screen name="Save the Ocean" component={SaveOcean} />
-      <Tab.Screen name="Plus" component={PlusOcean} />
-      <Tab.Screen name="QRcode" component={QRCode} />
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
+        tabBarShowLabel: false,
+      })}>
+
+      <Tab.Screen
+        name="Home"
+        component={HomeOcean}
+        options={{
+          tabBarIcon: HomeImgIcon,
+          headerShown: false,
+        }}
+      />
+
+      <Tab.Screen
+        name="Plus"
+        component={PlusOcean}
+        options={{
+          tabBarIcon: AddImgIcon,
+          headerShown: false,
+        }}
+      />
+
+      <Tab.Screen
+        name="Save"
+        component={SaveOcean}
+        options={{
+          tabBarIcon:SaveImgIcon,
+          headerShown: false,
+        }}
+      />
+
+<Tab.Screen
+        name="Code"
+        component={CodeOcean}
+        options={{
+          tabBarIcon:CodeImgIcon,
+          headerShown: false,
+        }}
+      />
+
     </Tab.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} // Додаємо екран входу
-          options={{ headerShown: false }} 
-        />
-        <Stack.Screen 
-          name="Main" 
-          component={OceanTabs} 
-          options={{ headerShown: false }} 
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{ flex: 1 }}>
+      <NavigationContainer>
+        <MainTabs />
+      </NavigationContainer>
+    </View>
   );
 }
 
@@ -73,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E0F7FA',
+    backgroundColor: '#002224',
   },
   text: {
     color: '#00796B',
