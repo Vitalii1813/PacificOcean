@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, Image } from 'react-native';
 
 const PlusOcean = () => {
   const players = [
@@ -7,28 +7,26 @@ const PlusOcean = () => {
     { rank: 2, name: 'Ser Roiy', weight: '53 kg' },
     { rank: 3, name: 'MC Lui', weight: '48 kg' },
   ];
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView>
+        <View style={styles.header}>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
+          <Image
+            source={require('../svg/home_img/settings.png')}
+            style={styles.settingsImg}
+          />
+        </View>
       </SafeAreaView>
-      <View style={styles.header}>
-        <Text style={styles.title}>PACIFIC OCEAN
-        </Text>
-        <Image
-          source={require("../svg/home_img/settings.png")}
-          style={styles.settings_img}
-        />
-      </View>
-
 
       <View style={styles.ratingContainer}>
         <Text style={styles.ratingTitle}>Rating</Text>
-
+        <ScrollView style={styles.scrollContainer}>
         {players.map((player, index) => (
-          <View style={styles.remindContainer}>
-            <View key={index} style={styles.ratingRow}>
-              <Text style={styles.ranking}>{player.rank}
-              </Text>
+          <View key={index} style={styles.remindContainer}>
+            <View style={styles.ratingRow}>
+              <Text style={styles.ranking}>{player.rank}</Text>
               <Image
                 source={require('../svg/plus_img/cup-star.png')}
                 style={styles.trophyIcon}
@@ -37,42 +35,26 @@ const PlusOcean = () => {
               <Text style={styles.weight}>{player.weight}</Text>
             </View>
 
-
-
             <View style={styles.emptyBoxesContainer}>
-              {/* Місце для пустих квадратів */}
+              {/* Пусті квадрати */}
               <View style={styles.emptyBox}></View>
               <View style={styles.emptyBox}></View>
               <View style={styles.emptyBox}></View>
               <View style={styles.emptyBox}></View>
               <View style={styles.emptyBox}></View>
             </View>
-
-
           </View>
         ))}
+        </ScrollView>
       </View>
+      
+
       <View style={styles.moonContainer}>
         <Image
-          source={require("../svg/plus_img/moon.png")}
-          style={styles.moon_img}
+          source={require('../svg/plus_img/moon.png')}
+          style={styles.moonImg}
         />
       </View>
-
-      {/* <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>Add my result</Text>
-      </TouchableOpacity>
-
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>
-          You can be the next champion of the Pacific Ocean! Add your result and check the rating.
-        </Text>
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-        <View style={styles.iconPlaceholder} />
-      </View> */}
     </ScrollView>
   );
 };
@@ -83,16 +65,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#053281',
     padding: 20,
     paddingBottom: 50,
-    borderColor:'red',
-    borderWidth:2,
   },
   header: {
     flexDirection: 'row',
-    marginBottom: 20
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#7A9EA0',
+    textAlign: 'center',
+    flex: 1,
+  },
+  settingsImg: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
   ratingContainer: {
-    padding: 6,
-    backgroundColor: '#E2E6E9', // Світло-сірий колір для фону
+    padding: 16,
+    backgroundColor: '#E2E6E9',
     borderRadius: 20,
     width: '90%',
     alignSelf: 'center',
@@ -102,22 +96,19 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 20,
-    color: '#1C1C1C', // Темний текст для заголовку
+    color: '#1C1C1C',
   },
   remindContainer: {
-    marginBottom: 20, // Відступ між рядками
-    backgroundColor: '#F5F5F5', // Світлий фон для кожного рядка
+    marginBottom: 20,
+    backgroundColor: '#F5F5F5',
     borderRadius: 12,
-    padding: 0,
-    shadowColor: '#000', // Тінь для додаткового ефекту
+    padding: 10,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    height:75
   },
   ratingRow: {
-    borderColor:'blue',
-    borderWidth:2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -126,107 +117,56 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: '#1C1C1C',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor:'red',
-    borderWidth:2,
   },
   trophyIcon: {
-    width: 22, // Зменшено розмір іконки
+    width: 22,
     height: 22,
     marginLeft: 5,
   },
   name: {
     fontSize: 18,
-    flex: 1,
     color: '#1C1C1C',
-    textAlign: 'left', // Вирівняння імені по лівому краю
-    marginLeft: 10, // Додано відступ для імені
+    textAlign: 'left',
+    flex: 1,
+    marginLeft: 10,
   },
   weight: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#1C1C1C', // Темний колір для тексту ваги
-    textAlign: 'right', // Вирівнювання по правому краю
+    color: '#1C1C1C',
   },
   emptyBoxesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
-    borderColor:'red',
-    borderWidth:2,
   },
   emptyBox: {
     width: 35,
     height: 35,
-    backgroundColor: '#90A3A3', // Колір пустих квадратів
-    borderRadius: 8, // Округлі краї
-    borderWidth: 1, // Легкий контур
-    borderColor: '#5D6D7E', // Темний контур
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
-    textAlign: 'center',
-    marginRight: 28,
-    marginLeft: 25
-  },
-  settings_img: {
-    marginTop: 5,
+    backgroundColor: '#90A3A3',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#5D6D7E',
   },
   moonContainer: {
-    borderColor:'red',
-    borderWidth:3,
-    width: 220,  // Ширина контейнера
-    height: 220,  // Висота контейнера
-    borderRadius: 30,  // Округлі краї (зроблено круглим)
-    justifyContent: 'center',  // Вирівнювання зображення по вертикалі
-    alignItems: 'center',  // Вирівнювання зображення по горизонталі
-    shadowColor: '#000',  // Тінь для контейнера
-    shadowOffset: { width: 0, height: 2 },  // Невелике зміщення тіні
-    shadowOpacity: 0.3,  // Прозорість тіні
-    shadowRadius: 4,  // Радіус тіні
-    marginTop: 10,  // Відступи від інших елементів
-  },
-  moon_img: {
-    resizeMode: 'contain',  // Масштабування зображення з збереженням пропорцій
-  },
-  addButton: {
-    backgroundColor: '#39A9DB',
-    borderRadius: 10,
-    paddingVertical: 12,
+    alignSelf: 'center',
+    marginTop: 20,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
-  addButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
+  moonImg: {
+    resizeMode: 'contain',
   },
-  descriptionContainer: {
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  descriptionText: {
-    fontSize: 14,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    paddingHorizontal: 10,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
-    borderTopWidth: 1,
-    borderColor: '#ffffff30',
-  },
-  iconPlaceholder: {
-    width: 40,
-    height: 40,
-    backgroundColor: '#CCCCCC',
-    borderRadius: 20,
-  },
+  scrollContainer:{
+    height: 320,
+  }
 });
 
 export default PlusOcean;
