@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 
 const SaveOcean = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <SafeAreaView>
+      </SafeAreaView>
       <View style={styles.header}>
         <Text style={styles.title}>Save Our Oceans</Text>
       </View>

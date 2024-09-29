@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 
 const PlusOcean = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <SafeAreaView>
+      </SafeAreaView>
       <View style={styles.header}>
         <Text style={styles.title}>PACIFIC OCEAN</Text>
       </View>

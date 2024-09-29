@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ImageBackground } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen({navigation}:any) {
   const [email, setEmail] = useState('');
@@ -14,24 +15,23 @@ export default function LoginScreen({navigation}:any) {
   };
 
   return (
-
-      <View style={styles.overlay}>
+    <><SafeAreaView>
+    </SafeAreaView>
+    <View style={styles.overlay}>
         <Text style={styles.title}>JOIN PACIFIC OCEAN</Text>
         <TextInput
           style={styles.input}
           placeholder="User name"
           value={email}
-          onChangeText={setEmail}
-        />
+          onChangeText={setEmail} />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
           value={password}
-          onChangeText={setPassword}
-        />
+          onChangeText={setPassword} />
         <Button title="Login" onPress={handleLogin} color="#004d40" />
-      </View>
+      </View></>
   );
 }
 

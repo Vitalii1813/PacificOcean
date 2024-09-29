@@ -24,7 +24,7 @@ function HomeImgIcon({ focused }: any) {
   return (
     <Home
       svgIconCustomSize={megaIconSizeSvg}
-      fill={focused ? 'red' : '#BB8FCE'}
+      fill={focused ? 'white' : 'transparent'}
     />
   );
 }
@@ -33,7 +33,9 @@ function AddImgIcon({ focused }: any) {
   return (
     <AddCircle
       svgIconCustomSize={megaIconSizeSvg}
-      fill={focused ? 'red' : '#BB8FCE'}
+      fill={focused ? 'white' : '#7A9EA0'} 
+      stroke="white" 
+      strokeWidth="2"
     />
   );
 }
@@ -42,7 +44,9 @@ function SaveImgIcon({ focused }: any) {
   return (
     <Save
       svgIconCustomSize={megaIconSizeSvg}
-      fill={focused ? 'red' : '#BB8FCE'}
+      fill={focused ? 'white' : 'transparent'} 
+      stroke="white" 
+      strokeWidth="2"
     />
   );
 }
@@ -51,7 +55,7 @@ function CodeImgIcon({ focused }: any) {
   return (
     <Code
       svgIconCustomSize={megaIconSizeSvg}
-      fill={focused ? 'red' : '#002224'}
+      fill={focused ? 'white' : 'transparent'}
     />
   );
 }
@@ -62,7 +66,7 @@ function MainTabs() {
         tabBarActiveTintColor: '#7D3C98',
         tabBarInactiveTintColor: '#BB8FCE',
         tabBarStyle: {
-          backgroundColor: '#4515A4',
+          backgroundColor: '#002224',
           paddingBottom: 0,
           paddingHorizontal: 0,
         },

@@ -2,25 +2,31 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faShip, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
 
 const HomeOcean = () => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+        <SafeAreaView>
+        </SafeAreaView>
         <View style={styles.header}>
-      <View style={styles.emptyspace}></View>
-          <Text style={styles.title}>PACIFIC OCEAN</Text>
+          <Text style={styles.title}>PACIFIC OCEAN
+          </Text>
+          <Image
+            source={require("../svg/home_img/settings.png")}
+            style={styles.settings_img}
+          />
         </View>
 
         <View style={styles.imageContainer}>
 
           <View style={styles.descriptionContainer}>
-          <Text style={styles.description}>Description</Text>
-          <Text style={styles.subtext}>
-            Book a ship and sail with us for fishing in the open ocean for a
-            whole day from 9 am to 9 pm.
-          </Text>
+            <Text style={styles.description}>Description</Text>
+            <Text style={styles.subtext}>
+              Book a ship and sail with us for fishing in the open ocean for a
+              whole day from 9 am to 9 pm.
+            </Text>
           </View>
 
           <Image
@@ -31,22 +37,30 @@ const HomeOcean = () => {
 
         <View style={styles.options}>
           <TouchableOpacity style={styles.optionButton}>
-            <FontAwesomeIcon
-              name="ship"
-              size={20} // Зменшуємо розмір іконки
-              color="white"
-              style={styles.optionIcon}
+            <Image
+              source={require("../svg/home_img/done-all.png")}
+              style={styles.done_img}
             />
-            <Text style={styles.optionText}>Sailing yacht</Text>
+            <View style={styles.yacht_block}>
+              <Image
+                source={require("../svg/home_img/ship.png")}
+                style={styles.yacht_img}/>
+              <Text style={styles.optionText}>Sailing yacht</Text>
+            </View>
+
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton}>
-            <FontAwesomeIcon
-              name="ship"
-              size={20} // Зменшуємо розмір іконки
-              color="white"
-              style={styles.optionIcon}
+            <Image
+              source={require("../svg/home_img/done-all.png")}
+              style={styles.done_img}
             />
-            <Text style={styles.optionText}>Motor yacht</Text>
+            <View style={styles.yacht_block}>
+              <Image
+                source={require("../svg/home_img/ship.png")}
+                style={styles.yacht_img}/>
+              <Text style={styles.optionText}>Motor yacht</Text>
+            </View>
+
           </TouchableOpacity>
         </View>
 
@@ -68,7 +82,7 @@ const HomeOcean = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#00897b",
+    backgroundColor: "#0C757A",
   },
   content: {
     flex: 1,
@@ -77,27 +91,27 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     paddingTop: 20,
   },
-  emptyspace: {
-    width: '100%',
-    height: '35%',
-    borderColor: 'yellow',
-    borderWidth: 2,
-  },
   header: {
-    borderColor: 'blue',
-    borderWidth: 2,
-    height: '15%',
-    marginTop:30,
+    flex: 1.1,
+    flexDirection: 'row',
+    // borderColor: 'blue',
+    //borderWidth: 2,
+    height: '10%',
+    marginTop: 20,
   },
   title: {
     fontSize: 32,
     fontWeight: "900",
     color: "#7A9EA0",
     textAlign: 'center',
-    borderColor: 'red',
-    borderWidth: 2,
+    marginRight: 28,
+    marginLeft: 25
+  },
+  settings_img: {
+    marginTop: 5,
   },
   description: {
+    marginTop: 10,
     fontSize: 16,
     color: "white",
     opacity: 0.8,
@@ -105,30 +119,30 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   descriptionContainer: {
-             // Щоб зайняти 50% простору
     justifyContent: 'flex-start',
     padding: 5,
-    borderColor: 'purple',
-    borderWidth: 2,
-    flex:1,
+    // borderColor: 'purple',
+    // borderWidth: 2,
+    flex: 1,
   },
   subtext: {
     fontSize: 12,
     color: "#7A9EA0",
     textAlign: "left",
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
   },
   imageContainer: {
     flexDirection: 'row',   // Вирівнюємо контент по горизонталі
-    height: 350,            // Висота контейнера
+    height: 350,
     width: '100%',
-    borderColor: 'red',
-    borderWidth: 2,
+    // borderColor: 'red',
+    // borderWidth: 2,
+    marginTop: 10
   },
   backgroundImage: {
-    flex:1.5,
-    marginTop:40,
+    flex: 1.7,
+    marginTop: 40,
   },
   options: {
     marginBottom: 20,
@@ -146,20 +160,15 @@ const styles = StyleSheet.create({
   optionIcon: {
     marginRight: 10,
   },
-  optionText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "500",
-  },
   mapButton: {
-    backgroundColor: "#00897b",
+    backgroundColor: "#7A9EA0",
     borderRadius: 10,
-    paddingVertical: 12,
-    marginVertical: 15,
+    paddingVertical: 16,
+    marginVertical: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     width: "100%",
   },
   mapText: {
@@ -173,8 +182,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 15,
-    borderTopWidth: 1,
-    borderColor: "#ffffff30",
+  },
+  yacht_img: {
+    marginLeft: 55, // Відступ праворуч від зображення
+  },
+  done_img:{
+    marginRight:50
+  },
+  yacht_block:{
+    flex:1.3,
+    flexDirection: 'row',
+    // borderColor:'red',
+    // borderWidth:1,
+  },
+  optionText: {
+    color: 'white', // Колір тексту
+    fontSize: 16, // Розмір тексту
+    fontWeight: 500,
+    flex: 1, // Займає всю доступну ширину, щоб текст залишався праворуч
+    textAlign: 'right', // Вирівнювання тексту праворуч
   },
 });
 
