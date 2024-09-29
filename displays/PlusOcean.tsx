@@ -12,13 +12,13 @@ const PlusOcean = () => {
       <SafeAreaView>
       </SafeAreaView>
       <View style={styles.header}>
-          <Text style={styles.title}>PACIFIC OCEAN
-          </Text>
-          <Image
-            source={require("../svg/home_img/settings.png")}
-            style={styles.settings_img}
-          />
-        </View>
+        <Text style={styles.title}>PACIFIC OCEAN
+        </Text>
+        <Image
+          source={require("../svg/home_img/settings.png")}
+          style={styles.settings_img}
+        />
+      </View>
 
 
       <View style={styles.ratingContainer}>
@@ -52,7 +52,12 @@ const PlusOcean = () => {
           </View>
         ))}
       </View>
-
+      <View style={styles.moonContainer}>
+        <Image
+          source={require("../svg/plus_img/moon.png")}
+          style={styles.moon_img}
+        />
+      </View>
 
       {/* <TouchableOpacity style={styles.addButton}>
         <Text style={styles.addButtonText}>Add my result</Text>
@@ -78,10 +83,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#053281',
     padding: 20,
     paddingBottom: 50,
+    borderColor:'red',
+    borderWidth:2,
   },
   header: {
     flexDirection: 'row',
-    marginBottom:20
+    marginBottom: 20
   },
   ratingContainer: {
     padding: 6,
@@ -101,19 +108,19 @@ const styles = StyleSheet.create({
     marginBottom: 20, // Відступ між рядками
     backgroundColor: '#F5F5F5', // Світлий фон для кожного рядка
     borderRadius: 12,
-    padding: 8,
+    padding: 0,
     shadowColor: '#000', // Тінь для додаткового ефекту
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
+    height:75
   },
   ratingRow: {
+    borderColor:'blue',
+    borderWidth:2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingBottom: 10,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#B0B0B0', // Легка лінія між елементами
   },
   ranking: {
     fontSize: 20,
@@ -121,6 +128,8 @@ const styles = StyleSheet.create({
     color: '#1C1C1C',
     flexDirection: 'row',
     alignItems: 'center',
+    borderColor:'red',
+    borderWidth:2,
   },
   trophyIcon: {
     width: 22, // Зменшено розмір іконки
@@ -142,8 +151,10 @@ const styles = StyleSheet.create({
   },
   emptyBoxesContainer: {
     flexDirection: 'row',
-    justifyContent:'space-around',
+    justifyContent: 'space-around',
     marginTop: 10,
+    borderColor:'red',
+    borderWidth:2,
   },
   emptyBox: {
     width: 35,
@@ -163,6 +174,23 @@ const styles = StyleSheet.create({
   },
   settings_img: {
     marginTop: 5,
+  },
+  moonContainer: {
+    borderColor:'red',
+    borderWidth:3,
+    width: 220,  // Ширина контейнера
+    height: 220,  // Висота контейнера
+    borderRadius: 30,  // Округлі краї (зроблено круглим)
+    justifyContent: 'center',  // Вирівнювання зображення по вертикалі
+    alignItems: 'center',  // Вирівнювання зображення по горизонталі
+    shadowColor: '#000',  // Тінь для контейнера
+    shadowOffset: { width: 0, height: 2 },  // Невелике зміщення тіні
+    shadowOpacity: 0.3,  // Прозорість тіні
+    shadowRadius: 4,  // Радіус тіні
+    marginTop: 10,  // Відступи від інших елементів
+  },
+  moon_img: {
+    resizeMode: 'contain',  // Масштабування зображення з збереженням пропорцій
   },
   addButton: {
     backgroundColor: '#39A9DB',
