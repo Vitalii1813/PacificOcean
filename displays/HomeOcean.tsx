@@ -3,6 +3,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faShip, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
+import ArrowIcon from "../svg/home_img/ArrowRight";
 
 const HomeOcean = () => {
   return (
@@ -52,7 +53,7 @@ const HomeOcean = () => {
           <TouchableOpacity style={styles.optionButton}>
             <Image
               source={require("../svg/home_img/done-all.png")}
-              style={styles.done_img}
+              style={{opacity: 0 , marginRight:50}}
             />
             <View style={styles.yacht_block}>
               <Image
@@ -67,12 +68,7 @@ const HomeOcean = () => {
         <View style={styles.footer}>
           <TouchableOpacity style={styles.mapButton}>
             <Text style={styles.mapText}>Open map</Text>
-            <FontAwesomeIcon
-              name="arrow-right"
-              size={18} // Зменшуємо розмір іконки
-              color="white"
-              style={styles.mapIcon}
-            />
+            <ArrowIcon width={25} height={25} fill="white" />
           </TouchableOpacity>
         </View>
       </View>
@@ -163,8 +159,8 @@ const styles = StyleSheet.create({
   mapButton: {
     backgroundColor: "#7A9EA0",
     borderRadius: 10,
-    paddingVertical: 16,
-    marginVertical: 20,
+    paddingVertical: 10,
+    marginVertical: 15,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
