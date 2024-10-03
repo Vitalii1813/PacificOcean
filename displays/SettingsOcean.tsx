@@ -43,12 +43,16 @@ const SettingsOcean = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.whiteContainer}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>PACIFIC OCEAN</Text>
-        <TouchableOpacity onPress={() => handlePress("Settings")}>
-          <Text style={styles.icon}>⚙️</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
+          <TouchableOpacity>
+            <Image
+              source={require("../svg/home_img/settings.png")}
+              style={styles.settings_img}
+            />
+          </TouchableOpacity>
+        </View>
       <View style={styles.profile}>
         <View style={styles.profileImage} />
         <Text style={styles.profileName}>Bill Goas</Text>
@@ -132,6 +136,7 @@ const SettingsOcean = () => {
           />
         </View>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -139,14 +144,12 @@ const SettingsOcean = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#00334d",
+    backgroundColor: "#073B3E",
     padding: 40,
-    borderWidth:2,
-    borderColor:'red'
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     marginBottom: 30,
   },
@@ -176,7 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   button: {
-    backgroundColor: "#004d66",
+    backgroundColor: "#76A6A9",
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
@@ -195,6 +198,18 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: "contain",
+  },
+  whiteContainer:{
+    backgroundColor:'#002224',
+    padding:15,
+    borderRadius:15,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "900",
+    color: "#7A9EA0",
+    marginRight: 0,
+    width:250
   },
 });
 
