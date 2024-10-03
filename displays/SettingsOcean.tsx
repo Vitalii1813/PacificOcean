@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const SettingsOcean = () => {
   const navigation = useNavigation();
@@ -43,19 +44,22 @@ const SettingsOcean = () => {
 
   return (
     <View style={styles.container}>
+      <SafeAreaView></SafeAreaView>
       <View style={styles.whiteContainer}>
       <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <TouchableOpacity>
             <Image
               source={require("../svg/home_img/settings.png")}
-              style={styles.settings_img}
             />
           </TouchableOpacity>
         </View>
       <View style={styles.profile}>
         <View style={styles.profileImage} />
+        <View style={styles.profileuserContent}>
+        <Text style={styles.profileUser}>Profile User</Text>
         <Text style={styles.profileName}>Bill Goas</Text>
+        </View>
       </View>
 
       {/* Button with arrow icon */}
@@ -145,7 +149,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#073B3E",
-    padding: 40,
+    padding: 30,
   },
   header: {
     flexDirection: "row",
@@ -176,7 +180,15 @@ const styles = StyleSheet.create({
   },
   profileName: {
     color: "#ffffff",
-    fontSize: 18,
+    fontSize: 17,
+  },
+  profileUser:{
+    color: "grey",
+    fontSize: 12,
+  },
+  profileuserContent:{
+    flex:1,
+    flexDirection:'column',
   },
   button: {
     backgroundColor: "#76A6A9",

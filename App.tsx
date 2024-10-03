@@ -141,7 +141,7 @@ export default function App() {
           <Stack.Screen
             name="Settings"
             component={SettingsOcean}
-            options={{ headerShown: true, title: 'Settings' }}
+            options={{ headerShown: false, title: 'Settings' }}
           />
           <Stack.Screen
             name="EnablePassword"
