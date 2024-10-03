@@ -56,7 +56,7 @@ const SettingsOcean = () => {
         </View>
       <View style={styles.profile}>
         <View style={styles.profileImage} />
-        <View style={styles.profileuserContent}>
+        <View style={styles.profileUserContent}>
         <Text style={styles.profileUser}>Profile User</Text>
         <Text style={styles.profileName}>Bill Goas</Text>
         </View>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     color: "grey",
     fontSize: 12,
   },
-  profileuserContent:{
+  profileUserContent:{
     flex:1,
     flexDirection:'column',
   },

@@ -146,7 +146,7 @@ export default function App() {
           <Stack.Screen
             name="EnablePassword"
             component={EnablePassword}
-            options={{ headerShown: true, title: 'Enable' }}
+            options={{ headerShown: false, title: 'Enable' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

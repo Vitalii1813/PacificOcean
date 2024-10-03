@@ -17,7 +17,6 @@ const HomeOcean = () => {
       <View style={styles.content}>
         <SafeAreaView>
         </SafeAreaView>
-        
         <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <TouchableOpacity onPress={handleImagePress}>

@@ -5,6 +5,8 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  SafeAreaView,
+  Image,
 } from "react-native";
 
 export const EnablePassword = () => {
@@ -20,31 +22,45 @@ export const EnablePassword = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>PACIFIC OCEAN</Text>
-        <Text style={styles.icon}>⚙️</Text>
-      </View>
-      <View style={styles.profile}>
+      <View style={styles.content}>
+        <SafeAreaView>
+        </SafeAreaView>
+        <View style={styles.header}>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
+          <TouchableOpacity>
+            <Image
+              source={require("../svg/home_img/settings.png")}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.profile}>
         <View style={styles.profileImage} />
+        <View style={styles.profileUserContent}>
+        <Text style={styles.profileUser}>Profile User</Text>
         <Text style={styles.profileName}>Bill Goas</Text>
+        </View>
       </View>
-      <Text style={styles.title}>Delete profile</Text>
-      <Text style={styles.description}>
-        To confirm that it is you who is deleting this account, enter the
-        password. You will no longer be able to restore this account, to log in
-        again, create a new account
-      </Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter the password"
-        secureTextEntry
-        value={password}
-        onChangeText={handlePasswordChange}
-        placeholderTextColor="#A3C3D9"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleNextPress}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
+        <View style={styles.deleteContainer}>
+          <Text style={styles.titleSecond}>Delete profile</Text>
+          <Text style={styles.description}>
+            To confirm that it is you who is deleting this account, enter the
+            password. You will no longer be able to restore this account, to log in
+            again, create a new account
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the password"
+            secureTextEntry
+            value={password}
+            onChangeText={handlePasswordChange}
+            placeholderTextColor="#A3C3D9"
+          />
+          <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -52,14 +68,23 @@ export const EnablePassword = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#00334d",
+    backgroundColor: "#073B3E",
     padding: 20,
+  },
+  content: {
+    backgroundColor: "#002224",
+    paddingHorizontal: 15,
+    height: '80%',
+    width: '100%',
+    marginTop: 60,
+    borderRadius: 15
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 30,
+    marginTop: 30
   },
   headerText: {
     color: "#A3C3D9",
@@ -79,40 +104,64 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: "#A3C3D9",
+    backgroundColor: "#ffffff",
     marginRight: 15,
   },
   profileName: {
     color: "#ffffff",
-    fontSize: 18,
+    fontSize: 17,
   },
-  title: {
-    color: "#A3C3D9",
+  profileUser:{
+    color: "grey",
+    fontSize: 12,
+  },
+  profileUserContent:{
+    flex:1,
+    flexDirection:'column',
+  },
+  titleSecond: {
+    color: "#073B3E",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+    textAlign:'center'
   },
   description: {
-    color: "#A3C3D9",
+    color: "#7A9EA0",
     fontSize: 16,
     marginBottom: 20,
+    textAlign:'center',
+    width:'98%'
   },
   input: {
-    backgroundColor: "#004d66",
+    backgroundColor: "#073B3E",
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
-    color: "#ffffff",
+    color: "#7A9EA0",
   },
   button: {
-    backgroundColor: "#A3C3D9",
+    backgroundColor: "#7A9EA0",
     padding: 15,
     borderRadius: 10,
   },
   buttonText: {
-    color: "#00334d",
+    color: "#E6E6E6",
     fontSize: 16,
     textAlign: "center",
     fontWeight: "bold",
   },
+  title: {
+    fontSize: 32,
+    fontWeight: "900",
+    color: "#7A9EA0",
+    textAlign: 'center',
+    marginRight: 20,
+    marginLeft: 25
+  },
+  deleteContainer:{
+    backgroundColor:'#D9D9D9',
+    padding:20,
+    borderRadius:15
+  }
 });
