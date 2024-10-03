@@ -19,6 +19,7 @@ import Code from './svg/bottom_tab/tsx/Code';
 import SettingsF from './svg/bottom_tab/tsx/Settings';
 import CodeOcean from './displays/CodeOcean';
 import SettingsOcean from './displays/SettingsOcean'; // Екран налаштувань
+import { EnablePassword } from './displays/EnablePassword';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator(); // Стек для налаштувань
@@ -141,6 +142,11 @@ export default function App() {
             name="Settings"
             component={SettingsOcean}
             options={{ headerShown: true, title: 'Settings' }}
+          />
+          <Stack.Screen
+            name="EnablePassword"
+            component={EnablePassword}
+            options={{ headerShown: true, title: 'Enable' }}
           />
         </Stack.Navigator>
       </NavigationContainer>
