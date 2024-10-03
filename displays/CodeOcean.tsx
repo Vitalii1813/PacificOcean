@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, Alert } from "react-native";
-import { Camera} from 'react-native-vision-camera';
-import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
+// import { Camera} from 'react-native-vision-camera';
+// import { useScanBarcodes, BarcodeFormat } from 'vision-camera-code-scanner';
 
 const CodeOcean = () => {
-  const [cameraPermission, setCameraPermission] = useState(null);
-  const [camera, setCamera] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
+  // const [cameraPermission, setCameraPermission] = useState(null);
+  // const [camera, setCamera] = useState(null);
+  // const [showCamera, setShowCamera] = useState(false);
 
-  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.ALL_FORMATS], {
-    checkInverted: true,
-  });
+  // const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.ALL_FORMATS], {
+  //   checkInverted: true,
+  // });
 
-  useEffect(() => {
-    (async () => {
-      const permission = await Camera.getCameraPermissionStatus();
-      setCameraPermission(permission);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const permission = await Camera.getCameraPermissionStatus();
+  //     setCameraPermission(permission);
+  //   })();
+  // }, []);
 
-  useEffect(() => {
-    if (barcodes.length > 0) {
-      // Зупиняємо сканування та обробляємо результат
-      setShowCamera(false);
-      Alert.alert('QR Code Scanned', barcodes[0]?.displayValue || 'No display value');
-    }
-  }, [barcodes]);
+  // useEffect(() => {
+  //   if (barcodes.length > 0) {
+  //     // Зупиняємо сканування та обробляємо результат
+  //     setShowCamera(false);
+  //     Alert.alert('QR Code Scanned', barcodes[0]?.displayValue || 'No display value');
+  //   }
+  // }, [barcodes]);
 
-  const requestCameraPermission = async () => {
-    const newCameraPermission = await Camera.requestCameraPermission();
-    setCameraPermission(newCameraPermission);
-  };
+  // const requestCameraPermission = async () => {
+  //   const newCameraPermission = await Camera.requestCameraPermission();
+  //   setCameraPermission(newCameraPermission);
+  // };
 
-  const handleQrPress = () => {
-    if (cameraPermission === 'authorized') {
-      setShowCamera(true);
-    } else if (cameraPermission === null) {
-      requestCameraPermission();
-    } else {
-      Alert.alert('Camera permission denied');
-    }
-  };
+  // const handleQrPress = () => {
+  //   if (cameraPermission === 'authorized') {
+  //     setShowCamera(true);
+  //   } else if (cameraPermission === null) {
+  //     requestCameraPermission();
+  //   } else {
+  //     Alert.alert('Camera permission denied');
+  //   }
+  // };
+  
 
   return (
     <View style={styles.container}>
@@ -62,7 +63,7 @@ const CodeOcean = () => {
       </View>
 
       {/* Сканер QR */}
-      <TouchableOpacity style={styles.qrScannerContainer} onPress={handleQrPress}>
+      {/* <TouchableOpacity style={styles.qrScannerContainer} onPress={handleQrPress}>
         {showCamera ? (
           <Camera
             style={styles.camera}
@@ -82,7 +83,7 @@ const CodeOcean = () => {
             <Text style={styles.qrLabel}>Scan QR</Text>
           </>
         )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       {/* Кнопка "Next" */}
       <Image

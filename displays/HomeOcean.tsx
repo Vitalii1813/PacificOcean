@@ -4,21 +4,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faShip, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import ArrowIcon from "../svg/home_img/ArrowRight";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeOcean = () => {
+  const navigation = useNavigation();
+
+  const handleImagePress = () => {
+    navigation.navigate("SettingsPage"); // Назва сторінки, на яку ви хочете перейти
+  };
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <SafeAreaView>
         </SafeAreaView>
         <View style={styles.header}>
-          <Text style={styles.title}>PACIFIC OCEAN
-          </Text>
-          <Image
-            source={require("../svg/home_img/settings.png")}
-            style={styles.settings_img}
-          />
-        </View>
+      <Text style={styles.title}>PACIFIC OCEAN</Text>
+      <TouchableOpacity onPress={handleImagePress}>
+        <Image
+          source={require("../svg/home_img/settings.png")}
+          style={styles.settings_img}
+        />
+      </TouchableOpacity>
+    </View>
 
         <View style={styles.imageContainer}>
 
