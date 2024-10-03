@@ -1,7 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 
 const PlusOcean = () => {
+  const navigation = useNavigation();
+
+  const handleImagePress = () => {
+    navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
+  };
   const players = [
     { rank: 1, name: 'Big Gary', weight: '57 kg' },
     { rank: 2, name: 'Ser Roiy', weight: '53 kg' },
@@ -11,12 +17,14 @@ const PlusOcean = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView>
-        <View style={styles.header}>
+      <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
-          <Image
-            source={require('../svg/home_img/settings.png')}
-            style={styles.settingsImg}
-          />
+          <TouchableOpacity onPress={handleImagePress}>
+            <Image
+              source={require("../svg/home_img/settings.png")}
+              style={styles.settings_img}
+            />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
 
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -77,7 +85,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     color: "#7A9EA0",
     textAlign: 'center',
-    marginRight: 28,
+    marginRight: 0,
     marginLeft: 25
   },
   settingsImg: {
@@ -167,6 +175,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     height: 270, // зменшено з 320
+  },
+  settings_img: {
+    marginTop: 0,
   },
 });
 

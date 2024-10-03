@@ -10,22 +10,23 @@ const HomeOcean = () => {
   const navigation = useNavigation();
 
   const handleImagePress = () => {
-    navigation.navigate("SettingsPage"); // Назва сторінки, на яку ви хочете перейти
+    navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
   };
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <SafeAreaView>
         </SafeAreaView>
+        
         <View style={styles.header}>
-      <Text style={styles.title}>PACIFIC OCEAN</Text>
-      <TouchableOpacity onPress={handleImagePress}>
-        <Image
-          source={require("../svg/home_img/settings.png")}
-          style={styles.settings_img}
-        />
-      </TouchableOpacity>
-    </View>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
+          <TouchableOpacity onPress={handleImagePress}>
+            <Image
+              source={require("../svg/home_img/settings.png")}
+              style={styles.settings_img}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.imageContainer}>
 
@@ -52,7 +53,7 @@ const HomeOcean = () => {
             <View style={styles.yacht_block}>
               <Image
                 source={require("../svg/home_img/ship.png")}
-                style={styles.yacht_img}/>
+                style={styles.yacht_img} />
               <Text style={styles.optionText}>Sailing yacht</Text>
             </View>
 
@@ -60,12 +61,12 @@ const HomeOcean = () => {
           <TouchableOpacity style={styles.optionButton}>
             <Image
               source={require("../svg/home_img/done-all.png")}
-              style={{opacity: 0 , marginRight:50}}
+              style={{ opacity: 0, marginRight: 50 }}
             />
             <View style={styles.yacht_block}>
               <Image
                 source={require("../svg/home_img/ship.png")}
-                style={styles.yacht_img}/>
+                style={styles.yacht_img} />
               <Text style={styles.optionText}>Motor yacht</Text>
             </View>
 
@@ -189,11 +190,11 @@ const styles = StyleSheet.create({
   yacht_img: {
     marginLeft: 55, // Відступ праворуч від зображення
   },
-  done_img:{
-    marginRight:50
+  done_img: {
+    marginRight: 50
   },
-  yacht_block:{
-    flex:1.3,
+  yacht_block: {
+    flex: 1.3,
     flexDirection: 'row',
     // borderColor:'red',
     // borderWidth:1,

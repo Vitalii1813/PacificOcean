@@ -1,10 +1,12 @@
 import React from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack'; // Підключаємо Stack Navigator
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
+
 import HomeOcean from './displays/HomeOcean';
 import SaveOcean from './displays/SaveOcean';
 import PlusOcean from './displays/PlusOcean';
@@ -14,12 +16,15 @@ import Home from './svg/bottom_tab/tsx/Home';
 import AddCircle from './svg/bottom_tab/tsx/Add';
 import Save from './svg/bottom_tab/tsx/Save';
 import Code from './svg/bottom_tab/tsx/Code';
+import SettingsF from './svg/bottom_tab/tsx/Settings';
 import CodeOcean from './displays/CodeOcean';
+import SettingsOcean from './displays/SettingsOcean'; // Екран налаштувань
 
 const Tab = createBottomTabNavigator();
-const megaIconSizeSvg = Dimensions.get('screen').width * 0.07;
+const Stack = createStackNavigator(); // Стек для налаштувань
+const megaIconSizeSvg = 24;
 
-
+// Іконки для табів
 function HomeImgIcon({ focused }: any) {
   return (
     <Home
@@ -59,6 +64,8 @@ function CodeImgIcon({ focused }: any) {
     />
   );
 }
+
+// Навігація з табами
 function MainTabs() {
   return (
     <Tab.Navigator
@@ -99,29 +106,43 @@ function MainTabs() {
         name="Save"
         component={SaveOcean}
         options={{
-          tabBarIcon:SaveImgIcon,
+          tabBarIcon: SaveImgIcon,
           headerShown: false,
         }}
       />
 
-<Tab.Screen
+      <Tab.Screen
         name="Code"
         component={CodeOcean}
         options={{
-          tabBarIcon:CodeImgIcon,
+          tabBarIcon: CodeImgIcon,
           headerShown: false,
         }}
       />
 
+      {/* Видаляємо Settings із табів */}
     </Tab.Navigator>
   );
 }
 
+// Головна навігація з табами і стеком
 export default function App() {
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>
-        <MainTabs />
+        <Stack.Navigator initialRouteName="MainTabs"> 
+          <Stack.Screen
+            name="MainTabs"
+            component={MainTabs}
+            options={{ headerShown: false }}
+          />
+          {/* Додаємо SettingsOcean у стек */}
+          <Stack.Screen
+            name="Settings"
+            component={SettingsOcean}
+            options={{ headerShown: true, title: 'Settings' }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </View>
   );
