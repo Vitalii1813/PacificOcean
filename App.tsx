@@ -57,11 +57,11 @@ function SettingsStack() {
         component={EnablePassword}
         options={{ headerShown: false, title: 'Enable' }}
       />
-       <Stack.Screen
+       {/* <Stack.Screen
         name="AddResultForm"
         component={AddResultForm}
-        options={{ headerShown: false, title: 'Enable' }}
-      />
+        options={{ headerShown: false, title: 'ResultForm' }}
+      /> */}
     </Stack.Navigator>
   );
 }
