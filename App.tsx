@@ -25,21 +25,21 @@ const Stack = createStackNavigator();
 const megaIconSizeSvg = 24;
 
 // Іконки для табів
-function HomeImgIcon({ focused }: any) {
+function HomeImgIcon({ focused }) {
   return <Home svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} />;
 }
 
-function AddImgIcon({ focused }: any) {
+function AddImgIcon({ focused }) {
   return (
     <AddCircle svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : '#7A9EA0'} stroke="white" strokeWidth="2" />
   );
 }
 
-function SaveImgIcon({ focused }: any) {
+function SaveImgIcon({ focused }) {
   return <Save svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} stroke="white" strokeWidth="2" />;
 }
 
-function CodeImgIcon({ focused }: any) {
+function CodeImgIcon({ focused }) {
   return <Code svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} />;
 }
 
@@ -57,11 +57,6 @@ function SettingsStack() {
         component={EnablePassword}
         options={{ headerShown: false, title: 'Enable' }}
       />
-       {/* <Stack.Screen
-        name="AddResultForm"
-        component={AddResultForm}
-        options={{ headerShown: false, title: 'ResultForm' }}
-      /> */}
     </Stack.Navigator>
   );
 }
@@ -124,16 +119,27 @@ function MainTabs() {
           tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
         }}
       />
+      <Tab.Screen
+        name="AddResultForm"
+        component={AddResultForm}
+        options={{
+          headerShown: false,
+          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
-// Головна навігація з табами
+// Головна навігація з табами і додатковим екраном AddResultForm
 export default function App() {
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>
-        <MainTabs />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="AddResultForm" component={AddResultForm} />
+        </Stack.Navigator>
       </NavigationContainer>
     </View>
   );
