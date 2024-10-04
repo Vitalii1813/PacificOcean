@@ -5,6 +5,10 @@ import { View, Text, StyleSheet, ScrollView, SafeAreaView, Image, TouchableOpaci
 const PlusOcean = () => {
   const navigation = useNavigation();
 
+  const onPress = () => {
+    // Обробка натискання на кнопку
+    navigation.navigate('AddResultForm');
+  };
   const handleImagePress = () => {
     navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
   };
@@ -56,7 +60,13 @@ const PlusOcean = () => {
         </ScrollView>
       </View>
       
-
+      <TouchableOpacity style={styles.buttonNext} onPress={onPress}>
+      <Text style={styles.buttonNextText}>Add my result</Text> 
+      <Image
+            source={require("../svg/plus_img/arrow-right.png")}
+            style={styles.image}
+          />
+    </TouchableOpacity>
       <View style={styles.moonContainer}>
         <Image
           source={require('../svg/plus_img/moon.png')}
@@ -178,6 +188,34 @@ const styles = StyleSheet.create({
   },
   settings_img: {
     marginTop: 0,
+  },
+  buttonNext: {
+    backgroundColor: '#A7C4BC', // Сіро-зелений колір
+    padding: 15,
+    borderRadius: 25, // Значне заокруглення
+    flexDirection: 'row', // Розміщення тексту та іконки в ряд
+    alignItems: 'center', // Вирівнювання по вертикалі
+    justifyContent: 'space-between', // Розподілення простору між текстом та іконкою
+  },
+  buttonNextText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  iconContainer: {
+    backgroundColor: 'white',
+    borderRadius: 50, // Кругла іконка
+    padding: 8,
+  },
+  icon: {
+    // Замініть це на стилі вашого компонента Icon
+    fontSize: 16, 
+    fontWeight: 'bold',
+  },
+  image: {
+    width: 20,
+    height: 20,
+    resizeMode: "contain",
   },
 });
 

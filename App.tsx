@@ -18,6 +18,7 @@ import AddCircle from './svg/bottom_tab/tsx/Add';
 import Save from './svg/bottom_tab/tsx/Save';
 import Code from './svg/bottom_tab/tsx/Code';
 import SettingsF from './svg/bottom_tab/tsx/Settings';
+import AddResultForm from './displays/AddResultForm';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -54,6 +55,11 @@ function SettingsStack() {
       <Stack.Screen
         name="EnablePassword"
         component={EnablePassword}
+        options={{ headerShown: false, title: 'Enable' }}
+      />
+       <Stack.Screen
+        name="AddResultForm"
+        component={AddResultForm}
         options={{ headerShown: false, title: 'Enable' }}
       />
     </Stack.Navigator>
