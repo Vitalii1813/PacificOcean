@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -15,6 +16,8 @@ const SaveOcean: React.FC = () => {
   const [needCaptain, setNeedCaptain] = useState(true);
   const [needFishingGear, setNeedFishingGear] = useState(true);
 
+  const navigation = useNavigation();
+  
   const handleDateChange = (text: string) => {
     setSelectedDate(text);
   };
@@ -33,6 +36,7 @@ const SaveOcean: React.FC = () => {
       needCaptain,
       needFishingGear,
     });
+    navigation.navigate('Reserve');
   };
 
   return (

@@ -1,22 +1,25 @@
-
-import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faShip, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import ArrowIcon from "../svg/home_img/ArrowRight";
 import { useNavigation } from "@react-navigation/native";
+import MapScreen from "./MapScreem";
 
 const HomeOcean = () => {
   const navigation = useNavigation();
+  const [isMapOpen, setIsMapOpen] = useState(false); // Створюємо стан для керування контентом
 
   const handleImagePress = () => {
-    navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
+    navigation.navigate('Settings');
   };
+
+  const handleMapPress = () => {
+    setIsMapOpen(!isMapOpen); // Перемикаємо стан при натисканні на кнопку
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <SafeAreaView>
-        </SafeAreaView>
+        <SafeAreaView></SafeAreaView>
         <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <TouchableOpacity onPress={handleImagePress}>
@@ -27,61 +30,71 @@ const HomeOcean = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.imageContainer}>
+        {isMapOpen ? (
+          // Якщо кнопка натиснута, показуємо карту або інший контент
+            <MapScreen/>
+        ) : (
+          // Якщо кнопка не натиснута, показуємо оригінальний контент
+          <>
+            <View style={styles.imageContainer}>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.description}>Description</Text>
+                <Text style={styles.subtext}>
+                  Book a ship and sail with us for fishing in the open ocean for a
+                  whole day from 9 am to 9 pm.
+                </Text>
+              </View>
 
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.description}>Description</Text>
-            <Text style={styles.subtext}>
-              Book a ship and sail with us for fishing in the open ocean for a
-              whole day from 9 am to 9 pm.
-            </Text>
-          </View>
-
-          <Image
-            source={require("../svg/home_img/parus.png")}
-            style={styles.backgroundImage}
-          />
-        </View>
-
-        <View style={styles.options}>
-          <TouchableOpacity style={styles.optionButton}>
-            <Image
-              source={require("../svg/home_img/done-all.png")}
-              style={styles.done_img}
-            />
-            <View style={styles.yacht_block}>
               <Image
-                source={require("../svg/home_img/ship.png")}
-                style={styles.yacht_img} />
-              <Text style={styles.optionText}>Sailing yacht</Text>
+                source={require("../svg/home_img/parus.png")}
+                style={styles.backgroundImage}
+              />
             </View>
 
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.optionButton}>
-            <Image
-              source={require("../svg/home_img/done-all.png")}
-              style={{ opacity: 0, marginRight: 50 }}
-            />
-            <View style={styles.yacht_block}>
-              <Image
-                source={require("../svg/home_img/ship.png")}
-                style={styles.yacht_img} />
-              <Text style={styles.optionText}>Motor yacht</Text>
+            <View style={styles.options}>
+              <TouchableOpacity style={styles.optionButton}>
+                <Image
+                  source={require("../svg/home_img/done-all.png")}
+                  style={styles.done_img}
+                />
+                <View style={styles.yacht_block}>
+                  <Image
+                    source={require("../svg/home_img/ship.png")}
+                    style={styles.yacht_img}
+                  />
+                  <Text style={styles.optionText}>Sailing yacht</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.optionButton}>
+                <Image
+                  source={require("../svg/home_img/done-all.png")}
+                  style={{ opacity: 0, marginRight: 50 }}
+                />
+                <View style={styles.yacht_block}>
+                  <Image
+                    source={require("../svg/home_img/ship.png")}
+                    style={styles.yacht_img}
+                  />
+                  <Text style={styles.optionText}>Motor yacht</Text>
+                </View>
+              </TouchableOpacity>
+              <View style={styles.footer}>
+                <TouchableOpacity style={styles.mapButton} onPress={handleMapPress}>
+                  <Text style={styles.mapText}>Open map</Text>
+                  <ArrowIcon width={25} height={25} fill="white" />
+                </TouchableOpacity>
+              </View>
             </View>
+          </>
+        )}
 
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.mapButton}>
-            <Text style={styles.mapText}>Open map</Text>
-            <ArrowIcon width={25} height={25} fill="white" />
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -97,8 +110,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 1.1,
     flexDirection: 'row',
-    // borderColor: 'blue',
-    //borderWidth: 2,
     height: '10%',
     marginTop: 20,
   },
@@ -124,23 +135,17 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     justifyContent: 'flex-start',
     padding: 5,
-    // borderColor: 'purple',
-    // borderWidth: 2,
     flex: 1,
   },
   subtext: {
     fontSize: 12,
     color: "#7A9EA0",
     textAlign: "left",
-    // borderColor: 'red',
-    // borderWidth: 2,
   },
   imageContainer: {
-    flexDirection: 'row',   // Вирівнюємо контент по горизонталі
+    flexDirection: 'row',
     height: 350,
     width: '100%',
-    // borderColor: 'red',
-    // borderWidth: 2,
     marginTop: 10
   },
   backgroundImage: {
@@ -160,9 +165,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
-  optionIcon: {
-    marginRight: 10,
-  },
   mapButton: {
     backgroundColor: "#7A9EA0",
     borderRadius: 10,
@@ -178,16 +180,13 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 14,
   },
-  mapIcon: {
-    marginLeft: 10,
-  },
   footer: {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 15,
   },
   yacht_img: {
-    marginLeft: 55, // Відступ праворуч від зображення
+    marginLeft: 55,
   },
   done_img: {
     marginRight: 50
@@ -195,15 +194,18 @@ const styles = StyleSheet.create({
   yacht_block: {
     flex: 1.3,
     flexDirection: 'row',
-    // borderColor:'red',
-    // borderWidth:1,
   },
   optionText: {
-    color: 'white', // Колір тексту
-    fontSize: 16, // Розмір тексту
+    color: 'white',
+    fontSize: 16,
     fontWeight: 500,
-    flex: 1, // Займає всю доступну ширину, щоб текст залишався праворуч
-    textAlign: 'right', // Вирівнювання тексту праворуч
+    flex: 1,
+    textAlign: 'right',
+  },
+  mapContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -19,6 +19,7 @@ import Save from './svg/bottom_tab/tsx/Save';
 import Code from './svg/bottom_tab/tsx/Code';
 import SettingsF from './svg/bottom_tab/tsx/Settings';
 import AddResultForm from './displays/AddResultForm';
+import ReservationOcean from './displays/ReservationOcean';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -127,6 +128,14 @@ function MainTabs() {
           tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
         }}
       />
+       <Tab.Screen
+        name="Reserv"
+        component={ReservationOcean}
+        options={{
+          headerShown: false,
+          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
+        }}
+      />
     </Tab.Navigator>
   );
 }
@@ -139,6 +148,7 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen name="AddResultForm" component={AddResultForm} />
+          <Stack.Screen name="Reserve" component={ReservationOcean} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
