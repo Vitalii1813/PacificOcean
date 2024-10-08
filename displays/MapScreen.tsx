@@ -1,22 +1,28 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import BookedMapScreen from './BookedMapScreen';
+import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = () => {
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>PACIFIC OCEAN</Text>
-      </View>
+  const [isMapLaunched, setIsMapLaunched] = useState(false);
+  const navigation = useNavigation();
 
-      {/* Date Input */}
+  const handleImagePress = () => {
+    navigation.navigate('Settings');
+  };
+
+  const handleLaunchMap = () => {
+    setIsMapLaunched(true);
+  };
+
+  return (
+    <View>
       <View style={styles.dateContainer}>
         <Text style={styles.dateLabel}>Date of dispatch:</Text>
         <Text style={styles.dateText}>17</Text>
       </View>
 
-      {/* Map */}
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
@@ -28,59 +34,52 @@ const MapScreen = () => {
           }}
         >
           <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-            <View style={styles.marker}>
-              
-            </View>
+            <View style={styles.marker} />
           </Marker>
         </MapView>
       </View>
 
-      {/* Description */}
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
           On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
         </Text>
       </View>
 
-      {/* Date Bar */}
-      <View style={styles.dateBarContainer}>
-        {/* Days of the week and Dates combined */}
-        <View style={styles.calendarGrid}>
-          {['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'].map((day, index) => (
-            <View key={index} style={styles.calendarDateContainer}>
-              <Text style={styles.dayOfWeek}>{day}</Text>
-              <Text style={styles.dateText}>13</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Selected Day Section */}
-        <View style={styles.selectedDayDetails}>
-          <View style={styles.textAndProgress}>
-            <Text style={styles.selectedDayText}>Fri 13 places</Text>
-
-            {/* Progress Bar */}
-            <View style={styles.progressBarContainer}>
-              <View style={styles.progressBarFilled} />
-            </View>
-            <Text style={styles.placesCount}> 6/10 </Text>
+      {!isMapLaunched ? (
+        <View style={styles.dateBarContainer}>
+          <View style={styles.calendarGrid}>
+            {['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'].map((day, index) => (
+              <View key={index} style={styles.calendarDateContainer}>
+                <Text style={styles.dayOfWeek}>{day}</Text>
+                <Text style={styles.dateText}>13</Text>
+              </View>
+            ))}
           </View>
 
-          {/* Book Button */}
-          <TouchableOpacity style={styles.bookButton}>
-            <Text style={styles.bookButtonText}>Book</Text>
-          </TouchableOpacity>
+          <View style={styles.selectedDayDetails}>
+            <View style={styles.textAndProgress}>
+              <Text style={styles.selectedDayText}>Fri 13 places</Text>
+              <View style={styles.progressBarContainer}>
+                <View style={styles.progressBarFilled} />
+              </View>
+              <Text style={styles.placesCount}> 6/10 </Text>
+            </View>
+
+            <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
+              <Text style={styles.bookButtonText}>Book</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      ) : (
+        <BookedMapScreen />
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: 'transparent',
-    padding: 20,
+  containerNew: {
+
   },
   header: {
     flexDirection: 'row',
@@ -88,10 +87,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#004D40',
+  title: {
+    fontSize: 32,
+    fontWeight: "900",
+    color: "#7A9EA0",
+    textAlign: 'center',
+    marginRight: 28,
+    marginLeft: 25
+  },
+  settings_img: {
+    width: 24,
+    height: 24,
   },
   dateContainer: {
     flexDirection: 'row',
@@ -126,11 +132,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#374049',
     borderRadius: 50,
     padding: 10,
-  },
-  markerText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   descriptionContainer: {
     backgroundColor: 'white',
