@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, SafeAreaView } from "react-native";
 import Slider from '@react-native-community/slider'; 
 import { launchImageLibrary } from 'react-native-image-picker'; // <-- Ensure the import
+import BoatScreen from "./BoatScreen";
 
 const CodeOcean = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -32,12 +33,13 @@ const CodeOcean = () => {
     <View style={styles.container}>
       {/* Заголовок */}<SafeAreaView></SafeAreaView>
       <View style={styles.header}>
-        
-        <Text style={styles.title}>PACIFIC OCEAN</Text>
-        <TouchableOpacity style={styles.settingsIcon}>
-          <Text style={styles.icon}>⚙️</Text>
-        </TouchableOpacity>
-      </View>
+          <Text style={styles.title}>PACIFIC OCEAN
+          </Text>
+          <Image
+            source={require("../svg/home_img/settings.png")}
+            style={styles.settings_img}
+          />
+        </View>
 
       {/* Conditional Rendering */}
       {!showSlider && !isBoatLaunched ? (
@@ -114,22 +116,7 @@ const CodeOcean = () => {
         </View>
       ) : (
         // New screen content shown after pressing "Launch the boat"
-        <View style={styles.newScreenContainer}>
-          <Text style={styles.descriptionTitle}>Description</Text>
-          <Text style={styles.descriptionText}>
-            Select the location where the bait needs to be released, and our remote-controlled boat will deliver it there.
-          </Text>
-
-          <Image
-            source={require("../svg/save_img/boat.png")} // Replace with actual image path
-            style={styles.boatImage}
-          />
-
-          {/* Map section or catch information */}
-          <View style={styles.catchContainer}>
-            <Text style={styles.catchText}>A place of great catch</Text>
-          </View>
-        </View>
+       <BoatScreen/>
       )}
     </View>
   );
@@ -139,18 +126,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6BD8DE", // Darker teal for a better contrast
-    padding: 20,
+    padding: 15,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
+    borderColor:'red',
+        borderWidth:2,
+    flexDirection: 'row',
+    height: '7%',
+    paddingVertical:5,
+    backgroundColor: "#004D40",
+    borderRadius:15,
+    marginTop:10
   },
   title: {
-    fontSize: 26, // Slightly larger for better visibility
-    fontWeight: "bold",
-    color: "#FFFFFF",
+    fontSize: 32,
+    fontWeight: "900",
+    color: "#7A9EA0",
+    textAlign: 'center',
+    marginRight: 28,
+    marginLeft: 25
+  },
+  settings_img: {
+    marginTop: 2,
   },
   settingsIcon: {
     padding: 10,
@@ -291,38 +288,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  newScreenContainer: {
-    flex: 1,
-    backgroundColor: 'transparent', // Light background for the new screen
-    padding: 25,
-  },
-  boatImage: {
-    width: "100%",
-    height: 280, // Adjust height slightly
-    marginBottom: 20,
-    borderRadius: 10,
-  },
-  catchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#004D40",
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4,
-  },
   smallBoatImage: {
     width: 60, // Slightly larger for better clarity
     height: 60,
     marginRight: 15,
   },
-  catchText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-  },
+ 
+  
 });
 
 export default CodeOcean;
