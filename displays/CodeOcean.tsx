@@ -129,8 +129,6 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   header: {
-    borderColor:'red',
-        borderWidth:2,
     flexDirection: 'row',
     height: '7%',
     paddingVertical:5,

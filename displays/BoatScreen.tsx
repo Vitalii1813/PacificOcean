@@ -12,20 +12,8 @@ const BoatScreen = () => {
     return (
         <View style={styles.newScreenContainer}>
             {showButton ? (
-                // <SendBoat/>
-                <View><Text>Second</Text>
-                    <TouchableOpacity onPress={handlePress}>
-                        <View style={styles.catchContainer}>
-                            <TouchableOpacity style={styles.button}>
-                            </TouchableOpacity>
-                            <Image
-                                source={require("../svg/save_img/boat.png")}
-                                style={styles.boatSecondImage}
-                            />
-                            <Text style={styles.catchText}>A place of great catch</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                 <SendBoat/>
+
             ) : (
                 <>
                     <View style={styles.descriptionContainer}>
@@ -72,8 +60,6 @@ const styles = StyleSheet.create({
     },
     newScreenContainer: {
         marginTop:10,
-        borderWidth:2,
-        borderColor:"red",
         flex: 1,
         backgroundColor: "transparent",
         paddingHorizontal: 10, // Додаємо горизонтальний відступ

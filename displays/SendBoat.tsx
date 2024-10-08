@@ -42,12 +42,13 @@ const styles = StyleSheet.create({
     },
     descriptionContainer: {
         width: 195,
-        marginTop: 10,
+        marginTop: 0,
     },
     descriptionTitle: {
         fontSize: 18,
         color: "#073B3E",
         marginBottom: 10,
+        fontWeight:'semibold'
     },
     descriptionText: {
         fontSize: 15,
@@ -66,22 +67,11 @@ const styles = StyleSheet.create({
     },
     catchText: {
         color: "#FFFFFF",
-        fontSize: 16,
-    },
-    catchContainer: {
-        width: 180,
-        marginLeft: 180,
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        backgroundColor: "#004D40",
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 30,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 3 },
-        elevation: 4,
+        fontSize: 24,
+        fontWeight:'bold',
+        fontFamily:'Montserrat',
+        textAlign:"center",
+        marginTop:8,
     },
     buttonsContainer: {
         alignItems: "center", // Вирівнювання кнопки по центру
@@ -102,21 +92,19 @@ const styles = StyleSheet.create({
         height:100,
         width:'100%',
         borderRadius: 10,
-        marginTop: 80,
+        marginTop: 50,
         padding: 5, // Додає внутрішні відступи
       },
       descriptionBlocker: {
-        width:'70%',
-        borderWidth:2,
-        borderColor:'red',
-        marginRight: 0, // Додає відступ праворуч
+        width:'65%',
       },
       senderBlocker: {
-        width:'30%',
+        backgroundColor:'#073B3E',
+        width:'35%',
         borderWidth:2,
         borderRadius: 10,
         padding: 0, // Додає внутрішні відступи до кнопки
       },
 });
-
+//pointerEvent="none",
 export default SendBoat;
