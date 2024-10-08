@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import ArrowIcon from "../svg/home_img/ArrowRight";
 import { useNavigation } from "@react-navigation/native";
-import MapScreen from "./MapScreem";
+import MapScreen from "./MapScreen";
 
 const HomeOcean = () => {
   const navigation = useNavigation();
