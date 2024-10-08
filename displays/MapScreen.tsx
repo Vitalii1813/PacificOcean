@@ -8,7 +8,6 @@ const MapScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>PACIFIC OCEAN</Text>
-
       </View>
 
       {/* Date Input */}
@@ -19,17 +18,18 @@ const MapScreen = () => {
 
       {/* Map */}
       <View style={styles.mapContainer}>
-        <MapView style={styles.map} initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta:   
- 0.0421,
-        }}>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
           <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-            <View style={styles.marker}>   
-
-              <Text style={styles.markerText}>R</Text>
+            <View style={styles.marker}>
+              
             </View>
           </Marker>
         </MapView>
@@ -38,8 +38,7 @@ const MapScreen = () => {
       {/* Description */}
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
-          On this page you can see which route the boat will take today. Also, the
-          number of free places and book a trip. To cancel the trip, open the settings.
+          On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
         </Text>
       </View>
 
@@ -64,7 +63,7 @@ const MapScreen = () => {
             <View style={styles.progressBarContainer}>
               <View style={styles.progressBarFilled} />
             </View>
-            <Text style={styles.placesCount}> 6/10 </Text> {/* Додано пробіли */}
+            <Text style={styles.placesCount}> 6/10 </Text>
           </View>
 
           {/* Book Button */}
@@ -77,11 +76,10 @@ const MapScreen = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'transparent', // Змінено фон на transparent
+    backgroundColor: 'transparent',
     padding: 20,
   },
   header: {
@@ -94,12 +92,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#004D40',
-  },
-  settingsButton: {
-    padding: 10,
-  },
-  settingsButtonText: {
-    fontSize: 20,
   },
   dateContainer: {
     flexDirection: 'row',
@@ -158,24 +150,19 @@ const styles = StyleSheet.create({
   },
   calendarGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap', 
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  dayContainer: {
+  calendarDateContainer: {
     width: '14.28%',
     alignItems: 'center',
-    marginBottom: 10, 
+    marginBottom: 10,
   },
   dayOfWeek: {
     color: '#D1D6D7',
     fontSize: 16,
     marginBottom: 5,
-  },
-  dates: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
   },
   selectedDayDetails: {
     flexDirection: 'row',
@@ -217,27 +204,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
-  },
-  bottomNavigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingTop: 10,
-  },
-  navButton: {
-    padding: 10,
-  },
-  navButtonText: {
-    fontSize: 24,
-  },
-  textAndProgress: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  calendarDateContainer: {
-    width: '14.28%',
-    alignItems: 'center',
-    marginBottom: 10, 
   },
 });
 
