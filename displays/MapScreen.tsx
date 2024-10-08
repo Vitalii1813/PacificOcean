@@ -27,20 +27,25 @@ const MapScreen = () => {
       )}
 
       <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-            <View style={styles.marker} />
-          </Marker>
-        </MapView>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        zoomEnabled={true}      // Дозволяє збільшення/зменшення масштабу
+        scrollEnabled={true}    // Дозволяє прокручування карти
+        pitchEnabled={true}     // Дозволяє нахил карти
+        rotateEnabled={true}    // Дозволяє обертання карти
+      >
+        <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
+          <View style={styles.marker} />
+        </Marker>
+      </MapView>
       </View>
+      <View><Text style={styles.descriptionTitle}>Description</Text></View>
       {!isMapLaunched ? (<View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
           On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   title: {
     fontSize: 32,
@@ -217,6 +222,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  descriptionTitle:{
+    color:'white',
+    fontSize:18,
+    marginLeft:12
+  }
 });
 
 export default MapScreen;
