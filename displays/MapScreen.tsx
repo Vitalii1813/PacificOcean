@@ -18,10 +18,13 @@ const MapScreen = () => {
 
   return (
     <View>
+      {!isMapLaunched ? (
       <View style={styles.dateContainer}>
         <Text style={styles.dateLabel}>Date of dispatch:</Text>
         <Text style={styles.dateText}>17</Text>
-      </View>
+      </View>):(
+        <View></View>
+      )}
 
       <View style={styles.mapContainer}>
         <MapView
@@ -38,12 +41,19 @@ const MapScreen = () => {
           </Marker>
         </MapView>
       </View>
-
-      <View style={styles.descriptionContainer}>
+      {!isMapLaunched ? (<View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
           On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
         </Text>
-      </View>
+      </View>) : (
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>
+            If your plans have changed, you can easily cancel the
+            reservation with just one click in the settings
+          </Text>
+        </View>
+      )}
+
 
       {!isMapLaunched ? (
         <View style={styles.dateBarContainer}>
@@ -71,7 +81,7 @@ const MapScreen = () => {
           </View>
         </View>
       ) : (
-        <BookedMapScreen />
+        <><BookedMapScreen /></>
       )}
     </View>
   );
@@ -134,14 +144,15 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   descriptionContainer: {
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     padding: 15,
     borderRadius: 5,
     marginBottom: 20,
   },
   descriptionText: {
     fontSize: 16,
-    color: '#333',
+    color: '#7A9EA0',
+
   },
   dateBarContainer: {
     backgroundColor: '#809E9F',

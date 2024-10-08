@@ -1,145 +1,106 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
-return(
-      <><View style={styles.selectedDayDetails}>
-            <View style={styles.textAndProgress}>
-                <Text style={styles.selectedDayText}>Fri 13 places</Text>
-            </View>
-        </View></>
-  );
-};
+    return (
+        <><View style={styles.bookedOnWrapper}>
+        <TouchableOpacity style={styles.bookedOnButton}>
+          <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
+        </TouchableOpacity>
+      </View>
+          
+          <View style={styles.containerStep}>
+                  <View style={styles.header}>
+    
+    
+                  </View>
+                  <Text style={styles.successText}>
+                      Your booking is successful. Save your personal code that you can use to cancel the reservation
+                  </Text>
+                  <View style={styles.codeContainer}>
+                      <View style={styles.secondCodeContainer}>
+                          <Text style={styles.codeLabel}>Your reservation code:</Text>
+                          <Text style={styles.codeText}>u3nk52o2</Text>
+                      </View>
+                      <TouchableOpacity style={styles.cancelButton}>
+                          <Text style={styles.cancelButtonText}>Cancel</Text>
+                      </TouchableOpacity>
+                  </View>
+    
+              </View></>
+      );
+    };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: 'transparent',
-    padding: 20,
+  containerStep: {
+    marginTop:10,
+    backgroundColor: '#7A9EA0',
+    padding: 15,
+    borderRadius: 10,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'flex-end', // Вирівнюємо елементи по правому краю
+    alignItems: 'center', // Вирівнюємо по вертикалі
     marginBottom: 20,
   },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#004D40',
+  successText: {
+    fontSize: 16,
+    color: '#073B3E',
+    marginBottom: 20,
   },
-  dateContainer: {
+  codeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#809E9F',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 20,
-  },
-  dateLabel: {
-    fontSize: 16,
-    color: 'white',
-  },
-  dateText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  mapContainer: {
-    width: '100%',
-    height: 250,
-    marginBottom: 20,
-    overflow: 'hidden',
-    borderRadius: 10,
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  marker: {
-    backgroundColor: '#374049',
-    borderRadius: 50,
-    padding: 10,
-  },
-  markerText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  descriptionContainer: {
-    backgroundColor: 'white',
-    padding: 15,
-    borderRadius: 5,
-    marginBottom: 20,
-  },
-  descriptionText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  dateBarContainer: {
-    backgroundColor: '#809E9F',
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 20,
-  },
-  calendarGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  calendarDateContainer: {
-    width: '14.28%',
     alignItems: 'center',
     marginBottom: 10,
   },
-  dayOfWeek: {
-    color: '#D1D6D7',
+  codeLabel: {
     fontSize: 16,
-    marginBottom: 5,
+    color: '#002224',
   },
-  selectedDayDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#344E51',
-    borderRadius: 10,
-    padding: 15,
-  },
-  selectedDayText: {
-    color: '#FFFFFF',
+  codeText: {
+    fontSize: 16,
     fontWeight: 'bold',
-    fontSize: 16,
+    color: '#002224',
   },
-  progressBarContainer: {
-    width: 100,
-    height: 10,
-    backgroundColor: '#374049',
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  progressBarFilled: {
-    width: '60%',
-    backgroundColor: '#7EB58A',
-    height: '100%',
-  },
-  placesCount: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  bookButton: {
+  cancelButton: {
     backgroundColor: '#54666A',
-    borderRadius: 10,
+    borderRadius: 5,
     paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    // width: '30%', // Забираємо width, щоб кнопка не займала всю ширину
   },
-  bookButtonText: {
-    color: '#FFFFFF',
+  cancelButtonText: {
+    textAlign:'right',
+    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  secondCodeContainer:{
+    color:'#002224'
+  },
+  bookedOnWrapper: {     // Ширина на весь екран
+    paddingHorizontal: 10, 
+          // Відступи з боків
+    marginBottom: 0,    
+    alignItems: 'flex-end',          // Відступ знизу
+  },
+  
+  bookedOnButton: {
+    backgroundColor: '#7A9EA0',    // Темний фон кнопки
+    borderRadius: 20,              // Округлення кутів
+    paddingVertical: 10,           // Внутрішні відступи по вертикалі
+    paddingHorizontal: 20,         // Внутрішні відступи по горизонталі
+    alignItems: 'flex-end',  
+    height:40,
+    justifyContent:'space-between'        // Вирівнювання тексту по центру
+  },
+  
+  bookedOnButtonText: {
+    color: 'white',                // Колір тексту
+    fontSize: 16,                  // Розмір шрифту
+    fontWeight: 'bold',            // Жирний шрифт
   },
 });
 
