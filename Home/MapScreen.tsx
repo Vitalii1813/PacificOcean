@@ -7,10 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
-  const handleBooking = () => {
-    navigation.navigate('Booked', { selectedDay });
-    setIsMapLaunched(!isMapLaunched)
-  };
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
@@ -111,7 +107,7 @@ const MapScreen = () => {
               </Text>
             </View>
 
-            <TouchableOpacity style={styles.bookButton} onPress={handleBooking}>
+            <TouchableOpacity style={styles.bookButton} onPress={() => setIsMapLaunched(!isMapLaunched)}>
               <Text style={styles.bookButtonText}>Book</Text>
             </TouchableOpacity>
           </View>

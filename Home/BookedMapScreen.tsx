@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
@@ -7,41 +7,6 @@ const BookedMapScreen = () => {
   const handleCancelPress = () => {
     setIsMapLaunched(!isMapLaunched);
   };
-  const { selectedDay } = route.params;
-  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
-  const dates = ['10', '11', '12', '13', '14', '15', '16'];
-  // Функція для генерації кількості заброньованих місць для кожного дня
-  const generateRandomPlacesForAllDays = () => {
-    return daysOfWeek.map(() => {
-      const totalPlaces = 10;
-      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
-      return { booked: bookedPlaces, total: totalPlaces };
-    });
-  };
-
-  // Стан для зберігання кількості місць для кожного дня
-  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-
-  // Стан для вибраного дня
-  const [selectedDay, setSelectedDay] = useState({
-    day: 'Fri',
-    date: '13',
-    places: placesForDays[3], // Ініціалізуємо як п'ятницю
-  });
-
-  // Оновлюємо дані через певний час (10 хвилин у прикладі)
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); // 10 хвилин
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  // Обробка вибору дня
-  const handleSelectDay = (day, index) => {
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
-  };
 
   return (
     <View>
@@ -49,7 +14,7 @@ const BookedMapScreen = () => {
         <>
           <View style={styles.bookedOnWrapper}>
             <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>Booked on {selectedDay.date}</Text>
+              <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
             </TouchableOpacity>
           </View>
 
@@ -105,7 +70,7 @@ const BookedMapScreen = () => {
               </Text>
             </View>
     
-            <TouchableOpacity style={styles.bookButton} onPress={handleCancelPress}>
+            <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
               <Text style={styles.bookButtonText}>Book</Text>
             </TouchableOpacity>
           </View>
