@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import navigation hook
 
 const ReservationOcean = () => {
   const navigation = useNavigation(); // Use navigation hook
 
+  const [reservationCode, setReservationCode] = useState(generateReservationCode());
   // Function to handle cancel button press
   const handleCancelReservation = () => {
     navigation.navigate('Save'); // Navigate to SaveOcean screen
   };
 
+  const handleSettings = () => {
+    navigation.navigate('Settings'); // Navigate to SaveOcean screen
+  };
+
+  function generateReservationCode() {
+    return Math.random().toString(36).substring(2, 15); // Generates a random alphanumeric string
+  }
+  
   return (
     <View style={styles.container}>
       {/* Header */}
       <SafeAreaView></SafeAreaView>
       <View style={styles.header}>
         <Text style={styles.title}>PACIFIC OCEAN</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleSettings}>
           <Image
             source={require("../svg/home_img/settings.png")}
             style={styles.settings_img}
@@ -48,7 +57,7 @@ const ReservationOcean = () => {
         {/* Reservation Code */}
         <View style={styles.reservationCodeContainer}>
           <Text style={styles.reservationCodeTitle}>Reservation code</Text>
-          <TextInput style={styles.reservationCodeInput} value="hcw82r98flsak" editable={false} />
+          <TextInput style={styles.reservationCodeInput} value={reservationCode} editable={false} />
         </View>
 
         {/* Cancel Reservation Button */}

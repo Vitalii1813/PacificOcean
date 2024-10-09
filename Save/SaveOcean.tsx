@@ -39,6 +39,10 @@ const SaveOcean: React.FC = () => {
     navigation.navigate('Reserve');
   };
 
+  const handleSettings = () => {
+    navigation.navigate('Settings'); // Navigate to SaveOcean screen
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
@@ -46,10 +50,12 @@ const SaveOcean: React.FC = () => {
         <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN
           </Text>
+          <TouchableOpacity onPress={handleSettings}>
           <Image
             source={require("../svg/home_img/settings.png")}
             style={styles.settings_img}
           />
+          </TouchableOpacity>
         </View>
         <View style={styles.wrapper}>
         <TextInput
