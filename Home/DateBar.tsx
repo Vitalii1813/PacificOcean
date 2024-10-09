@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
+// Define props interface
 interface Places {
   booked: number;
   total: number;
@@ -31,26 +32,13 @@ const DateBar: React.FC<DateBarProps> = ({
 }) => {
 
   const handleDayPress = (day: string, index: number) => {
-    // Оновлюємо вибраний день і його деталі
-    const newSelectedDay = {
-      day,
-      date: dates[index],
-      places: { booked: Math.floor(Math.random() * 50), total: 50 }, // Для прикладу
-    };
-    
-    handleSelectDay(day, index); // Call the parent handler
-  };
-
-  const handleBookPress = () => {
-    if (selectedDay) {
-      console.log("Current Booking: ", selectedDay); // Log current booking details
-      setIsMapLaunched(true); // Зміна стану для запуску карти
-    }
+    // Call the parent handler to update selected day
+    handleSelectDay(day, index);
   };
 
   return (
     <View style={styles.dateBarContainer}>
-      {/* Календар */}
+      {/* Calendar */}
       <View style={styles.calendarGrid}>
         {daysOfWeek.map((day, index) => (
           <TouchableOpacity
@@ -64,36 +52,17 @@ const DateBar: React.FC<DateBarProps> = ({
         ))}
       </View>
 
-      {/* Деталі вибраного дня */}
+      {/* Display selected day details */}
       {selectedDay && (
         <View style={styles.selectedDayDetails}>
-          <View style={styles.textAndProgress}>
-            <Text style={styles.selectedDayText}>
-              {selectedDay.day} {selectedDay.date} places
-            </Text>
-            <View style={styles.progressBarContainer}>
-              <View
-                style={[
-                  styles.progressBarFilled,
-                  {
-                    width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%`,
-                  },
-                ]}
-              />
-            </View>
-            <Text style={styles.placesCount}>
-              {selectedDay.places.booked}/{selectedDay.places.total}
-            </Text>
-          </View>
-
-          {/* Кнопка Book */}
-          <TouchableOpacity style={styles.bookButton} onPress={handleBookPress}>
-            <Text style={styles.bookButtonText}>Book</Text>
-          </TouchableOpacity>
+          <Text style={styles.selectedDayText}>
+            Booked on {selectedDay.day} {selectedDay.date}
+          </Text>
+          {/* Add any other details you want to display */}
         </View>
       )}
 
-      {/* Optional: Display previous booking info */}
+      {/* Previous Booking info */}
       {previousDay && (
         <Text style={styles.previousBookingText}>
           Previous Booking: {previousDay.day} {previousDay.date} {previousDay.places.booked}/{previousDay.places.total}
@@ -102,6 +71,7 @@ const DateBar: React.FC<DateBarProps> = ({
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   dateBarContainer: {

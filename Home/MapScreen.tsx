@@ -8,7 +8,7 @@ import DateBar from './DateBar';
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
-  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
+  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
   const generateRandomPlacesForAllDays = () => {
@@ -21,14 +21,17 @@ const MapScreen = () => {
 
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
   const [selectedDay, setSelectedDay] = useState({
-    day: 'Fri',
-    date: '13',
-    places: placesForDays[3], 
+    day: 'Mon',
+    date: '10',
+    places: placesForDays[0], // Default to the first day
   });
 
-  const handleSelectDay = (day: string, index: number) => {
-    const newPlaces = placesForDays[index];
-    setSelectedDay({ day, date: dates[index], places: newPlaces });
+  const handleSelectDay = (day, index) => {
+    setSelectedDay({
+      day,
+      date: dates[index],
+      places: placesForDays[index],
+    });
   };
 
   useEffect(() => {
@@ -70,9 +73,10 @@ const MapScreen = () => {
           dates={dates}
           selectedDay={selectedDay}
           handleSelectDay={handleSelectDay}
-          setIsMapLaunched={setIsMapLaunched} previousDay={null}        />
+          setIsMapLaunched={setIsMapLaunched}
+        />
       ) : (
-        <BookedMapScreen/>
+        <BookedMapScreen />
       )}
     </View>
   );
@@ -107,7 +111,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#7A9EA0',
   },
- 
   descriptionTitle: {
     color: 'white',
     fontSize: 18,

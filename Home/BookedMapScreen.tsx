@@ -12,7 +12,7 @@ interface SelectedDay {
 // Update component to accept selectedDay as a prop
 const BookedMapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
-  const handleCancelPress = ()=>{
+  const handleCancelPress = () => {
     setIsMapLaunched(!isMapLaunched);
   }
   const navigation = useNavigation();
@@ -28,11 +28,7 @@ const BookedMapScreen = () => {
   };
 
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-  const [selectedDay, setSelectedDay] = useState({
-    day: 'Fri',
-    date: '13',
-    places: placesForDays[3], 
-  });
+  const [selectedDay, setSelectedDay] = useState({});
 
   const handleSelectDay = (day: string, index: number) => {
     const newPlaces = placesForDays[index];
@@ -42,7 +38,7 @@ const BookedMapScreen = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); 
+    }, 600000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -51,14 +47,14 @@ const BookedMapScreen = () => {
     <View style={styles.container}>
       {!isMapLaunched ? (
         <>
-          <View style={styles.bookedOnWrapper}>
-            <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>
-                Booked on {selectedDay ? `${selectedDay.day} ${selectedDay.date}` : 'N/A'}
+          {selectedDay && (
+            <View style={styles.selectedDayDetails}>
+              <Text style={styles.selectedDayText}>
+                Booked on {selectedDay.day} {selectedDay.date} places
               </Text>
-            </TouchableOpacity>
-          </View>
-
+              {/* ... other components ... */}
+            </View>
+          )}
           <View style={styles.containerStep}>
             <View style={styles.header}></View>
             <Text style={styles.successText}>
@@ -77,10 +73,10 @@ const BookedMapScreen = () => {
         </>
       ) : (
         <DateBar
-            daysOfWeek={daysOfWeek}
-            dates={dates}
-            handleSelectDay={handleSelectDay}
-            setIsMapLaunched={setIsMapLaunched} selectedDay={null} previousDay={null}        />
+          daysOfWeek={daysOfWeek}
+          dates={dates}
+          handleSelectDay={handleSelectDay}
+          setIsMapLaunched={setIsMapLaunched} selectedDay={null} previousDay={null} />
       )}
     </View>
   );
