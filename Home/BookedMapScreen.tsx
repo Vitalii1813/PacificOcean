@@ -1,49 +1,132 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
-  const navigation = useNavigation();
+  const [isMapLaunched, setIsMapLaunched] = useState(false);
+
   const handleCancelPress = () => {
-    navigation.navigate('Settings');
+    setIsMapLaunched(!isMapLaunched);
   };
-    return (
-        <><View style={styles.bookedOnWrapper}>
-        <TouchableOpacity style={styles.bookedOnButton}>
-          <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
-        </TouchableOpacity>
-      </View>
-          
+
+  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
+  const dates = ['10', '11', '12', '13', '14', '15', '16'];
+  // Функція для генерації кількості заброньованих місць для кожного дня
+  const generateRandomPlacesForAllDays = () => {
+    return daysOfWeek.map(() => {
+      const totalPlaces = 10;
+      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
+      return { booked: bookedPlaces, total: totalPlaces };
+    });
+  };
+
+  // Стан для зберігання кількості місць для кожного дня
+  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
+
+  // Стан для вибраного дня
+  const [selectedDay, setSelectedDay] = useState({
+    day: 'Fri',
+    date: '13',
+    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+  });
+
+  // Оновлюємо дані через певний час (10 хвилин у прикладі)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPlacesForDays(generateRandomPlacesForAllDays());
+    }, 600000); // 10 хвилин
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Обробка вибору дня
+  const handleSelectDay = (day, index) => {
+    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+  };
+
+  return (
+    <View>
+      {!isMapLaunched ? (
+        <>
+          <View style={styles.bookedOnWrapper}>
+            <TouchableOpacity style={styles.bookedOnButton}>
+              <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.containerStep}>
-                  <View style={styles.header}>
-                  </View>
-                  <Text style={styles.successText}>
-                      Your booking is successful. Save your personal code that you can use to cancel the reservation
-                  </Text>
-                  <View style={styles.codeContainer}>
-                      <View style={styles.secondCodeContainer}>
-                          <Text style={styles.codeLabel}>Your reservation code:</Text>
-                          <Text style={styles.codeText}>u3nk52o2</Text>
-                      </View>
-                      <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
-                          <Text style={styles.cancelButtonText}>Cancel</Text>
-                      </TouchableOpacity>
-                  </View>
-              </View></>
-      );
-    };
+            <View style={styles.header}></View>
+            <Text style={styles.successText}>
+              Your booking is successful. Save your personal code that you can use to cancel the reservation.
+            </Text>
+            <View style={styles.codeContainer}>
+              <View style={styles.secondCodeContainer}>
+                <Text style={styles.codeLabel}>Your reservation code:</Text>
+                <Text style={styles.codeText}>u3nk52o2</Text>
+              </View>
+              <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
+      ) : (
+        <View>
+          <View style={styles.dateBarContainer}>
+          {/* Сітка календаря */}
+          <View style={styles.calendarGrid}>
+            {daysOfWeek.map((day, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.calendarDateContainer}
+                onPress={() => handleSelectDay(day, index)}
+              >
+                <Text style={styles.dayOfWeek}>{day}</Text>
+                <Text style={styles.dateText}>{dates[index]}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+    
+          {/* Деталі вибраного дня */}
+          <View style={styles.selectedDayDetails}>
+            <View style={styles.textAndProgress}>
+              <Text style={styles.selectedDayText}>
+                {selectedDay.day} {selectedDay.date} places
+              </Text>
+              <View style={styles.progressBarContainer}>
+                <View
+                  style={[
+                    styles.progressBarFilled,
+                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
+                  ]}
+                />
+              </View>
+              <Text style={styles.placesCount}>
+                {selectedDay.places.booked}/{selectedDay.places.total}
+              </Text>
+            </View>
+    
+            <TouchableOpacity style={styles.bookButton} onPress={handleCancelPress}>
+              <Text style={styles.bookButtonText}>Book</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        </View>
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStep: {
-    marginTop:10,
+    marginTop: 10,
     backgroundColor: '#7A9EA0',
     padding: 15,
     borderRadius: 10,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end', // Вирівнюємо елементи по правому краю
-    alignItems: 'center', // Вирівнюємо по вертикалі
+    justifyContent: 'flex-end',
+    alignItems: 'center',
     marginBottom: 20,
   },
   successText: {
@@ -71,39 +154,113 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 15,
-    // width: '30%', // Забираємо width, щоб кнопка не займала всю ширину
   },
   cancelButtonText: {
-    textAlign:'right',
+    textAlign: 'right',
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  secondCodeContainer:{
-    color:'#002224'
+  secondCodeContainer: {
+    color: '#002224',
   },
-  bookedOnWrapper: {     // Ширина на весь екран
-    paddingHorizontal: 10, 
-          // Відступи з боків
-    marginBottom: 0,    
-    alignItems: 'flex-end',          // Відступ знизу
+  bookedOnWrapper: {
+    paddingHorizontal: 10,
+    marginBottom: 0,
+    alignItems: 'flex-end',
   },
-  
   bookedOnButton: {
-    backgroundColor: '#7A9EA0',    // Темний фон кнопки
-    borderRadius: 20,              // Округлення кутів
-    paddingVertical: 10,           // Внутрішні відступи по вертикалі
-    paddingHorizontal: 20,         // Внутрішні відступи по горизонталі
-    alignItems: 'flex-end',  
-    height:40,
-    justifyContent:'space-between'        // Вирівнювання тексту по центру
+    backgroundColor: '#7A9EA0',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    height: 40,
+    justifyContent: 'space-between',
   },
-  
   bookedOnButtonText: {
-    color: 'white',                // Колір тексту
-    fontSize: 16,                  // Розмір шрифту
-    fontWeight: 'bold',            // Жирний шрифт
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
+  descriptionContainer: {
+    backgroundColor: 'transparent',
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  descriptionText: {
+    fontSize: 16,
+    color: '#7A9EA0',
+
+  },
+  dateBarContainer: {
+    backgroundColor: '#809E9F',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+  },
+  calendarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  calendarDateContainer: {
+    width: '14.28%',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  dayOfWeek: {
+    color: '#D1D6D7',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  selectedDayDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#344E51',
+    borderRadius: 10,
+    padding: 15,
+  },
+  selectedDayText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  progressBarContainer: {
+    width: 100,
+    height: 10,
+    backgroundColor: '#374049',
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  progressBarFilled: {
+    width: '60%',
+    backgroundColor: '#7EB58A',
+    height: '100%',
+  },
+  placesCount: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  bookButton: {
+    backgroundColor: '#54666A',
+    borderRadius: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+  },
+  bookButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  descriptionTitle: {
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 12
+  }
 });
 
 export default BookedMapScreen;

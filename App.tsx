@@ -23,6 +23,7 @@ import ReservationOcean from './Save/ReservationOcean';
 import LoginOcean from './displays/LoginOcean';
 import SecondMapView from './Plus/SecondMapView';
 import BookedMapScreen from './Home/BookedMapScreen';
+import MapScreen from './Home/MapScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -148,8 +149,8 @@ function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="BookedMap"
-        component={BookedMapScreen}
+        name="MapScreen"
+        component={MapScreen}
         options={{
           headerShown: false,
           tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
@@ -174,7 +175,7 @@ export default function App() {
           <Stack.Screen name="AddResultForm" component={AddResultForm} />
           <Stack.Screen name="Reserve" component={ReservationOcean} />
           <Stack.Screen name="SecondMap" component={SecondMapView} />
-          <Stack.Screen name="BookedMap" component={BookedMapScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

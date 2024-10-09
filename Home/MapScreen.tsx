@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
 import BookedMapScreen from './BookedMapScreen';
+import Maps from './Map';
 import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = () => {
@@ -13,6 +13,7 @@ const MapScreen = () => {
   const handleImagePress = () => {
     navigation.navigate('Settings');
   };
+  
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
   // Функція для генерації кількості заброньованих місць для кожного дня
@@ -23,7 +24,12 @@ const MapScreen = () => {
       return { booked: bookedPlaces, total: totalPlaces };
     });
   };
+  const [selectedDate, setSelectedDate] = useState<number | null>(null); // Стан для зберігання вибраної дати
 
+  const handleSelectDay = (day: string, index: number) => {
+    setSelectedDate(index); // Змінюємо стан при виборі дати
+    // Можна також передати день або інші дані в компонент Map, якщо потрібно
+  };
   // Стан для зберігання кількості місць для кожного дня
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
 
@@ -43,11 +49,6 @@ const MapScreen = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Обробка вибору дня
-  const handleSelectDay = (day, index) => {
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
-  };
-
   return (
     <View>
       {!isMapLaunched ? (
@@ -58,25 +59,7 @@ const MapScreen = () => {
         <View></View>
       )}
 
-      <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          zoomEnabled={true}      // Дозволяє збільшення/зменшення масштабу
-          scrollEnabled={true}    // Дозволяє прокручування карти
-          pitchEnabled={true}     // Дозволяє нахил карти
-          rotateEnabled={true}    // Дозволяє обертання карти
-        >
-          <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-            <View style={styles.marker} />
-          </Marker>
-        </MapView>
-      </View>
+     <Maps key={selectedDate}/>
 
 
       <View><Text style={styles.descriptionTitle}>Description</Text></View>
@@ -180,22 +163,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
-  },
-  mapContainer: {
-    width: '100%',
-    height: 250,
-    marginBottom: 20,
-    overflow: 'hidden',
-    borderRadius: 10,
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  marker: {
-    backgroundColor: '#374049',
-    borderRadius: 50,
-    padding: 10,
   },
   descriptionContainer: {
     backgroundColor: 'transparent',
