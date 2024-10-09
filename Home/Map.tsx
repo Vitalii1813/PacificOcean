@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   mapContainer: {
     width: '100%',
     height: 290,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#ccc',
