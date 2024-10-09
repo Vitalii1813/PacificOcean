@@ -72,7 +72,7 @@ const MapScreen = () => {
           handleSelectDay={handleSelectDay}
           setIsMapLaunched={setIsMapLaunched} previousDay={null}        />
       ) : (
-        <BookedMapScreen selectedDay={null} />
+        <BookedMapScreen/>
       )}
     </View>
   );
