@@ -10,7 +10,7 @@ export default function LoginScreen({ navigation }: any) {
     if (email && password) {
       navigation.replace('MainTabs');
     } else {
-      alert('Будь ласка, введіть ім\'я користувача та пароль');
+      alert('Please enter your username and password');
     }
   };
 
@@ -20,27 +20,28 @@ export default function LoginScreen({ navigation }: any) {
       style={styles.backgroundImage}
     >
       <View style={styles.overlay}>
-        <SafeAreaView />
-        <Text style={styles.title}>JOIN PACIFIC OCEAN</Text>
+        
         <View style={styles.formContainer}> 
+        <Text style={styles.title}><Text style={styles.titlePacific}>JOIN PACIFIC</Text> OCEAN</Text>
+        <Text style={styles.signTitle}>Sign in</Text>
           <TextInput
             style={styles.input}
             placeholder="User name"
-            placeholderTextColor="#ddd"
+            placeholderTextColor="grey"
             value={email}
             onChangeText={setEmail}
           />
           <TextInput
             style={styles.input}
             placeholder="Password"
-            placeholderTextColor="#ddd"
+            placeholderTextColor="grey"
             secureTextEntry
             value={password}
             onChangeText={setPassword}
           />
           <Text style={styles.accountText}>Accounts are issued upon joining the club</Text>
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Loging</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -56,30 +57,36 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontFamily:'Paytone One',
+    fontSize: 36,
     fontWeight: 'bold',
-    color: '#FFD700', 
-    marginBottom: 40,
+    color: '#FFFFFF',
+    marginBottom: 20,
     letterSpacing: 1.5,
+    textAlign:'right',
+    marginTop:30
+  },
+  titlePacific:{
+    color:'#293036'
   },
   formContainer: {
-    backgroundColor: 'rgba(52, 78, 81, 0.7)', // Змінено колір фону форми
+    backgroundColor: '#7A9EA0',
     padding: 30,
     borderRadius: 15,
-    width: '80%',
+    width: '100%',
   },
   input: {
     height: 50,
     width: '100%',
-    backgroundColor: 'rgba(0, 77, 64, 0.8)', // Змінено колір фону інпутів
+    backgroundColor: '#D9D9D9', // Змінено колір фону інпутів
     borderRadius: 10,
     marginBottom: 20,
     paddingHorizontal: 15,
-    color: '#fff',
+    color: 'grey',
     fontSize: 16,
   },
   accountText: {
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     width: '100%',
-    backgroundColor: '#007764', // Змінено колір кнопки
+    backgroundColor: '#073B3E', // Змінено колір кнопки
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -101,4 +108,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  signTitle:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 20,
+    letterSpacing: 1.5,
+  }
 });
