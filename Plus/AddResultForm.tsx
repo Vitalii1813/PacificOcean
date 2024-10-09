@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 export default function AddResultForm() {
   const [userName, setUserName] = useState('');
@@ -8,16 +9,38 @@ export default function AddResultForm() {
   const [typeOfFish, setTypeOfFish] = useState('');
   const [location, setLocation] = useState('');
   const navigation = useNavigation();
-  const [showPlusButton, setPlusButton] = useState(false); // Змінено назву змінної
+  const [showPlusButton, setPlusButton] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handlePressPlus = () => {
     setPlusButton(!showPlusButton);
   };
+
   const handleImagePress = () => {
-    navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
+    navigation.navigate('Settings');
   };
+
   const handleAddResult = () => {
-    navigation.navigate('SecondMap'); // Назва сторінки, на яку ви хочете перейти
+    navigation.navigate('SecondMap');
+  };
+
+  // Функція для відкриття галереї
+  const handleAddPhoto = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 1,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorMessage) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const source = { uri: response.assets[0].uri };
+        setSelectedImage(source);
+      }
+    });
   };
 
   return (
@@ -33,7 +56,6 @@ export default function AddResultForm() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-
 
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Add my result</Text>
@@ -69,7 +91,13 @@ export default function AddResultForm() {
             />
 
             <TouchableOpacity style={styles.mapButton}>
-              <Text style={styles.mapButtonText}>Select a place on the map</Text>
+            <View style={styles.row}>
+            <Text style={styles.mapButtonText}>Select a place on the map</Text>
+            <Image
+              source={require("../svg/plus_img/arrow-right.png")}
+              style={styles.imageIcon} // Додаємо стиль для зображення
+            />
+          </View>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.addPhotoButton} onPress={handlePressPlus}>
@@ -83,14 +111,21 @@ export default function AddResultForm() {
             <TouchableOpacity style={styles.submitButton} onPress={handleAddResult}>
               <Text style={styles.submitButtonText}>Add my result</Text>
             </TouchableOpacity>
-          </>) : (
+          </>
+        ) : (
           <>
-            <TouchableOpacity style={styles.addPhotoButtonNew}>
-              <Text style={styles.addPhotoButtonText}>+</Text>
+            <TouchableOpacity style={styles.addPhotoButtonNew} onPress={handleAddPhoto}>
+              {selectedImage ? (
+                <Image source={selectedImage} style={styles.selectedImage} />
+              ) : (
+                <Text style={styles.addPhotoButtonText}>+</Text>
+              )}
             </TouchableOpacity>
+
             <Text style={styles.votesTextNew}>
               Add five votes to remember the highlight of your fishing
             </Text>
+            
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.backButton} onPress={handlePressPlus}>
                 <Text style={styles.buttonText}>Back</Text>
@@ -101,11 +136,11 @@ export default function AddResultForm() {
             </View>
           </>
         )}
-
       </View>
 
       <Text style={styles.description}>
-        Description{'\n'}You can delete a result that you have added in the settings
+        <Text style={styles.descriptionTitle}>Description</Text>
+        {'\n'}You can delete a result that you have added in the settings
       </Text>
     </View>
   );
@@ -185,6 +220,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: '#00796B',
   },
+  selectedImage: {
+    width: '100%',
+    height: '100%',
+  },
   votesText: {
     color: '#D9D9D9',
     textAlign: 'center',
@@ -208,37 +247,50 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
+  descriptionTitle:{
+    color: '#D9D9D9',
+    fontSize:18,
+    fontWeight:'500'
+  },
   description: {
     color: '#BFBFBF',
     textAlign: 'center',
-    marginTop: 20,
-    fontSize: 12,
+    marginTop: 60,
+    fontSize: 13,
+    width:200
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // Розподіляє кнопки рівномірно між собою
+    justifyContent: 'space-between',
     marginTop: 120,
   },
   backButton: {
-    backgroundColor: 'transparent', // світло-сірий фон для "Back"
+    backgroundColor: 'transparent',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
-    flex: 1, // дозволяє кнопкам бути однакового розміру
-    marginRight: 10, // відступ між кнопками
+    flex: 1,
+    marginRight: 10,
   },
   addButton: {
-    backgroundColor: '#1C2C39', // темний фон для "Add my result"
+    backgroundColor: '#1C2C39',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
-    flex: 1, // дозволяє кнопкам бути однакового розміру
+    flex: 1,
   },
   buttonText: {
-    color: '#F0F4F5', // світлий текст
+    color: '#F0F4F5',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  row: {
+    flexDirection: 'row', // Елементи всередині будуть розташовані по горизонталі
+    alignItems: 'center', // Вертикальне вирівнювання елементів
+  },
+  imageIcon: {
+    marginLeft:120, // Відступ між зображенням та текстом
   },
 });

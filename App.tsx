@@ -62,6 +62,11 @@ function SettingsStack() {
         component={EnablePassword}
         options={{ headerShown: false, title: 'Enable' }}
       />
+      <Stack.Screen
+        name="Reserve"
+        component={ReservationOcean}
+        options={{ headerShown: false, title: 'Reserve' }}
+      />
     </Stack.Navigator>
   );
 }
@@ -141,7 +146,7 @@ function MainTabs() {
         }}
       />
        <Tab.Screen
-        name="Reserv"
+        name="Reserve"
         component={ReservationOcean}
         options={{
           headerShown: false,
@@ -173,7 +178,7 @@ export default function App() {
         />
           <Stack.Screen name="MainTabs" component={MainTabs}  options={{ headerShown: false }}/>
           <Stack.Screen name="AddResultForm" component={AddResultForm} />
-          <Stack.Screen name="Reserve" component={ReservationOcean} />
+          <Stack.Screen name="Reserve" component={ReservationOcean}  options={{ headerShown: false }}/>
           <Stack.Screen name="SecondMap" component={SecondMapView} />
           <Stack.Screen name="Map" component={MapScreen} />
         <Stack.Screen name="Booked" component={BookedMapScreen} />

@@ -21,7 +21,7 @@ const PlusOcean = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView>
-      <View style={styles.header}>
+        <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <TouchableOpacity onPress={handleImagePress}>
             <Image
@@ -35,44 +35,51 @@ const PlusOcean = () => {
       <View style={styles.ratingContainer}>
         <Text style={styles.ratingTitle}>Rating</Text>
         <ScrollView style={styles.scrollContainer}>
-        {players.map((player, index) => (
-          <View key={index} style={styles.remindContainer}>
-            <View style={styles.ratingRow}>
-              <Text style={styles.ranking}>{player.rank}</Text>
-              <Image
-                source={require('../svg/plus_img/cup-star.png')}
-                style={styles.trophyIcon}
-              />
-              <Text style={styles.name}>{player.name}</Text>
-              <Text style={styles.weight}>{player.weight}</Text>
-            </View>
+          {players.map((player, index) => (
+            <View key={index} style={styles.remindContainer}>
+              <View style={styles.ratingRow}>
+                <Text style={styles.ranking}>{player.rank}</Text>
+                <Image
+                  source={require('../svg/plus_img/cup-star.png')}
+                  style={styles.trophyIcon}
+                />
+                <Text style={styles.name}>{player.name}</Text>
+                <Text style={styles.weight}>{player.weight}</Text>
+              </View>
 
-            <View style={styles.emptyBoxesContainer}>
-              {/* Пусті квадрати */}
-              <View style={styles.emptyBox}></View>
-              <View style={styles.emptyBox}></View>
-              <View style={styles.emptyBox}></View>
-              <View style={styles.emptyBox}></View>
-              <View style={styles.emptyBox}></View>
+              <View style={styles.emptyBoxesContainer}>
+                {/* Пусті квадрати */}
+                <View style={styles.emptyBox}></View>
+                <View style={styles.emptyBox}></View>
+                <View style={styles.emptyBox}></View>
+                <View style={styles.emptyBox}></View>
+                <View style={styles.emptyBox}></View>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
         </ScrollView>
       </View>
-      
+
       <TouchableOpacity style={styles.buttonNext} onPress={onPress}>
-      <Text style={styles.buttonNextText}>Add my result</Text> 
-      <Image
-            source={require("../svg/plus_img/arrow-right.png")}
-            style={styles.image}
-          />
-    </TouchableOpacity>
+        <Text style={styles.buttonNextText}>Add my result</Text>
+        <Image
+          source={require("../svg/plus_img/arrow-right.png")}
+          style={styles.image}
+        />
+      </TouchableOpacity>
       <View style={styles.moonContainer}>
         <Image
           source={require('../svg/plus_img/moon.png')}
           style={styles.moonImg}
         />
+       <View style={styles.descriptionContainer}>
+          <Text style={styles.description}>Description</Text>
+          <Text style={styles.subtext}>
+          You can be the next champion of our club. Add your result and check the rating
+          </Text>
+        </View>
       </View>
+      
     </ScrollView>
   );
 };
@@ -107,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 16, // зменшено з 20
     width: '90%',
     alignSelf: 'center',
-    marginBottom:20
+    marginBottom: 20
   },
   ratingTitle: {
     fontSize: 18, // зменшено з 22
@@ -129,19 +136,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginRight:10,
+    marginRight: 10,
   },
   ranking: {
     fontSize: 16, // зменшено з 20
     fontWeight: 'bold',
     color: '#1C1C1C',
-    marginRight:5
+    marginRight: 5
   },
   trophyIcon: {
     width: 18, // зменшено з 22
     height: 18, // зменшено з 22
     marginLeft: 5,
-    
   },
   name: {
     fontSize: 16, // зменшено з 18
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 8, // зменшено з 10
-    marginLeft:10
+    marginLeft: 10
   },
   emptyBox: {
     width: 35, // зменшено з 35
@@ -168,20 +174,33 @@ const styles = StyleSheet.create({
     borderRadius: 6, // зменшено з 8
   },
   moonContainer: {
-    alignSelf: 'center',
-    marginTop: 20,
-    width: 180, // зменшено з 220
-    height: 180, // зменшено з 220
-    borderRadius: 90, // зменшено з 110
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    flexDirection: 'row', // Вирівнює елементи в ряд
+    alignItems: 'center', // Центрує елементи по вертикалі
+    padding: 20, // Додає відступи навколо елементів
+    backgroundColor: '#053281', // Синій фон, як на вашому прикладі
   },
   moonImg: {
-    resizeMode: 'contain',
+    width: 190,
+    height: 220,
+    resizeMode:'cover', // Зображення зберігає пропорції
+    marginRight: 20, // Відступ між зображенням і текстом
+  },
+  descriptionContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingLeft: 10, // Відступ між зображенням і текстом
+  },
+  description: {
+    fontSize: 16,
+    color: 'white',
+    opacity: 0.8,
+    marginBottom: 10,
+    textAlign: 'right',
+  },
+  subtext: {
+    fontSize: 12,
+    color: '#7A9EA0',
+    textAlign: 'right',
   },
   scrollContainer: {
     height: 270, // зменшено з 320
@@ -191,11 +210,13 @@ const styles = StyleSheet.create({
   },
   buttonNext: {
     backgroundColor: '#A7C4BC', // Сіро-зелений колір
-    padding: 15,
-    borderRadius: 25, // Значне заокруглення
+    padding: 13,
+    borderRadius: 10, // Значне заокруглення
     flexDirection: 'row', // Розміщення тексту та іконки в ряд
     alignItems: 'center', // Вирівнювання по вертикалі
     justifyContent: 'space-between', // Розподілення простору між текстом та іконкою
+    width: '90%',
+    marginLeft: 18
   },
   buttonNextText: {
     color: 'white',
@@ -209,7 +230,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     // Замініть це на стилі вашого компонента Icon
-    fontSize: 16, 
+    fontSize: 16,
     fontWeight: 'bold',
   },
   image: {

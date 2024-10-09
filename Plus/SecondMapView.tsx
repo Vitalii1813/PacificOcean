@@ -1,18 +1,28 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Button, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 export default function SecondMapView() {
-    const navigation = useNavigation();
-    const handleImagePress = () => {
-        navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
-      };
+  const navigation = useNavigation();
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const handleImagePress = () => {
+    navigation.navigate('Settings'); // Перехід на сторінку налаштувань
+  };
+
+  const handleButtonPress = () => {
+    navigation.navigate('AddResultForm'); // Переходить на екран AddResultFor
+  };
+
+  const handleMapPress = (event) => {
+    setSelectedLocation(event.nativeEvent.coordinate); // Вибір точки на карті
+  };
 
   return (
     <View style={styles.container}>
       <SafeAreaView>
-      <View style={styles.header}>
+        <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
           <TouchableOpacity onPress={handleImagePress}>
             <Image
@@ -22,30 +32,37 @@ export default function SecondMapView() {
         </View>
       </SafeAreaView>
 
-
       <View style={styles.mapContainer}>
-      <TouchableOpacity style={styles.mapButton}>
-          <Text style={styles.mapButtonText}>Select a place on the map</Text>
+        <TouchableOpacity style={styles.mapButton} onPress={handleButtonPress}>
+          <View style={styles.row}>
+            <Image
+              source={require("../svg/plus_img/arrow-left.png")}
+              style={styles.imageIcon} // Додаємо стиль для зображення
+            />
+            <Text style={styles.mapButtonText}>Select a place on the map</Text>
+          </View>
         </TouchableOpacity>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        zoomEnabled={true}      // Дозволяє збільшення/зменшення масштабу
-        scrollEnabled={true}    // Дозволяє прокручування карти
-        pitchEnabled={true}     // Дозволяє нахил карти
-        rotateEnabled={true}    // Дозволяє обертання карти
-      >
-        <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-          <View style={styles.marker} />
-        </Marker>
-      </MapView>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 9.1021, // Центр Африки
+            longitude: 18.2812,
+            latitudeDelta: 25.0, // Ширина для охоплення всієї Африки
+            longitudeDelta: 25.0,
+          }}
+          zoomEnabled={true} // Дозволяє збільшення/зменшення масштабу
+          scrollEnabled={true} // Дозволяє прокручування карти
+          pitchEnabled={true} // Дозволяє нахил карти
+          rotateEnabled={true} // Дозволяє обертання карти
+          onPress={handleMapPress} // Обробка натискань на карту
+        >
+          {selectedLocation && (
+            <Marker coordinate={selectedLocation}>
+              <View style={styles.marker} />
+            </Marker>
+          )}
+        </MapView>
       </View>
-
 
       <Text style={styles.description}>
         Description{'\n'}You can delete a result that you have added in the settings
@@ -63,7 +80,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -73,30 +90,9 @@ const styles = StyleSheet.create({
     color: "#7A9EA0",
     textAlign: 'center',
     marginRight: 15,
-    marginLeft: 25
   },
   settingsImg: {
     marginRight: 10,
-  },
-  formContainer: {
-    width: '100%',
-    backgroundColor: '#6FB3B8',
-    padding: 20,
-    borderRadius: 10,
-  },
-  formTitle: {
-    fontSize: 18,
-    color: '#000000',
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    backgroundColor: '#D8E6E7',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 15,
-    color: '#000000',
   },
   mapContainer: {
     width: '100%',
@@ -109,50 +105,29 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  mapButton: {
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  mapButtonText: {
-    color: '#00796B',
-  },
   marker: {
     backgroundColor: '#374049',
     borderRadius: 50,
     padding: 10,
-  },
-  addPhotoButton: {
-    borderWidth: 2,
-    borderColor: '#00796B',
-    borderStyle: 'dashed',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginBottom: 15,
-  },
-  addPhotoButtonText: {
-    fontSize: 24,
-    color: '#00796B',
-  },
-  votesText: {
-    color: '#00796B',
-    textAlign: 'center',
-    marginBottom: 15,
-  },
-  submitButton: {
-    backgroundColor: '#00796B',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
   },
   description: {
     color: '#BFBFBF',
     textAlign: 'center',
     marginTop: 20,
     fontSize: 12,
+  },
+  mapButton: {
+    alignItems: 'flex-start',
+    marginBottom: 15,
+  },
+  row: {
+    flexDirection: 'row', // Елементи всередині будуть розташовані по горизонталі
+    alignItems: 'center', // Вертикальне вирівнювання елементів
+  },
+  imageIcon: {
+    marginRight: 10, // Відступ між зображенням та текстом
+  },
+  mapButtonText: {
+    color: '#00796B',
   },
 });
