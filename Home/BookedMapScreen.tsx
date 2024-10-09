@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
-  const handleLaunchMap = () =>{
+  const handleLaunchMap = () => {
     setIsMapLaunched(!isMapLaunched)
   }
   const navigation = useNavigation();
@@ -27,7 +27,7 @@ const BookedMapScreen = () => {
     date: '13',
     places: placesForDays[3], // Ініціалізуємо як п'ятницю
   });
-  
+
 
   const handleSelectDay = (day: string, index: number) => {
     setSelectedDate(index);
@@ -53,7 +53,9 @@ const BookedMapScreen = () => {
         <>
           <View style={styles.bookedOnWrapper}>
             <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
+              <Text style={styles.bookedOnButtonText}>
+                Booked on {selectedDay.date} {selectedDay.day}
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -76,44 +78,44 @@ const BookedMapScreen = () => {
       ) : (
         <View>
           <View style={styles.dateBarContainer}>
-          {/* Сітка календаря */}
-          <View style={styles.calendarGrid}>
-            {daysOfWeek.map((day, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.calendarDateContainer}
-                onPress={() => handleSelectDay(day, index)}
-              >
-                <Text style={styles.dayOfWeek}>{day}</Text>
-                <Text style={styles.dateText}>{dates[index]}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-    
-          {/* Деталі вибраного дня */}
-          <View style={styles.selectedDayDetails}>
-            <View style={styles.textAndProgress}>
-              <Text style={styles.selectedDayText}>
-                {selectedDay.day} {selectedDay.date} places
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View
-                  style={[
-                    styles.progressBarFilled,
-                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
-                  ]}
-                />
-              </View>
-              <Text style={styles.placesCount}>
-                {selectedDay.places.booked}/{selectedDay.places.total}
-              </Text>
+            {/* Сітка календаря */}
+            <View style={styles.calendarGrid}>
+              {daysOfWeek.map((day, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.calendarDateContainer}
+                  onPress={() => handleSelectDay(day, index)}
+                >
+                  <Text style={styles.dayOfWeek}>{day}</Text>
+                  <Text style={styles.dateText}>{dates[index]}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
-    
-            <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
-              <Text style={styles.bookButtonText}>Book</Text>
-            </TouchableOpacity>
+
+            {/* Деталі вибраного дня */}
+            <View style={styles.selectedDayDetails}>
+              <View style={styles.textAndProgress}>
+                <Text style={styles.selectedDayText}>
+                  {selectedDay.day} {selectedDay.date} places
+                </Text>
+                <View style={styles.progressBarContainer}>
+                  <View
+                    style={[
+                      styles.progressBarFilled,
+                      { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
+                    ]}
+                  />
+                </View>
+                <Text style={styles.placesCount}>
+                  {selectedDay.places.booked}/{selectedDay.places.total}
+                </Text>
+              </View>
+
+              <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
+                <Text style={styles.bookButtonText}>Book</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
         </View>
       )}
     </View>
