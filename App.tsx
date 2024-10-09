@@ -18,11 +18,11 @@ import AddCircle from './svg/bottom_tab/tsx/Add';
 import Save from './svg/bottom_tab/tsx/Save';
 import Code from './svg/bottom_tab/tsx/Code';
 import SettingsF from './svg/bottom_tab/tsx/Settings';
-import AddResultForm from './displays/AddResultForm';
-import ReservationOcean from './displays/ReservationOcean';
+import AddResultForm from './Plus/AddResultForm';
+import ReservationOcean from './Save/ReservationOcean';
 import LoginOcean from './displays/LoginOcean';
-import SecondMapView from './displays/SecondMapView';
-import BookedMapScreen from './displays/BookedMapScreen';
+import SecondMapView from './Plus/SecondMapView';
+import BookedMapScreen from './Home/BookedMapScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

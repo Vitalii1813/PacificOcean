@@ -6,6 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
+  const handleLaunchMap = () => {
+    setIsMapLaunched(!isMapLaunched);
+  };
   const navigation = useNavigation();
   const handleImagePress = () => {
     navigation.navigate('Settings');
@@ -30,10 +33,6 @@ const MapScreen = () => {
     date: '13',
     places: placesForDays[3], // Ініціалізуємо як п'ятницю
   });
-
-  const handleLaunchMap = () => {
-    navigation.navigate('BookedMap');
-  };
 
   // Оновлюємо дані через певний час (10 хвилин у прикладі)
   useEffect(() => {
@@ -136,7 +135,7 @@ const MapScreen = () => {
           </View>
         </View>
       ) : (
-        <><BookedMapScreen /></>
+        <><BookedMapScreen/></>
       )}
     </View>
   );

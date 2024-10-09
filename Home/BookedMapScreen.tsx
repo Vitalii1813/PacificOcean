@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 const BookedMapScreen = () => {
   const navigation = useNavigation();
   const handleCancelPress = () => {
-    navigation.navigate('MainTabs');
+    navigation.navigate('Settings');
   };
     return (
         <><View style={styles.bookedOnWrapper}>

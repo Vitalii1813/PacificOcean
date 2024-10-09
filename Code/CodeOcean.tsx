@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, SafeAreaView } from "react-native";
 import Slider from '@react-native-community/slider'; 
 import { launchImageLibrary } from 'react-native-image-picker'; // <-- Ensure the import
-import BoatScreen from "../displays/BoatScreen";
+import BoatScreen from "../Code/BoatScreen";
 
 const CodeOcean = () => {
   const [selectedImage, setSelectedImage] = useState(null);

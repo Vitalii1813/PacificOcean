@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import SendBoat from "./SendBoat";
+import SendBoat from "../Code/SendBoat";
 
 const BoatScreen = () => {
     const [showButton, setShowButton] = useState(false); // Змінено назву змінної
