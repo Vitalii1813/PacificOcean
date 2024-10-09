@@ -7,7 +7,7 @@ const BookedMapScreen = () => {
   const handleCancelPress = () => {
     setIsMapLaunched(!isMapLaunched);
   };
-
+  const { selectedDay } = route.params;
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
   // Функція для генерації кількості заброньованих місць для кожного дня
@@ -49,7 +49,7 @@ const BookedMapScreen = () => {
         <>
           <View style={styles.bookedOnWrapper}>
             <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
+              <Text style={styles.bookedOnButtonText}>Booked on {selectedDay.date}</Text>
             </TouchableOpacity>
           </View>
 

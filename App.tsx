@@ -175,7 +175,8 @@ export default function App() {
           <Stack.Screen name="AddResultForm" component={AddResultForm} />
           <Stack.Screen name="Reserve" component={ReservationOcean} />
           <Stack.Screen name="SecondMap" component={SecondMapView} />
-          <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="Booked" component={BookedMapScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
