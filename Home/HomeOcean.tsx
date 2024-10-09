@@ -1,30 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
-import ArrowIcon from "../svg/home_img/ArrowRight";
+import   
+ ArrowIcon from "../svg/home_img/ArrowRight";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import MapScreen from "./MapScreen";
 
 const HomeOcean = () => {
   const navigation = useNavigation();
-  const [isMapOpen, setIsMapOpen] = useState(false); // State to control content
+  const [isMapOpen, setIsMapOpen] = useState(false); 
+  const [selectedOption, setSelectedOption] = useState(null); 
+  const [backgroundColor, setBackgroundColor] = useState("#0C757A"); 
 
   const handleImagePress = () => {
     navigation.navigate('Settings');
   };
 
   const handleMapPress = () => {
-    setIsMapOpen(!isMapOpen); // Toggle state on button press
+    setIsMapOpen(!isMapOpen); 
+    setBackgroundColor(isMapOpen ? "#0C757A" : "#FFFFFF"); 
   };
 
-  // Effect to handle returning to the home screen
+  const toggleOption = (option) => {
+    setSelectedOption(prev => (prev === option ? null : option)); 
+  };
+
   useFocusEffect(
     React.useCallback(() => {
-      // Start timer when the screen is focused
       const timer = setTimeout(() => {
-        navigation.navigate('HomeOcean'); // Navigate back to HomeOcean after 30 seconds
-      }, 30000); // 30000 milliseconds = 30 seconds
+        navigation.navigate('Home'); 
+      }, 30000); 
 
-      return () => clearTimeout(timer); // Cleanup on unmount
+      return () => clearTimeout(timer); 
     }, [navigation])
   );
 
@@ -62,11 +68,19 @@ const HomeOcean = () => {
             </View>
 
             <View style={styles.options}>
-              <TouchableOpacity style={styles.optionButton}>
-                <Image
-                  source={require("../svg/home_img/done-all.png")}
-                  style={styles.done_img}
-                />
+              <TouchableOpacity 
+                style={[
+                  styles.optionButton, 
+                  { backgroundColor: selectedOption === 'sailing' ? 'white' : 'rgba(255, 255, 255, 0.1)' } 
+                ]}
+                onPress={() => toggleOption('sailing')}
+              >
+                {selectedOption === 'sailing' && (
+                  <Image
+                    source={require("../svg/home_img/done-all.png")}
+                    style={styles.done_img}
+                  />
+                )}
                 <View style={styles.yacht_block}>
                   <Image
                     source={require("../svg/home_img/ship.png")}
@@ -76,11 +90,19 @@ const HomeOcean = () => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.optionButton}>
-                <Image
-                  source={require("../svg/home_img/done-all.png")}
-                  style={{ opacity: 0, marginRight: 50 }}
-                />
+              <TouchableOpacity 
+                style={[
+                  styles.optionButton, 
+                  { backgroundColor: selectedOption === 'motor' ? 'white' : 'rgba(255, 255, 255, 0.1)' } 
+                ]}
+                onPress={() => toggleOption('motor')}
+              >
+                {selectedOption === 'motor' && (
+                  <Image
+                    source={require("../svg/home_img/done-all.png")}
+                    style={styles.done_img}
+                  />
+                )}
                 <View style={styles.yacht_block}>
                   <Image
                     source={require("../svg/home_img/ship.png")}
@@ -89,6 +111,7 @@ const HomeOcean = () => {
                   <Text style={styles.optionText}>Motor yacht</Text>
                 </View>
               </TouchableOpacity>
+              
               <View style={styles.footer}>
                 <TouchableOpacity style={styles.mapButton} onPress={handleMapPress}>
                   <Text style={styles.mapText}>Open map</Text>
@@ -205,9 +228,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   optionText: {
-    color: 'white',
+    color: 'black',
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: "400",
     flex: 1,
     textAlign: 'right',
   },
