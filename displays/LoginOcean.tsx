@@ -40,9 +40,11 @@ export default function LoginScreen({ navigation }: any) {
             onChangeText={setPassword}
           />
           <Text style={styles.accountText}>Accounts are issued upon joining the club</Text>
+          <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Loging</Text>
           </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -95,9 +97,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
+  buttonContainer: {
+    marginTop:20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1, // Розтягує контейнер на весь доступний простір
+  },
   button: {
     height: 50,
-    width: '100%',
+    width: '55%',
     backgroundColor: '#073B3E', // Змінено колір кнопки
     justifyContent: 'center',
     alignItems: 'center',
