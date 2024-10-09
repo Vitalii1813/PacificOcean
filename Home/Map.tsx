@@ -1,43 +1,99 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, StyleSheet, Button } from 'react-native';
 import MapView, { Marker, Polyline, Region } from 'react-native-maps';
 
-// Функція для генерації випадкових координат з більшим розкидом
-const getRandomNearbyCoordinates = (baseCoordinate: { latitude: number; longitude: number }, rangeFactor: number) => {
-  const randomOffset = (range: number) => (Math.random() - 0.5) * range * rangeFactor;
-  const latitude = baseCoordinate.latitude + randomOffset(1); // Діапазон пропорційний масштабу
-  const longitude = baseCoordinate.longitude + randomOffset(1);
-  return { latitude, longitude };
+const predefinedRoutesArray = [
+  [ // Масив 1 - Південноафриканська Республіка
+    { latitude: -33.9249, longitude: 18.4241 }, // Кейптаун
+    { latitude: -26.2041, longitude: 28.0473 }, // Йоганнесбург
+    { latitude: -29.8587, longitude: 31.0218 }, // Дурбан
+  ],
+  [ // Масив 2 - Кенія
+    { latitude: -1.286389, longitude: 36.817223 }, // Найробі
+    { latitude: -1.2865, longitude: 36.8172 },     // Найробі (позначення)
+    { latitude: -3.2287, longitude: 35.6895 },     // Масай-Мара
+  ],
+  [ // Масив 3 - Нігерія
+    { latitude: 6.5244, longitude: 3.3792 },      // Лагос
+    { latitude: 8.9806, longitude: 7.4951 },      // Абуджа
+    { latitude: 12.6392, longitude: 8.5619 },     // Кано
+  ],
+  [ // Масив 4 - Єгипет
+    { latitude: 30.0444, longitude: 31.2357 },    // Каїр
+    { latitude: 25.7617, longitude: 32.7157 },    // Луксор
+    { latitude: 27.0189, longitude: 31.2001 },     // Асуан
+  ],
+  [ // Масив 5 - Танзанія
+    { latitude: -6.7924, longitude: 39.2083 },    // Дар-ес-Салам
+    { latitude: -3.3674, longitude: 38.1494 },    // Нгоронгоро
+    { latitude: -6.8652, longitude: 38.1962 },     // Кіліманджаро
+  ],
+  [ // Масив 6 - Уганда
+    { latitude: 0.3476, longitude: 32.5825 },     // Кампала
+    { latitude: 1.3733, longitude: 32.2903 },     // Мбале
+    { latitude: 0.6000, longitude: 32.6580 },     // Джинджа
+  ],
+  [ // Масив 7 - Гана
+    { latitude: 5.6037, longitude: -0.1870 },     // Аккра
+    { latitude: 7.0220, longitude: -0.5130 },     // Кумасі
+    { latitude: 5.6460, longitude: -1.5771 },     // Такораді
+  ],
+];
+
+const getRandomRoutes = () => {
+  const randomIndex = Math.floor(Math.random() * predefinedRoutesArray.length);
+  return predefinedRoutesArray[randomIndex];
 };
 
 const Map: React.FC = () => {
-  const [markers, setMarkers] = useState<{ latitude: number; longitude: number }[]>([]);
+  const [predefinedRoutes, setPredefinedRoutes] = useState(getRandomRoutes());
   const [region, setRegion] = useState<Region>({
-    latitude: 15.0,
-    longitude: 10.0,
-    latitudeDelta: 20.0, // Початковий масштаб
-    longitudeDelta: 20.0,
+    latitude: -2.0, // Середина Африки
+    longitude: 23.0,
+    latitudeDelta: 10.0,
+    longitudeDelta: 10.0,
   });
 
+  const mapRef = useRef<MapView | null>(null);
+
   useEffect(() => {
-    // Генеруємо маркери лише при першому рендері
-    const baseCoordinate = { latitude: 15.0, longitude: 10.0 };
-    const randomMarkers = Array.from({ length: 4 }, () => getRandomNearbyCoordinates(baseCoordinate, region.latitudeDelta));
-    setMarkers(randomMarkers);
-  }, []); // Порожній масив залежностей забезпечує виконання лише при першому завантаженні
+    if (mapRef.current && predefinedRoutes.length > 0) {
+      mapRef.current.fitToCoordinates(predefinedRoutes, {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
+    }
+  }, [predefinedRoutes]);
+
+  const zoomIn = () => {
+    setRegion((prevRegion) => ({
+      ...prevRegion,
+      latitudeDelta: prevRegion.latitudeDelta / 2,
+      longitudeDelta: prevRegion.longitudeDelta / 2,
+    }));
+  };
+
+  const zoomOut = () => {
+    setRegion((prevRegion) => ({
+      ...prevRegion,
+      latitudeDelta: prevRegion.latitudeDelta * 2,
+      longitudeDelta: prevRegion.longitudeDelta * 2,
+    }));
+  };
 
   return (
     <View style={styles.mapContainer}>
       <MapView
+        ref={mapRef}
         style={styles.map}
-        initialRegion={region}
-        onRegionChangeComplete={setRegion} // Оновлюємо тільки регіон
+        region={region}
+        onRegionChangeComplete={setRegion}
         zoomEnabled={true}
         scrollEnabled={true}
         pitchEnabled={true}
         rotateEnabled={true}
       >
-        {markers.map((marker, index) => (
+        {predefinedRoutes.map((marker, index) => (
           <Marker
             key={index}
             coordinate={marker}
@@ -49,16 +105,20 @@ const Map: React.FC = () => {
           </Marker>
         ))}
 
-        {/* Лінія, що з'єднує маркери */}
-        {markers.length > 1 && (
+        {predefinedRoutes.length > 1 && (
           <Polyline
-            coordinates={markers}
-            strokeColor="#1E90FF" // Колір лінії - синій для кращого контрасту
-            strokeWidth={4}       // Товщина лінії
-            lineDashPattern={[10, 5]} // Пунктирна лінія з великими пропусками
+            coordinates={predefinedRoutes}
+            strokeColor="#1E90FF"
+            strokeWidth={4}
+            lineDashPattern={[10, 5]}
           />
         )}
       </MapView>
+
+      <View style={styles.zoomButtons}>
+        <Button title="+" onPress={zoomIn} />
+        <Button title="-" onPress={zoomOut} />
+      </View>
     </View>
   );
 };
@@ -66,7 +126,7 @@ const Map: React.FC = () => {
 const styles = StyleSheet.create({
   mapContainer: {
     width: '100%',
-    height: 400, // Висота для кращого перегляду
+    height: 290,
     marginBottom: 20,
     borderRadius: 15,
     borderWidth: 1,
@@ -91,8 +151,14 @@ const styles = StyleSheet.create({
   markerInner: {
     width: 14,
     height: 14,
-    backgroundColor: '#FFD700', // Яскраво-жовтий колір для маркера
+    backgroundColor: '#FFD700',
     borderRadius: 7,
+  },
+  zoomButtons: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    flexDirection: 'row',
   },
 });
 

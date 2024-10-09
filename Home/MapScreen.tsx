@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BookedMapScreen from './BookedMapScreen';
 import Maps from './Map';
 import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
-  const handleLaunchMap = () => {
-    setIsMapLaunched(!isMapLaunched);
-  };
   const navigation = useNavigation();
-  const handleImagePress = () => {
-    navigation.navigate('Settings');
-  };
-  
+
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
+
   // Функція для генерації кількості заброньованих місць для кожного дня
   const generateRandomPlacesForAllDays = () => {
     return daysOfWeek.map(() => {
@@ -24,21 +19,19 @@ const MapScreen = () => {
       return { booked: bookedPlaces, total: totalPlaces };
     });
   };
-  const [selectedDate, setSelectedDate] = useState<number | null>(null); // Стан для зберігання вибраної дати
 
-  const handleSelectDay = (day: string, index: number) => {
-    setSelectedDate(index); // Змінюємо стан при виборі дати
-    // Можна також передати день або інші дані в компонент Map, якщо потрібно
-  };
-  // Стан для зберігання кількості місць для кожного дня
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-
-  // Стан для вибраного дня
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedDay, setSelectedDay] = useState({
     day: 'Fri',
     date: '13',
     places: placesForDays[3], // Ініціалізуємо як п'ятницю
   });
+
+  const handleSelectDay = (day: string, index: number) => {
+    setSelectedDate(index);
+    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+  };
 
   // Оновлюємо дані через певний час (10 хвилин у прикладі)
   useEffect(() => {
@@ -55,30 +48,32 @@ const MapScreen = () => {
         <View style={styles.dateContainer}>
           <Text style={styles.dateLabel}>Date of dispatch:</Text>
           <Text style={styles.dateText}>17</Text>
-        </View>) : (
-        <View></View>
+        </View>
+      ) : (
+        <View />
       )}
 
-     <Maps key={selectedDate}/>
+      <Maps key={selectedDate} />
 
-
-      <View><Text style={styles.descriptionTitle}>Description</Text></View>
-      {!isMapLaunched ? (<View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>
-          On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
-        </Text>
-      </View>) : (
+      <View>
+        <Text style={styles.descriptionTitle}>Description</Text>
+      </View>
+      {!isMapLaunched ? (
         <View style={styles.descriptionContainer}>
           <Text style={styles.descriptionText}>
-            If your plans have changed, you can easily cancel the
-            reservation with just one click in the settings
+            On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>
+            If your plans have changed, you can easily cancel the reservation with just one click in the settings
           </Text>
         </View>
       )}
 
-
       {!isMapLaunched ? (
-          <View style={styles.dateBarContainer}>
+        <View style={styles.dateBarContainer}>
           {/* Сітка календаря */}
           <View style={styles.calendarGrid}>
             {daysOfWeek.map((day, index) => (
@@ -92,7 +87,7 @@ const MapScreen = () => {
               </TouchableOpacity>
             ))}
           </View>
-    
+
           {/* Деталі вибраного дня */}
           <View style={styles.selectedDayDetails}>
             <View style={styles.textAndProgress}>
@@ -111,41 +106,20 @@ const MapScreen = () => {
                 {selectedDay.places.booked}/{selectedDay.places.total}
               </Text>
             </View>
-    
-            <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
+
+            <TouchableOpacity style={styles.bookButton} onPress={() => setIsMapLaunched(!isMapLaunched)}>
               <Text style={styles.bookButtonText}>Book</Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
-        <><BookedMapScreen/></>
+        <BookedMapScreen />
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  containerNew: {
-
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
-    textAlign: 'center',
-    marginRight: 28,
-    marginLeft: 25
-  },
-  settings_img: {
-    width: 24,
-    height: 24,
-  },
   dateContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -168,12 +142,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 15,
     borderRadius: 5,
-    marginBottom: 20,
+    marginBottom: 0,
   },
   descriptionText: {
     fontSize: 16,
     color: '#7A9EA0',
-
   },
   dateBarContainer: {
     backgroundColor: '#809E9F',
@@ -218,7 +191,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressBarFilled: {
-    width: '60%',
     backgroundColor: '#7EB58A',
     height: '100%',
   },
@@ -241,8 +213,8 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     color: 'white',
     fontSize: 18,
-    marginLeft: 12
-  }
+    marginLeft: 12,
+  },
 });
 
 export default MapScreen;
