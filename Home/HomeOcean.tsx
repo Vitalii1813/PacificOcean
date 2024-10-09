@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
 import ArrowIcon from "../svg/home_img/ArrowRight";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import MapScreen from "./MapScreen";
 
 const HomeOcean = () => {
   const navigation = useNavigation();
-  const [isMapOpen, setIsMapOpen] = useState(false); // Створюємо стан для керування контентом
+  const [isMapOpen, setIsMapOpen] = useState(false); // State to control content
 
   const handleImagePress = () => {
     navigation.navigate('Settings');
   };
 
   const handleMapPress = () => {
-    setIsMapOpen(!isMapOpen); // Перемикаємо стан при натисканні на кнопку
+    setIsMapOpen(!isMapOpen); // Toggle state on button press
   };
+
+  // Effect to handle returning to the home screen
+  useFocusEffect(
+    React.useCallback(() => {
+      // Start timer when the screen is focused
+      const timer = setTimeout(() => {
+        navigation.navigate('HomeOcean'); // Navigate back to HomeOcean after 30 seconds
+      }, 30000); // 30000 milliseconds = 30 seconds
+
+      return () => clearTimeout(timer); // Cleanup on unmount
+    }, [navigation])
+  );
 
   return (
     <View style={styles.container}>
@@ -31,9 +43,8 @@ const HomeOcean = () => {
         </View>
 
         {isMapOpen ? (
-            <MapScreen />
+          <MapScreen />
         ) : (
-          // Якщо кнопка не натиснута, показуємо оригінальний контент
           <>
             <View style={styles.imageContainer}>
               <View style={styles.descriptionContainer}>
@@ -87,12 +98,11 @@ const HomeOcean = () => {
             </View>
           </>
         )}
-
-
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

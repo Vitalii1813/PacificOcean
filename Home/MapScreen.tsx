@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import BookedMapScreen from './BookedMapScreen';
 import Maps from './Map';
 import { useNavigation } from '@react-navigation/native';
 import DateBar from './DateBar';
 
 const MapScreen = () => {
-
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
-  // Функція для генерації кількості заброньованих місць для кожного дня
   const generateRandomPlacesForAllDays = () => {
     return daysOfWeek.map(() => {
       const totalPlaces = 10;
@@ -22,24 +20,21 @@ const MapScreen = () => {
   };
 
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedDay, setSelectedDay] = useState({
     day: 'Fri',
     date: '13',
-    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+    places: placesForDays[3], 
   });
-  
 
   const handleSelectDay = (day: string, index: number) => {
-    setSelectedDate(index);
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+    const newPlaces = placesForDays[index];
+    setSelectedDay({ day, date: dates[index], places: newPlaces });
   };
 
-  // Оновлюємо дані через певний час (10 хвилин у прикладі)
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); // 10 хвилин
+    }, 600000); 
 
     return () => clearInterval(intervalId);
   }, []);
@@ -49,41 +44,35 @@ const MapScreen = () => {
       {!isMapLaunched ? (
         <View style={styles.dateContainer}>
           <Text style={styles.dateLabel}>Date of dispatch:</Text>
-          <Text style={styles.dateText}>17</Text>
+          <Text style={styles.dateText}>{selectedDay.date}</Text>
         </View>
       ) : (
         <View />
       )}
 
-      <Maps key={selectedDate} />
+      <Maps />
 
       <View>
         <Text style={styles.descriptionTitle}>Description</Text>
       </View>
-      {!isMapLaunched ? (
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>
-            On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
-          </Text>
-        </View>
-      ) : (
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>
-            If your plans have changed, you can easily cancel the reservation with just one click in the settings
-          </Text>
-        </View>
-      )}
+
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.descriptionText}>
+          {!isMapLaunched 
+            ? 'On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.'
+            : 'If your plans have changed, you can easily cancel the reservation with just one click in the settings'}
+        </Text>
+      </View>
 
       {!isMapLaunched ? (
         <DateBar
-        daysOfWeek={daysOfWeek}
-        dates={dates}
-        selectedDay={selectedDay}
-        handleSelectDay={handleSelectDay}
-        setIsMapLaunched={setIsMapLaunched}
-      />
+          daysOfWeek={daysOfWeek}
+          dates={dates}
+          selectedDay={selectedDay}
+          handleSelectDay={handleSelectDay}
+          setIsMapLaunched={setIsMapLaunched} previousDay={null}        />
       ) : (
-        <BookedMapScreen />
+        <BookedMapScreen selectedDay={null} />
       )}
     </View>
   );
@@ -118,68 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#7A9EA0',
   },
-  dateBarContainer: {
-    backgroundColor: '#809E9F',
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 20,
-  },
-  calendarGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  calendarDateContainer: {
-    width: '14.28%',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  dayOfWeek: {
-    color: '#D1D6D7',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  selectedDayDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#344E51',
-    borderRadius: 10,
-    padding: 15,
-  },
-  selectedDayText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  progressBarContainer: {
-    width: 100,
-    height: 10,
-    backgroundColor: '#374049',
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  progressBarFilled: {
-    backgroundColor: '#7EB58A',
-    height: '100%',
-  },
-  placesCount: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    marginLeft: 10,
-  },
-  bookButton: {
-    backgroundColor: '#54666A',
-    borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-  },
-  bookButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+ 
   descriptionTitle: {
     color: 'white',
     fontSize: 18,

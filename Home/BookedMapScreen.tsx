@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import DateBar from './DateBar';
 import { useNavigation } from '@react-navigation/native';
+// Define the type for the selected day
+interface SelectedDay {
+  day: string;
+  date: string;
+  places: { booked: number; total: number };
+}
 
-const BookedMapScreen = ({route:any}) => {
-  const { selectedNewDay } = route.params;
+// Update component to accept selectedDay as a prop
+const BookedMapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
+  const handleCancelPress = ()=>{
+    setIsMapLaunched(!isMapLaunched);
+  }
   const navigation = useNavigation();
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
-  // Функція для генерації кількості заброньованих місць для кожного дня
   const generateRandomPlacesForAllDays = () => {
     return daysOfWeek.map(() => {
       const totalPlaces = 10;
@@ -20,38 +28,34 @@ const BookedMapScreen = ({route:any}) => {
   };
 
   const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedDay, setSelectedDay] = useState({
     day: 'Fri',
     date: '13',
-    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+    places: placesForDays[3], 
   });
-  
-  const handleCancelPress = ()=>{
-    setIsMapLaunched(!isMapLaunched);
-  }
+
   const handleSelectDay = (day: string, index: number) => {
-    setSelectedDate(index);
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+    const newPlaces = placesForDays[index];
+    setSelectedDay({ day, date: dates[index], places: newPlaces });
   };
 
-  // Оновлюємо дані через певний час (10 хвилин у прикладі)
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); // 10 хвилин
+    }, 600000); 
 
     return () => clearInterval(intervalId);
   }, []);
+
   return (
-    <View>
+    <View style={styles.container}>
       {!isMapLaunched ? (
         <>
           <View style={styles.bookedOnWrapper}>
             <TouchableOpacity style={styles.bookedOnButton}>
-           <Text style={styles.bookedOnButtonText}>
-          Booked on {selectedNewDay.date}
-        </Text>
+              <Text style={styles.bookedOnButtonText}>
+                Booked on {selectedDay ? `${selectedDay.day} ${selectedDay.date}` : 'N/A'}
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -72,18 +76,15 @@ const BookedMapScreen = ({route:any}) => {
           </View>
         </>
       ) : (
-        <View>
-           <DateBar
-        daysOfWeek={daysOfWeek}
-        dates={dates}
-        selectedDay={selectedDay}
-        handleSelectDay={handleSelectDay}
-        setIsMapLaunched={setIsMapLaunched}
-      />
-        </View>
+        <DateBar
+            daysOfWeek={daysOfWeek}
+            dates={dates}
+            handleSelectDay={handleSelectDay}
+            setIsMapLaunched={setIsMapLaunched} selectedDay={null} previousDay={null}        />
       )}
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({
