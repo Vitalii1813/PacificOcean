@@ -1,7 +1,12 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
+  const navigation = useNavigation();
+  const handleCancelPress = () => {
+    navigation.navigate('MainTabs');
+  };
     return (
         <><View style={styles.bookedOnWrapper}>
         <TouchableOpacity style={styles.bookedOnButton}>
@@ -11,8 +16,6 @@ const BookedMapScreen = () => {
           
           <View style={styles.containerStep}>
                   <View style={styles.header}>
-    
-    
                   </View>
                   <Text style={styles.successText}>
                       Your booking is successful. Save your personal code that you can use to cancel the reservation
@@ -22,11 +25,10 @@ const BookedMapScreen = () => {
                           <Text style={styles.codeLabel}>Your reservation code:</Text>
                           <Text style={styles.codeText}>u3nk52o2</Text>
                       </View>
-                      <TouchableOpacity style={styles.cancelButton}>
+                      <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
                           <Text style={styles.cancelButtonText}>Cancel</Text>
                       </TouchableOpacity>
                   </View>
-    
               </View></>
       );
     };

@@ -6,12 +6,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 enableScreens();
 
-import HomeOcean from './displays/HomeOcean';
-import SaveOcean from './displays/SaveOcean';
-import PlusOcean from './displays/PlusOcean';
-import CodeOcean from './displays/CodeOcean';
-import SettingsOcean from './displays/SettingsOcean';
-import { EnablePassword } from './displays/EnablePassword';
+import HomeOcean from './Home/HomeOcean';
+import SaveOcean from './Save/SaveOcean';
+import PlusOcean from './Plus/PlusOcean';
+import CodeOcean from './Code/CodeOcean';
+import SettingsOcean from './Settings/SettingsOcean';
+import { EnablePassword } from './Settings/EnablePassword';
 
 import Home from './svg/bottom_tab/tsx/Home';
 import AddCircle from './svg/bottom_tab/tsx/Add';
@@ -20,6 +20,9 @@ import Code from './svg/bottom_tab/tsx/Code';
 import SettingsF from './svg/bottom_tab/tsx/Settings';
 import AddResultForm from './displays/AddResultForm';
 import ReservationOcean from './displays/ReservationOcean';
+import LoginOcean from './displays/LoginOcean';
+import SecondMapView from './displays/SecondMapView';
+import BookedMapScreen from './displays/BookedMapScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -128,9 +131,25 @@ function MainTabs() {
           tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
         }}
       />
+        <Tab.Screen
+        name="SecondMap"
+        component={SecondMapView}
+        options={{
+          headerShown: false,
+          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
+        }}
+      />
        <Tab.Screen
         name="Reserv"
         component={ReservationOcean}
+        options={{
+          headerShown: false,
+          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
+        }}
+      />
+      <Tab.Screen
+        name="BookedMap"
+        component={BookedMapScreen}
         options={{
           headerShown: false,
           tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
@@ -145,10 +164,17 @@ export default function App() {
   return (
     <View style={{ flex: 1 }}>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MainTabs" component={MainTabs} />
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={LoginOcean}
+          options={{ headerShown: false }} // Сховати заголовок на екрані входу
+        />
+          <Stack.Screen name="MainTabs" component={MainTabs}  options={{ headerShown: false }}/>
           <Stack.Screen name="AddResultForm" component={AddResultForm} />
           <Stack.Screen name="Reserve" component={ReservationOcean} />
+          <Stack.Screen name="SecondMap" component={SecondMapView} />
+          <Stack.Screen name="BookedMap" component={BookedMapScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

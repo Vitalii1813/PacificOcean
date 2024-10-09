@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import BookedMapScreen from './BookedMapScreen';
@@ -7,44 +7,79 @@ import { useNavigation } from '@react-navigation/native';
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
-
   const handleImagePress = () => {
     navigation.navigate('Settings');
   };
+  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
+  const dates = ['10', '11', '12', '13', '14', '15', '16'];
+  // Функція для генерації кількості заброньованих місць для кожного дня
+  const generateRandomPlacesForAllDays = () => {
+    return daysOfWeek.map(() => {
+      const totalPlaces = 10;
+      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
+      return { booked: bookedPlaces, total: totalPlaces };
+    });
+  };
+
+  // Стан для зберігання кількості місць для кожного дня
+  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
+
+  // Стан для вибраного дня
+  const [selectedDay, setSelectedDay] = useState({
+    day: 'Fri',
+    date: '13',
+    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+  });
 
   const handleLaunchMap = () => {
-    setIsMapLaunched(true);
+    navigation.navigate('BookedMap');
+  };
+
+  // Оновлюємо дані через певний час (10 хвилин у прикладі)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPlacesForDays(generateRandomPlacesForAllDays());
+    }, 600000); // 10 хвилин
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Обробка вибору дня
+  const handleSelectDay = (day, index) => {
+    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
   };
 
   return (
     <View>
       {!isMapLaunched ? (
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateLabel}>Date of dispatch:</Text>
-        <Text style={styles.dateText}>17</Text>
-      </View>):(
+        <View style={styles.dateContainer}>
+          <Text style={styles.dateLabel}>Date of dispatch:</Text>
+          <Text style={styles.dateText}>17</Text>
+        </View>) : (
         <View></View>
       )}
 
       <View style={styles.mapContainer}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        zoomEnabled={true}      // Дозволяє збільшення/зменшення масштабу
-        scrollEnabled={true}    // Дозволяє прокручування карти
-        pitchEnabled={true}     // Дозволяє нахил карти
-        rotateEnabled={true}    // Дозволяє обертання карти
-      >
-        <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
-          <View style={styles.marker} />
-        </Marker>
-      </MapView>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          zoomEnabled={true}      // Дозволяє збільшення/зменшення масштабу
+          scrollEnabled={true}    // Дозволяє прокручування карти
+          pitchEnabled={true}     // Дозволяє нахил карти
+          rotateEnabled={true}    // Дозволяє обертання карти
+        >
+          <Marker coordinate={{ latitude: 37.78825, longitude: -122.4324 }}>
+            <View style={styles.marker} />
+          </Marker>
+        </MapView>
       </View>
+
+
       <View><Text style={styles.descriptionTitle}>Description</Text></View>
       {!isMapLaunched ? (<View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>
@@ -61,25 +96,40 @@ const MapScreen = () => {
 
 
       {!isMapLaunched ? (
-        <View style={styles.dateBarContainer}>
+          <View style={styles.dateBarContainer}>
+          {/* Сітка календаря */}
           <View style={styles.calendarGrid}>
-            {['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'].map((day, index) => (
-              <View key={index} style={styles.calendarDateContainer}>
+            {daysOfWeek.map((day, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.calendarDateContainer}
+                onPress={() => handleSelectDay(day, index)}
+              >
                 <Text style={styles.dayOfWeek}>{day}</Text>
-                <Text style={styles.dateText}>13</Text>
-              </View>
+                <Text style={styles.dateText}>{dates[index]}</Text>
+              </TouchableOpacity>
             ))}
           </View>
-
+    
+          {/* Деталі вибраного дня */}
           <View style={styles.selectedDayDetails}>
             <View style={styles.textAndProgress}>
-              <Text style={styles.selectedDayText}>Fri 13 places</Text>
+              <Text style={styles.selectedDayText}>
+                {selectedDay.day} {selectedDay.date} places
+              </Text>
               <View style={styles.progressBarContainer}>
-                <View style={styles.progressBarFilled} />
+                <View
+                  style={[
+                    styles.progressBarFilled,
+                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
+                  ]}
+                />
               </View>
-              <Text style={styles.placesCount}> 6/10 </Text>
+              <Text style={styles.placesCount}>
+                {selectedDay.places.booked}/{selectedDay.places.total}
+              </Text>
             </View>
-
+    
             <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
               <Text style={styles.bookButtonText}>Book</Text>
             </TouchableOpacity>
@@ -222,10 +272,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  descriptionTitle:{
-    color:'white',
-    fontSize:18,
-    marginLeft:12
+  descriptionTitle: {
+    color: 'white',
+    fontSize: 18,
+    marginLeft: 12
   }
 });
 
