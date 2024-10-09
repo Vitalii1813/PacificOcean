@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 const MapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
+  const [generatedCode, setGeneratedCode] = useState('');
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
   const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
@@ -40,6 +41,20 @@ const MapScreen = () => {
     }, 600000); // 10 хвилин
 
     return () => clearInterval(intervalId);
+  }, []);
+
+  const generateRandomCode = () => {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+  // Генеруємо новий код при завантаженні компонента
+  useEffect(() => {
+    setGeneratedCode(generateRandomCode());
   }, []);
 
   return (

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const BookedMapScreen = () => {
   const [isMapLaunched, setIsMapLaunched] = useState(false);
+  const [generatedCode, setGeneratedCode] = useState('');
   const handleLaunchMap = () => {
     setIsMapLaunched(!isMapLaunched)
   }
@@ -47,6 +48,20 @@ const BookedMapScreen = () => {
     setIsMapLaunched(!isMapLaunched);
   };
 
+  const generateRandomCode = () => {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+  // Генеруємо новий код при завантаженні компонента
+  useEffect(() => {
+    setGeneratedCode(generateRandomCode());
+  }, []);
+
   return (
     <View>
       {!isMapLaunched ? (
@@ -67,7 +82,7 @@ const BookedMapScreen = () => {
             <View style={styles.codeContainer}>
               <View style={styles.secondCodeContainer}>
                 <Text style={styles.codeLabel}>Your reservation code:</Text>
-                <Text style={styles.codeText}>u3nk52o2</Text>
+                <Text style={styles.codeText}>{generatedCode}</Text>
               </View>
               <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
                 <Text style={styles.cancelButtonText}>Cancel</Text>
