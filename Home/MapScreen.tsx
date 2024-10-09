@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BookedMapScreen from './BookedMapScreen';
 import Maps from './Map';
 import { useNavigation } from '@react-navigation/native';
+import DateBar from './DateBar';
 
 const MapScreen = () => {
+
   const [isMapLaunched, setIsMapLaunched] = useState(false);
   const navigation = useNavigation();
   const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
@@ -73,45 +75,13 @@ const MapScreen = () => {
       )}
 
       {!isMapLaunched ? (
-        <View style={styles.dateBarContainer}>
-          {/* Сітка календаря */}
-          <View style={styles.calendarGrid}>
-            {daysOfWeek.map((day, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.calendarDateContainer}
-                onPress={() => handleSelectDay(day, index)}
-              >
-                <Text style={styles.dayOfWeek}>{day}</Text>
-                <Text style={styles.dateText}>{dates[index]}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          {/* Деталі вибраного дня */}
-          <View style={styles.selectedDayDetails}>
-            <View style={styles.textAndProgress}>
-              <Text style={styles.selectedDayText}>
-                {selectedDay.day} {selectedDay.date} places
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View
-                  style={[
-                    styles.progressBarFilled,
-                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
-                  ]}
-                />
-              </View>
-              <Text style={styles.placesCount}>
-                {selectedDay.places.booked}/{selectedDay.places.total}
-              </Text>
-            </View>
-
-            <TouchableOpacity style={styles.bookButton} onPress={() => setIsMapLaunched(!isMapLaunched)}>
-              <Text style={styles.bookButtonText}>Book</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <DateBar
+        daysOfWeek={daysOfWeek}
+        dates={dates}
+        selectedDay={selectedDay}
+        handleSelectDay={handleSelectDay}
+        setIsMapLaunched={setIsMapLaunched}
+      />
       ) : (
         <BookedMapScreen />
       )}

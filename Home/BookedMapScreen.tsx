@@ -1,20 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import DateBar from './DateBar';
+import { useNavigation } from '@react-navigation/native';
 
-const BookedMapScreen = () => {
+const BookedMapScreen = ({route:any}) => {
+  const { selectedNewDay } = route.params;
   const [isMapLaunched, setIsMapLaunched] = useState(false);
+  const navigation = useNavigation();
+  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
+  const dates = ['10', '11', '12', '13', '14', '15', '16'];
 
-  const handleCancelPress = () => {
-    setIsMapLaunched(!isMapLaunched);
+  // Функція для генерації кількості заброньованих місць для кожного дня
+  const generateRandomPlacesForAllDays = () => {
+    return daysOfWeek.map(() => {
+      const totalPlaces = 10;
+      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
+      return { booked: bookedPlaces, total: totalPlaces };
+    });
   };
 
+  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedDay, setSelectedDay] = useState({
+    day: 'Fri',
+    date: '13',
+    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+  });
+  
+  const handleCancelPress = ()=>{
+    setIsMapLaunched(!isMapLaunched);
+  }
+  const handleSelectDay = (day: string, index: number) => {
+    setSelectedDate(index);
+    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+  };
+
+  // Оновлюємо дані через певний час (10 хвилин у прикладі)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPlacesForDays(generateRandomPlacesForAllDays());
+    }, 600000); // 10 хвилин
+
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <View>
       {!isMapLaunched ? (
         <>
           <View style={styles.bookedOnWrapper}>
             <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>Booked on 17.03.2024</Text>
+           <Text style={styles.bookedOnButtonText}>
+          Booked on {selectedNewDay.date}
+        </Text>
             </TouchableOpacity>
           </View>
 
@@ -36,45 +73,13 @@ const BookedMapScreen = () => {
         </>
       ) : (
         <View>
-          <View style={styles.dateBarContainer}>
-          {/* Сітка календаря */}
-          <View style={styles.calendarGrid}>
-            {daysOfWeek.map((day, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.calendarDateContainer}
-                onPress={() => handleSelectDay(day, index)}
-              >
-                <Text style={styles.dayOfWeek}>{day}</Text>
-                <Text style={styles.dateText}>{dates[index]}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-    
-          {/* Деталі вибраного дня */}
-          <View style={styles.selectedDayDetails}>
-            <View style={styles.textAndProgress}>
-              <Text style={styles.selectedDayText}>
-                {selectedDay.day} {selectedDay.date} places
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View
-                  style={[
-                    styles.progressBarFilled,
-                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
-                  ]}
-                />
-              </View>
-              <Text style={styles.placesCount}>
-                {selectedDay.places.booked}/{selectedDay.places.total}
-              </Text>
-            </View>
-    
-            <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
-              <Text style={styles.bookButtonText}>Book</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+           <DateBar
+        daysOfWeek={daysOfWeek}
+        dates={dates}
+        selectedDay={selectedDay}
+        handleSelectDay={handleSelectDay}
+        setIsMapLaunched={setIsMapLaunched}
+      />
         </View>
       )}
     </View>
