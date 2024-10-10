@@ -195,19 +195,22 @@ const styles = StyleSheet.create({
     height: 250,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width:'20%'
   },
   qrTextFirst:{
     flex:1,
     height:250,
-    width:77,
-    justifyContent:'center'
+    width:140,
+    justifyContent:'center',
+    
   },
   qrText: {
     color: "#FFFFFF",
     fontSize: 30,
     transform: [{ rotate: "-90deg" }],
     marginTop: 10,
+    flexWrap:'nowrap'
   },
   qrContainer: {
     flex: 1,
