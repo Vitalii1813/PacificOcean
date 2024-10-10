@@ -76,14 +76,7 @@ const CodeOcean = () => {
         </>
       ) : !isBoatLaunched ? (
         <View style={styles.card}>
-          <Text style={styles.title}>Choose the type of bait</Text>
-          <TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
-            {selectedImage ? (
-              <Image source={{ uri: selectedImage }} style={styles.image} />
-            ) : (
-              <Text style={styles.imagePlaceholder}>R</Text>
-            )}
-          </TouchableOpacity>
+          <Text style={styles.titleBait}>Choose the type of bait</Text>
           <Text style={styles.pickItemText}>Pick item</Text>
 
           <TextInput
@@ -100,7 +93,7 @@ const CodeOcean = () => {
               minimumValue={1}
               maximumValue={5}
               value={weight}
-              step={1}
+              step={0.5}
               onValueChange={setWeight}
               minimumTrackTintColor="#FFFFFF"
               maximumTrackTintColor="#000000"
@@ -108,7 +101,7 @@ const CodeOcean = () => {
             <Text style={styles.sliderLabel}>5 kg</Text>
           </View>
 
-          <Text style={styles.descriptionTitle}>Description</Text>
+          <Text style={styles.descriptionTitleNew}>Description</Text>
           <Text style={styles.descriptionText}>
             Depending on the weight of the fish you want to catch, the type of bait will be selected.
           </Text>
@@ -146,6 +139,13 @@ const styles = StyleSheet.create({
     marginRight: 28,
     marginLeft: 25,
   },
+  titleBait:{
+    fontSize: 20,
+    fontWeight: "500",
+    color: "#D9D9D9",
+    textAlign: 'left',
+    fontFamily:'Montserrat'
+  },
   settings_img: {
     marginTop: 2,
   },
@@ -165,9 +165,10 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 16,
-    color: "#B0CCCC",
+    color: "#FFFFFF",
     lineHeight: 22,
-    marginLeft:20
+    marginLeft:15,
+    textAlign:'center'
   },
   nextButton: {
     backgroundColor: "#D9D9D9",
@@ -230,12 +231,14 @@ const styles = StyleSheet.create({
     marginBottom: 70,
   },
   card: {
-    backgroundColor: "#E0F2F1",
-    padding: 25,
+    backgroundColor: "#7A9EA0",
+    paddingVertical: 25,
+    paddingHorizontal:10,
     borderRadius: 15,
     width: "100%",
-    alignItems: "center",
+    //alignItems: "flex-start",
     marginBottom: 30,
+    marginTop:50
   },
   imagePicker: {
     position: "absolute",
@@ -259,16 +262,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   pickItemText: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "#00796B",
+    color: "#D9D9D9",
     marginTop: 10,
+    textAlign:'right'
   },
   input: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#D9D9D9",
     borderRadius: 10,
     width: "100%",
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 20,
     marginVertical: 20,
     fontSize: 16,
@@ -278,31 +282,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   slider: {
     flex: 1,
-    height: 40,
+    height: 70,
     marginHorizontal: 10,
   },
   sliderLabel: {
     fontSize: 16,
-    color: "#00796B",
-    fontWeight: "bold",
+    color: "#D9D9D9",
+    fontWeight:'400',
   },
   launchButton: {
-    backgroundColor: "#004D40",
+    backgroundColor: "#002224",
     borderRadius: 10,
-    paddingVertical: 15,
+    paddingVertical: 18,
     alignItems: "center",
     marginTop: 30,
     width: "100%",
   },
   launchButtonText: {
-    fontSize: 18,
+    fontSize: 17,
     color: "#FFFFFF",
-    fontWeight: "bold",
+    fontWeight: "500",
   },
+  descriptionTitleNew:{
+    fontSize:20,
+    textAlign:'center',
+    fontWeight:'500',
+    color:"#FFFFFF",
+    marginBottom:5
+  }
 });
 
 export default CodeOcean;
