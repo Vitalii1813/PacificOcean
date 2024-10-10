@@ -57,8 +57,6 @@ const styles = StyleSheet.create({
         marginTop: 20, // Відступ зверху
         backgroundColor: "transparent", // Прозорий фон, щоб не заважав іншим елементам
         width: 370, // Ширина на всю ширину контейнера,
-        borderColor:'red',
-        borderWidth:2
     },
     newScreenContainer: {
         marginTop:10,

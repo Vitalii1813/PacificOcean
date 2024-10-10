@@ -5,6 +5,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import BoatScreen from "../Code/BoatScreen";
+import { useNavigation } from "@react-navigation/native";
 
 const CodeOcean = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -34,12 +35,21 @@ const CodeOcean = () => {
     console.log('QR Code Data:', e.data);
   };
 
+  const handleSettings = () => {
+    navigation.navigate('Settings'); // Navigate to SaveOcean screen
+  };
+
+  const navigation = useNavigation();
+
   return (
     <View style={containerStyle}>
       <SafeAreaView />
       <View style={styles.header}>
         <Text style={styles.title}>PACIFIC OCEAN</Text>
-        <Image source={require("../svg/home_img/settings.png")} style={styles.settings_img} />
+        <TouchableOpacity onPress={handleSettings}>
+        <Image source={require("../svg/home_img/settings.png")}
+         style={styles.settings_img} />
+        </TouchableOpacity>
       </View>
 
       {!showSlider && !isBoatLaunched ? (
