@@ -1,3 +1,4 @@
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   View,
@@ -7,46 +8,75 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
+  Alert,
 } from "react-native";
 
 export const EnablePassword = () => {
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+  const route = useRoute();
+  const action = route.params?.action;
+
+  const handleSettings = () => {
+    navigation.navigate('Settings');
+  };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
   };
 
   const handleNextPress = () => {
+    if (password.trim() === "") {
+      Alert.alert("Error", "Please enter your password.");
+      return;
+    }
+
     console.log("Password entered:", password);
+    Alert.alert("Action Confirmed", `You are attempting to: ${action}`);
+  };
+
+  // Function to get the description based on action
+  const getDescription = (action) => {
+    switch (action) {
+      case "DeleteProfile":
+        return "To confirm that it is you who is deleting this account, enter the password. You will no longer be able to restore this account, to log in again, create a new account.";
+      case "SignOut":
+        return "To confirm that you want to sign out, please enter your password. Signing out will require you to log in again.";
+      case "CancelSailing":
+        return "To cancel your sailing reservation, please enter your password for confirmation.";
+      case "CancelBoat":
+        return "To cancel the boat reservation, please enter your password for confirmation.";
+      case "CancelRecord":
+        return "To cancel the record request, please enter your password for confirmation.";
+      case "DeleteApplications":
+        return "To delete all applications, please enter your password for confirmation.";
+      default:
+        return "Please enter your password for confirmation.";
+    }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <SafeAreaView>
-        </SafeAreaView>
+        <SafeAreaView></SafeAreaView>
         <View style={styles.header}>
           <Text style={styles.title}>PACIFIC OCEAN</Text>
-          <TouchableOpacity>
-            <Image
-              source={require("../svg/home_img/settings.png")}
-            />
+          <TouchableOpacity onPress={handleSettings}>
+            <Image source={require("../svg/home_img/settings.png")} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.profile}>
-        <View style={styles.profileImage} />
-        <View style={styles.profileUserContent}>
-        <Text style={styles.profileUser}>Profile User</Text>
-        <Text style={styles.profileName}>Bill Goas</Text>
+          <View style={styles.profileImage} />
+          <View style={styles.profileUserContent}>
+            <Text style={styles.profileUser}>Profile User</Text>
+            <Text style={styles.profileName}>Bill Goas</Text>
+          </View>
         </View>
-      </View>
         <View style={styles.deleteContainer}>
-          <Text style={styles.titleSecond}>Delete profile</Text>
+          <Text style={styles.titleSecond}>{action === "DeleteProfile" ? "Delete Profile" : "Confirm Action"}</Text>
           <Text style={styles.description}>
-            To confirm that it is you who is deleting this account, enter the
-            password. You will no longer be able to restore this account, to log in
-            again, create a new account
+            {getDescription(action)} {/* Conditional description */}
           </Text>
           <TextInput
             style={styles.input}
@@ -64,6 +94,9 @@ export const EnablePassword = () => {
     </View>
   );
 };
+
+// Styles remain unchanged
+
 
 const styles = StyleSheet.create({
   container: {

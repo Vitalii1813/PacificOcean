@@ -8,7 +8,8 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleLogin = () => {
     if (email && password) {
-      navigation.replace('MainTabs');
+      // Here you can also pass the email if needed
+      navigation.replace('MainTabs', { userName: "Bill Goas" });
     } else {
       alert('Please enter your username and password');
     }
@@ -20,10 +21,11 @@ export default function LoginScreen({ navigation }: any) {
       style={styles.backgroundImage}
     >
       <View style={styles.overlay}>
-        
         <View style={styles.formContainer}> 
-        <Text style={styles.title}><Text style={styles.titlePacific}>JOIN PACIFIC</Text> OCEAN</Text>
-        <Text style={styles.signTitle}>Sign in</Text>
+          <Text style={styles.title}>
+            <Text style={styles.titlePacific}>JOIN PACIFIC</Text> OCEAN
+          </Text>
+          <Text style={styles.signTitle}>Sign in</Text>
           <TextInput
             style={styles.input}
             placeholder="User name"
@@ -41,9 +43,9 @@ export default function LoginScreen({ navigation }: any) {
           />
           <Text style={styles.accountText}>Accounts are issued upon joining the club</Text>
           <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Loging</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Loging</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -54,7 +56,7 @@ export default function LoginScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover', // або 'contain'
+    resizeMode: 'cover',
   },
   overlay: {
     flex: 1,
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     width: '100%',
-    backgroundColor: '#D9D9D9', // Змінено колір фону інпутів
+    backgroundColor: '#D9D9D9',
     borderRadius: 10,
     marginBottom: 20,
     paddingHorizontal: 15,
@@ -101,18 +103,18 @@ const styles = StyleSheet.create({
     marginTop:20,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1, // Розтягує контейнер на весь доступний простір
+    flex: 1,
   },
   button: {
     height: 50,
     width: '55%',
-    backgroundColor: '#073B3E', // Змінено колір кнопки
+    backgroundColor: '#073B3E',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
   },
   buttonText: {
-    color: '#fff', // Змінено колір тексту на кнопці
+    color: '#fff',
     fontSize: 18,
     fontWeight: '600',
   },
