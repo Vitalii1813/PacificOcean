@@ -150,20 +150,24 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   descriptionContainer: {
+    alignItems:'flex-end',
     backgroundColor: "transparent",
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
   },
   descriptionTitle: {
-    fontSize: 22,
+    fontSize: 32,
     color: "#FFFFFF",
+    fontWeight:'500',
     marginBottom: 10,
+    marginRight:5
   },
   descriptionText: {
     fontSize: 16,
     color: "#B0CCCC",
     lineHeight: 22,
+    marginLeft:20
   },
   nextButton: {
     backgroundColor: "#D9D9D9",
@@ -207,7 +211,7 @@ const styles = StyleSheet.create({
   },
   qrText: {
     color: "#FFFFFF",
-    fontSize: 30,
+    fontSize: 32,
     transform: [{ rotate: "-90deg" }],
     marginTop: 10,
     flexWrap:'nowrap'
