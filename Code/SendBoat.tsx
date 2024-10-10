@@ -7,6 +7,9 @@ const SendBoat = () => {
     const handlePress = () => {
         setShowButton(!showButton);
     };
+
+     // Зміна стилю фону в залежності від стану
+  
     return (
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.button}>
@@ -38,7 +41,7 @@ const SendBoat = () => {
 const styles = StyleSheet.create({
     newScreenContainer: {
         flex: 1,
-        backgroundColor: "transparent",
+        backgroundColor: "#6BD8DE",
     },
     descriptionContainer: {
         width: 195,

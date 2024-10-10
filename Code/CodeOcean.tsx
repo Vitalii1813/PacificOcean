@@ -12,6 +12,7 @@ const CodeOcean = () => {
   const [weight, setWeight] = useState(1);
   const [showSlider, setShowSlider] = useState(false);
   const [isBoatLaunched, setIsBoatLaunched] = useState(false);
+  const containerStyle = isBoatLaunched ? styles.containerActive : styles.container;
 
   const pickImage = () => {
     launchImageLibrary({}, (response) => {
@@ -34,7 +35,7 @@ const CodeOcean = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <SafeAreaView />
       <View style={styles.header}>
         <Text style={styles.title}>PACIFIC OCEAN</Text>
@@ -122,6 +123,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#073B3E",
     padding: 15,
+  },
+  containerActive: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#68D8DE", // Змінений фон
   },
   header: {
     flexDirection: 'row',
