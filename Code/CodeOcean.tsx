@@ -133,8 +133,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     height: '7%',
-    paddingVertical: 5,
-    backgroundColor: "transparent",
+    paddingVertical: 7,
+    paddingHorizontal:7,
+    backgroundColor: "#073B3E",
     borderRadius: 15,
     marginTop: 10,
   },
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     fontFamily:'Montserrat'
   },
   settings_img: {
-    marginTop: 2,
+    marginTop: 5,
   },
   descriptionContainer: {
     alignItems:'flex-end',

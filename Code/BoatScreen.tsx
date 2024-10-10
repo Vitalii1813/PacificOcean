@@ -56,7 +56,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10, // Вертикальний відступ для створення простору
         marginTop: 20, // Відступ зверху
         backgroundColor: "transparent", // Прозорий фон, щоб не заважав іншим елементам
-        width: "100%", // Ширина на всю ширину контейнера
+        width: 370, // Ширина на всю ширину контейнера,
+        borderColor:'red',
+        borderWidth:2
     },
     newScreenContainer: {
         marginTop:10,
@@ -65,7 +67,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10, // Додаємо горизонтальний відступ
     },
     descriptionContainer: {
-        width: "100%", // Ширина на всю ширину контейнера
+        width: "60%", // Ширина на всю ширину контейнера
+        marginLeft:15
     },
     descriptionTitle: {
         fontSize: 20,
@@ -81,11 +84,11 @@ const styles = StyleSheet.create({
         textAlign: "left", // Вирівнювання тексту по центру
     },
     boatImage: {
-        marginHorizontal: 50,
-        width: 230, // Ширина зображення
-        height: 200, // Висота зображення
+        justifyContent:'center',
+        alignItems:'center',
         borderRadius: 15,
-        marginTop: 40, // Відступ знизу
+        marginLeft:80,
+        marginVertical: 10, // Відступ знизу
         resizeMode: "contain", // Зображення не буде обрізатись
     },
     boatSecondImage: {
@@ -103,12 +106,10 @@ const styles = StyleSheet.create({
         textAlign: "left",
     },
     catchContainer: {
-        borderWidth:2,
-        borderColor:"red",
-        marginTop: 60,
+        marginTop: 5,
         width: 170, // Ширина контейнера
         height: 180,
-        backgroundColor: "#004D40",
+        backgroundColor: "#073B3E",
         padding: 3,
         borderRadius: 10,
         shadowColor: "#000",
