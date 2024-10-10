@@ -189,12 +189,9 @@ const styles = StyleSheet.create({
   qrWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: 'red'
+    marginBottom:40
   },
   qrTextSecond: {
-    borderWidth: 2,
-    borderColor: 'red',
     height: 250,
     alignItems: 'center',
     justifyContent: 'center',
@@ -203,9 +200,7 @@ const styles = StyleSheet.create({
   qrTextFirst:{
     flex:1,
     height:250,
-    width:80,
-    borderWidth:2,
-    borderColor:'blue',
+    width:77,
     justifyContent:'center'
   },
   qrText: {
@@ -213,8 +208,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     transform: [{ rotate: "-90deg" }],
     marginTop: 10,
-    borderWidth: 2,
-    borderColor: 'red', 
   },
   qrContainer: {
     flex: 1,
@@ -223,8 +216,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     borderRadius: 30,
-    borderWidth: 2,
-    borderColor: 'red',
   },
   qrCodeIcon: {
     width: 94,
