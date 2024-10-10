@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, PanResponder, Animated, Dimensions } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, PanResponder, Animated, Dimensions, Alert } from "react-native";
 
 const SendBoat = () => {
     const [showButton, setShowButton] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
+    const [alertShown, setAlertShown] = useState(false); // Стан для контролю алерту
 
     const dotSize = 20; // Size of the dot
 
@@ -28,9 +29,11 @@ const SendBoat = () => {
     ).current;
 
     const handlePress = () => {
-        setShowButton(!showButton);
+        if (!alertShown) {
+            Alert.alert("Success", "You have successfully set the bait!");
+            setAlertShown(true); // Установлюємо стан, що алерт був показаний
+        }
     };
-
     return (
         <View style={styles.buttonsContainer}>
             {/* Boat image */}
@@ -49,7 +52,7 @@ const SendBoat = () => {
                 </View>
 
                 <View style={styles.senderBlocker}>
-                    <TouchableOpacity onPress={handlePress} pointerEvents={isDisabled ? "auto" : "none"}>
+                    <TouchableOpacity onPress={handlePress}>
                         <Text style={styles.catchText}>Send boat</Text>
                     </TouchableOpacity>
                 </View>
@@ -124,6 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "#073B3E",
         lineHeight: 22,
+        width:220
     },
 });
 
