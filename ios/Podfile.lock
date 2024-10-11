@@ -1551,6 +1551,10 @@ PODS:
     - React-logger (= 0.75.4)
     - React-perflogger (= 0.75.4)
     - React-utils (= 0.75.4)
+  - RNCAsyncStorage (2.0.0):
+    - React-Core
+  - RNCPicker (2.8.1):
+    - React-Core
   - RNGestureHandler (2.20.0):
     - DoubleConversion
     - glog
@@ -1685,6 +1689,12 @@ PODS:
     - ReactCommon/turbomodule/core
     - Yoga
   - SocketRocket (0.7.0)
+  - VisionCamera (4.5.3):
+    - VisionCamera/Core (= 4.5.3)
+    - VisionCamera/React (= 4.5.3)
+  - VisionCamera/Core (4.5.3)
+  - VisionCamera/React (4.5.3):
+    - React-Core
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -1756,12 +1766,15 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCodegen (from `build/generated/ios`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
+  - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1902,6 +1915,10 @@ EXTERNAL SOURCES:
     :path: build/generated/ios
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCPicker:
+    :path: "../node_modules/@react-native-picker/picker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -1914,6 +1931,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
+  VisionCamera:
+    :path: "../node_modules/react-native-vision-camera"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -1984,6 +2003,8 @@ SPEC CHECKSUMS:
   React-utils: cbe8b8b3d7b2ac282e018e46f0e7b25cdc87c5a0
   ReactCodegen: 4bcb34e6b5ebf6eef5cee34f55aa39991ea1c1f1
   ReactCommon: 6a952e50c2a4b694731d7682aaa6c79bc156e4ad
+  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
+  RNCPicker: 0b6860a6b208d4046227d2f626ad0722f99a969c
   RNGestureHandler: 6dfe7692a191ee224748964127114edf057a1475
   RNPermissions: 294531ede5a64d1528463e88fffef05675842042
   RNReanimated: 6e79f3e3b37a88cddfb38525e9652aabd7c4c750
@@ -1991,6 +2012,7 @@ SPEC CHECKSUMS:
   RNSVG: 4590aa95758149fa27c5c83e54a6a466349a1688
   RNVectorIcons: 6382277afab3c54658e9d555ee0faa7a37827136
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
+  VisionCamera: cb84d0d8485b3e67c91b62931d3aa88f49747c92
   Yoga: 055f92ad73f8c8600a93f0e25ac0b2344c3b07e6
 
 PODFILE CHECKSUM: 75b11b128c812e46ffb245a1ccea9b66c0b1a0cb

@@ -1,14 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, SafeAreaView } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Import navigation hook
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native'; // Import navigation hook
+import SSG from '../svg/setting';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ReservationOcean = () => {
+const ReservationOcean = ({setCodeScreen, codeScreen}: any) => {
   const navigation = useNavigation(); // Use navigation hook
+  const firstNum = codeScreen !== 2 ? codeScreen : generateReservationCode();
 
-  const [reservationCode, setReservationCode] = useState(generateReservationCode());
+  const [reservationCode, setReservationCode] = useState(firstNum);
   // Function to handle cancel button press
-  const handleCancelReservation = () => {
-    navigation.navigate('Save'); // Navigate to SaveOcean screen
+  const handleCancelReservation = async () => {
+    await AsyncStorage.setItem('SaveOcean', '');
+    setCodeScreen(1);
   };
 
   const handleSettings = () => {
@@ -18,52 +30,75 @@ const ReservationOcean = () => {
   function generateReservationCode() {
     return Math.random().toString(36).substring(2, 15); // Generates a random alphanumeric string
   }
-  
+
+  useEffect(() => {
+    async function askdaksd() {
+      await AsyncStorage.setItem('SaveOcean', reservationCode);
+    }
+
+    askdaksd();
+  }, [codeScreen]);
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <SafeAreaView></SafeAreaView>
-      <View style={styles.header}>
-        <Text style={styles.title}>PACIFIC OCEAN</Text>
-        <TouchableOpacity onPress={handleSettings}>
-          <Image
-            source={require("../svg/home_img/settings.png")}
-            style={styles.settings_img}
-          />
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView />
+      <View style={{justifyContent: 'space-between', flex: 1}}>
+        <View style={styles.header}>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
 
-      {/* Description Section */}
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionTitle}>Description</Text>
-        <Text style={styles.descriptionText}>
-          Spend a wonderful time with your family on a small yacht enjoying the beauty of the ocean and delicious food and drinks
-        </Text>
-      </View>
-
-      {/* Yacht Image */}
-      <Image
-        source={require("../svg/save_img/bottom_yacht.png")}
-        style={styles.yachtImage}
-      />
-
-      {/* Reservation Confirmation */}
-      <View style={styles.reservationContainer}>
-        <Text style={styles.reservedTitle}>Reserved</Text>
-        <Text style={styles.reservationText}>
-          Your reservation has been successfully confirmed. Save your personal reservation number. You can cancel your reservation at any time by opening the settings.
-        </Text>
-
-        {/* Reservation Code */}
-        <View style={styles.reservationCodeContainer}>
-          <Text style={styles.reservationCodeTitle}>Reservation code</Text>
-          <TextInput style={styles.reservationCodeInput} value={reservationCode} editable={false} />
+          <TouchableOpacity onPress={handleSettings}>
+            <SSG col={'#7A9EA0'} sis={Dimensions.get('screen').width * 0.08} />
+          </TouchableOpacity>
         </View>
 
-        {/* Cancel Reservation Button */}
-        <TouchableOpacity style={styles.cancelButton} onPress={handleCancelReservation}>
-          <Text style={styles.cancelButtonText}>Cancel reservation</Text>
-        </TouchableOpacity>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionTitle}>Description</Text>
+          <Text style={styles.descriptionText}>
+            Spend a wonderful time with your family on a small yacht enjoying
+            the beauty of the ocean and delicious food and drinks
+          </Text>
+        </View>
+
+        <View>
+          <Image
+            source={require('../svg/save_img/bottom_yacht.png')}
+            style={styles.yachtImage}
+          />
+
+          <View style={styles.reservationContainer}>
+            <Text style={styles.reservedTitle}>Reserved</Text>
+            <Text style={styles.reservationText}>
+              Your reservation has been successfully confirmed. Save your
+              personal reservation number. You can cancel your reservation at
+              any time by opening the settings.
+            </Text>
+
+            <View style={styles.reservationCodeContainer}>
+              <Text style={styles.reservationCodeTitle}>
+                {'Reservation\ncode'}
+              </Text>
+
+              <View style={styles.reservationCodeInput}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#7A9EA0',
+                    fontSize: Dimensions.get('screen').width * 0.045,
+                    fontWeight: '500',
+                  }}>
+                  {reservationCode}
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.cancelButton}
+              onPress={handleCancelReservation}>
+              <Text style={styles.cancelButtonText}>Cancel reservation</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -73,28 +108,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#073b3e',
-    padding: 20,
   },
   header: {
-    flex: 1.1,
     flexDirection: 'row',
-    height: '10%',
-    marginTop: 20,
-    marginBottom: 20
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    backgroundColor: '#073b3e',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '95%',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
+    fontWeight: '900',
+    color: '#7A9EA0',
     textAlign: 'center',
-    marginRight: 28,
-    marginLeft: 25
   },
   settings_img: {
     marginTop: 2,
   },
   descriptionContainer: {
-    marginTop: 0,
+    width: '70%',
+    alignSelf: 'flex-end',
+    marginRight: '2.5%',
+    marginTop: 30,
   },
   descriptionTitle: {
     color: '#D1D6D7',
@@ -102,30 +141,31 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   descriptionText: {
-    color: '#D1D6D7',
+    color: '#7A9EA0',
     fontSize: 16,
     marginTop: 10,
+    textAlign: 'justify',
   },
   yachtImage: {
-    width: '100%',
+    width: '70%',
     height: 180,
-    marginTop: 30,
-    resizeMode: 'cover',
+    alignSelf: 'flex-end',
+    bottom: -20,
   },
   reservationCodeContainer: {
     flexDirection: 'row',
     alignItems: 'center', // Align items vertically centered
     marginTop: 10,
-    marginBottom:5
   },
   reservationCodeTitle: {
-    color: '#0A5754',
+    color: '#073B3E',
     fontSize: 16,
     fontWeight: 'bold',
     marginRight: 10, // Add some space between title and input
+    textAlign: 'center',
   },
   reservationCodeInput: {
-    backgroundColor: '#A7C5C4',
+    backgroundColor: '#D9D9D9',
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
@@ -137,11 +177,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#7a9ea0',
     padding: 20,
     borderRadius: 10,
-    marginTop: 30,
+    width: '95%',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   reservedTitle: {
     fontSize: 24,
-    color: '#0A5754',
+    color: '#073B3E',
     fontWeight: 'bold',
   },
   reservationText: {
@@ -150,9 +192,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     lineHeight: 20,
     width: '90%',
+    textAlign: 'justify',
+    marginBottom: 5,
   },
   cancelButton: {
-    backgroundColor: '#2A3F3F',
+    backgroundColor: '#002224',
     padding: 15,
     borderRadius: 10,
     marginTop: 20,

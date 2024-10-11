@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  Keyboard,
+} from 'react-native';
 
-export default function LoginScreen({ navigation }: any) {
+export default function LoginScreen({navigation}: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (email && password) {
       // Here you can also pass the email if needed
-      navigation.replace('MainTabs', { userName: "Bill Goas" });
+      navigation.replace('MainTabs', {userName: 'Bill Goas'});
+      await AsyncStorage.setItem('Log', 'true');
     } else {
       alert('Please enter your username and password');
     }
@@ -18,10 +27,9 @@ export default function LoginScreen({ navigation }: any) {
   return (
     <ImageBackground
       source={require('../svg/login_img/all_sea.png')}
-      style={styles.backgroundImage}
-    >
-      <View style={styles.overlay}>
-        <View style={styles.formContainer}> 
+      style={styles.backgroundImage}>
+      <View onTouchStart={Keyboard.dismiss} style={styles.overlay}>
+        <View style={styles.formContainer}>
           <Text style={styles.title}>
             <Text style={styles.titlePacific}>JOIN PACIFIC</Text> OCEAN
           </Text>
@@ -41,12 +49,13 @@ export default function LoginScreen({ navigation }: any) {
             value={password}
             onChangeText={setPassword}
           />
-          <Text style={styles.accountText}>Accounts are issued upon joining the club</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Loging</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={styles.accountText}>
+            Accounts are issued upon joining the club
+          </Text>
+
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
@@ -60,22 +69,22 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
   title: {
-    fontFamily:'Paytone One',
+    fontFamily: 'Paytone One',
     fontSize: 36,
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 20,
     letterSpacing: 1.5,
-    textAlign:'right',
-    marginTop:30
+    textAlign: 'right',
+    marginTop: 30,
   },
-  titlePacific:{
-    color:'#293036'
+  titlePacific: {
+    color: '#293036',
   },
   formContainer: {
     backgroundColor: '#7A9EA0',
@@ -99,30 +108,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  buttonContainer: {
-    marginTop:20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
+
   button: {
-    height: 50,
     width: '55%',
     backgroundColor: '#073B3E',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+    paddingVertical: 12,
   },
-  signTitle:{
+  signTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 20,
     letterSpacing: 1.5,
-  }
+  },
 });

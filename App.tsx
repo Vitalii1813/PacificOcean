@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { enableScreens } from 'react-native-screens';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+import {enableScreens} from 'react-native-screens';
 enableScreens();
 
 import HomeOcean from './Home/HomeOcean';
@@ -11,7 +11,7 @@ import SaveOcean from './Save/SaveOcean';
 import PlusOcean from './Plus/PlusOcean';
 import CodeOcean from './Code/CodeOcean';
 import SettingsOcean from './Settings/SettingsOcean';
-import { EnablePassword } from './Settings/EnablePassword';
+import {EnablePassword} from './Settings/EnablePassword';
 
 import Home from './svg/bottom_tab/tsx/Home';
 import AddCircle from './svg/bottom_tab/tsx/Add';
@@ -24,28 +24,51 @@ import LoginOcean from './displays/LoginOcean';
 import SecondMapView from './Plus/SecondMapView';
 import BookedMapScreen from './Home/BookedMapScreen';
 import MapScreen from './Home/MapScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const megaIconSizeSvg = 24;
 
 // Іконки для табів
-function HomeImgIcon({ focused }) {
-  return <Home svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} />;
-}
-
-function AddImgIcon({ focused }) {
+function HomeImgIcon({focused}) {
   return (
-    <AddCircle svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : '#7A9EA0'} stroke="white" strokeWidth="2" />
+    <Home
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'white' : 'transparent'}
+    />
   );
 }
 
-function SaveImgIcon({ focused }) {
-  return <Save svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} stroke="white" strokeWidth="2" />;
+function AddImgIcon({focused}) {
+  return (
+    <AddCircle
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'white' : '#7A9EA0'}
+      stroke="white"
+      strokeWidth="2"
+    />
+  );
 }
 
-function CodeImgIcon({ focused }) {
-  return <Code svgIconCustomSize={megaIconSizeSvg} fill={focused ? 'white' : 'transparent'} />;
+function SaveImgIcon({focused}) {
+  return (
+    <Save
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'white' : 'transparent'}
+      stroke="white"
+      strokeWidth="2"
+    />
+  );
+}
+
+function CodeImgIcon({focused}) {
+  return (
+    <Code
+      svgIconCustomSize={megaIconSizeSvg}
+      fill={focused ? 'white' : 'transparent'}
+    />
+  );
 }
 
 // Стек налаштувань всередині вкладки
@@ -55,17 +78,12 @@ function SettingsStack() {
       <Stack.Screen
         name="Settings"
         component={SettingsOcean}
-        options={{ headerShown: false, title: 'Settings' }}
+        options={{headerShown: false, title: 'Settings'}}
       />
       <Stack.Screen
         name="EnablePassword"
         component={EnablePassword}
-        options={{ headerShown: false, title: 'Enable' }}
-      />
-      <Stack.Screen
-        name="Reserve"
-        component={ReservationOcean}
-        options={{ headerShown: false, title: 'Reserve' }}
+        options={{headerShown: false, title: 'Enable'}}
       />
     </Stack.Navigator>
   );
@@ -121,71 +139,90 @@ function MainTabs() {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="Settings"
-        component={SettingsStack}
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
-        }}
-      />
-      <Tab.Screen
-        name="AddResultForm"
-        component={AddResultForm}
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
-        }}
-      />
-        <Tab.Screen
-        name="SecondMap"
-        component={SecondMapView}
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
-        }}
-      />
-       <Tab.Screen
-        name="Reserve"
-        component={ReservationOcean}
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
-        }}
-      />
-      <Tab.Screen
-        name="MapScreen"
-        component={MapScreen}
-        options={{
-          headerShown: false,
-          tabBarButton: () => null, // Приховуємо кнопку "Settings" у таб-барі
-        }}
-      />
     </Tab.Navigator>
   );
 }
 
 // Головна навігація з табами і додатковим екраном AddResultForm
 export default function App() {
-  return (
-    <View style={{ flex: 1 }}>
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={LoginOcean}
-          options={{ headerShown: false }} // Сховати заголовок на екрані входу
-        />
-          <Stack.Screen name="MainTabs" component={MainTabs}  options={{ headerShown: false }}/>
-          <Stack.Screen name="AddResultForm" component={AddResultForm} />
-          <Stack.Screen name="Reserve" component={ReservationOcean}  options={{ headerShown: false }}/>
-          <Stack.Screen name="SecondMap" component={SecondMapView} />
-          <Stack.Screen name="Map" component={MapScreen} />
-        <Stack.Screen name="Booked" component={BookedMapScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
-  );
+  const [st, setSt] = useState(0);
+  async function gDa() {
+    const a = await AsyncStorage.getItem('Log');
+
+    if (a) {
+      setSt(2);
+    } else {
+      setSt(1);
+    }
+  }
+
+  useEffect(() => {
+    gDa();
+  }, []);
+
+  if (st === 2) {
+    return (
+      <View style={{flex: 1}}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="MainTabs"
+              component={MainTabs}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen name="AddResultForm" component={AddResultForm} />
+            <Stack.Screen name="SecondMap" component={SecondMapView} />
+            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="Booked" component={BookedMapScreen} />
+            <Stack.Screen
+              name="Login"
+              component={LoginOcean}
+              options={{headerShown: false}} // Сховати заголовок на екрані входу
+            />
+            <Stack.Screen
+              name="Settings"
+              component={SettingsStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="MapScreen"
+              component={MapScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    );
+  }
+
+  if (st === 1) {
+    return (
+      <View style={{flex: 1}}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen
+              name="Login"
+              component={LoginOcean}
+              options={{headerShown: false}} // Сховати заголовок на екрані входу
+            />
+            <Stack.Screen
+              name="MainTabs"
+              component={MainTabs}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen name="AddResultForm" component={AddResultForm} />
+            <Stack.Screen name="SecondMap" component={SecondMapView} />
+            <Stack.Screen name="Map" component={MapScreen} />
+            <Stack.Screen name="Booked" component={BookedMapScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
