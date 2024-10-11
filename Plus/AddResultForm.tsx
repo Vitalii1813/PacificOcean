@@ -1,7 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  Dimensions,
+} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
+import Bsg from '../svg/back';
 
 export default function AddResultForm() {
   const [userName, setUserName] = useState('');
@@ -31,13 +41,13 @@ export default function AddResultForm() {
       quality: 1,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.errorMessage) {
         console.log('ImagePicker Error: ', response.errorMessage);
       } else {
-        const source = { uri: response.assets[0].uri };
+        const source = {uri: response.assets[0].uri};
         setSelectedImage(source);
       }
     });
@@ -45,103 +55,115 @@ export default function AddResultForm() {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
-        <View style={styles.header}>
-          <Text style={styles.title}>PACIFIC OCEAN</Text>
-          <TouchableOpacity onPress={handleImagePress}>
-            <Image
-              source={require("../svg/home_img/settings.png")}
-              style={styles.settings_img}
-            />
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      <SafeAreaView />
 
-      <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Add my result</Text>
-        {!showPlusButton ? (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="User name"
-              placeholderTextColor="#BFBFBF"
-              value={userName}
-              onChangeText={setUserName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Date"
-              placeholderTextColor="#BFBFBF"
-              value={date}
-              onChangeText={setDate}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Type of fish"
-              placeholderTextColor="#BFBFBF"
-              value={typeOfFish}
-              onChangeText={setTypeOfFish}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Where"
-              placeholderTextColor="#BFBFBF"
-              value={location}
-              onChangeText={setLocation}
-            />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Bsg col={'#7A9EA0'} sis={Dimensions.get('screen').width * 0.06} />
+        </TouchableOpacity>
 
-            <TouchableOpacity style={styles.mapButton}>
-            <View style={styles.row}>
-            <Text style={styles.mapButtonText}>Select a place on the map</Text>
-            <Image
-              source={require("../svg/plus_img/arrow-right.png")}
-              style={styles.imageIcon} // Додаємо стиль для зображення
-            />
-          </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.addPhotoButton} onPress={handlePressPlus}>
-              <Text style={styles.addPhotoButtonText}>+</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.votesText}>
-              Add five votes to remember the highlight of your fishing
-            </Text>
-
-            <TouchableOpacity style={styles.submitButton} onPress={handleAddResult}>
-              <Text style={styles.submitButtonText}>Add my result</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
-            <TouchableOpacity style={styles.addPhotoButtonNew} onPress={handleAddPhoto}>
-              {selectedImage ? (
-                <Image source={selectedImage} style={styles.selectedImage} />
-              ) : (
-                <Text style={styles.addPhotoButtonText}>+</Text>
-              )}
-            </TouchableOpacity>
-
-            <Text style={styles.votesTextNew}>
-              Add five votes to remember the highlight of your fishing
-            </Text>
-            
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.backButton} onPress={handlePressPlus}>
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.addButton} onPress={handleAddResult}>
-                <Text style={styles.buttonText}>Add my result</Text>
-              </TouchableOpacity>
-            </View>
-          </>
-        )}
+        <Text style={styles.title}>PACIFIC OCEAN</Text>
       </View>
 
-      <Text style={styles.description}>
-        <Text style={styles.descriptionTitle}>Description</Text>
-        {'\n'}You can delete a result that you have added in the settings
-      </Text>
+      <View style={{flex: 1, justifyContent: 'space-around', width: '100%', paddingVertical: 25}}>
+        <View style={styles.formContainer}>
+          <Text style={styles.formTitle}>Add my result</Text>
+          {!showPlusButton ? (
+            <>
+              <TextInput
+                style={styles.input}
+                placeholder="User name"
+                placeholderTextColor="#073B3E40"
+                value={userName}
+                onChangeText={setUserName}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Date"
+                placeholderTextColor="#073B3E40"
+                value={date}
+                onChangeText={setDate}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Type of fish"
+                placeholderTextColor="#073B3E40"
+                value={typeOfFish}
+                onChangeText={setTypeOfFish}
+              />
+              <TextInput
+                style={[styles.input, {marginBottom: 7}]}
+                placeholder="Where"
+                placeholderTextColor="#073B3E40"
+                value={location}
+                onChangeText={setLocation}
+              />
+
+              <TouchableOpacity style={styles.mapButton}>
+                <View style={styles.row}>
+                  <Text style={styles.mapButtonText}>
+                    Select a place on the map
+                  </Text>
+                  <Image
+                    source={require('../svg/plus_img/arrow-right.png')}
+                    style={styles.imageIcon} // Додаємо стиль для зображення
+                  />
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.addPhotoButton}
+                onPress={handlePressPlus}>
+                <Text style={styles.addPhotoButtonText}>+</Text>
+              </TouchableOpacity>
+
+              <Text style={styles.votesText}>
+                Add five votes to remember the highlight of your fishing
+              </Text>
+
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={handleAddResult}>
+                <Text style={styles.submitButtonText}>Add my result</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.addPhotoButtonNew}
+                onPress={handleAddPhoto}>
+                {selectedImage ? (
+                  <Image source={selectedImage} style={styles.selectedImage} />
+                ) : (
+                  <Text style={styles.addPhotoButtonText}>+</Text>
+                )}
+              </TouchableOpacity>
+
+              <Text style={styles.votesTextNew}>
+                Add five votes to remember the highlight of your fishing
+              </Text>
+
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.backButton}
+                  onPress={handlePressPlus}>
+                  <Text style={styles.buttonText}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={handleAddResult}>
+                  <Text style={styles.buttonText}>Add my result</Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
+        </View>
+
+        <Text style={styles.description}>
+          <Text style={styles.descriptionTitle}>Description</Text>
+          {'\n'}You can delete a result that you have added in the settings
+        </Text>
+      </View>
     </View>
   );
 }
@@ -151,35 +173,37 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#053281',
     alignItems: 'center',
-    padding: 20,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    borderRadius: 15,
     alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    width: '95%',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
+    fontWeight: '900',
+    color: '#7A9EA0',
     textAlign: 'center',
-    marginRight: 15,
-    marginLeft: 25
   },
   settingsImg: {
     marginRight: 10,
   },
   formContainer: {
-    width: '100%',
+    width: '90%',
     backgroundColor: '#7A9EA0',
     padding: 20,
     borderRadius: 10,
+    alignSelf: 'center',
   },
   formTitle: {
     fontSize: 18,
     color: '#000000',
-    fontWeight: 'bold',
+    fontWeight: '500',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -200,12 +224,13 @@ const styles = StyleSheet.create({
   },
   addPhotoButton: {
     borderWidth: 2,
-    borderColor: '#00796B',
+    borderColor: '#073B3E',
     borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    height: Dimensions.get('screen').height * 0.15,
     marginBottom: 15,
+    borderRadius: 10,
   },
   addPhotoButtonNew: {
     borderWidth: 2,
@@ -218,7 +243,7 @@ const styles = StyleSheet.create({
   },
   addPhotoButtonText: {
     fontSize: 24,
-    color: '#00796B',
+    color: '#073B3E',
   },
   selectedImage: {
     width: '100%',
@@ -235,29 +260,31 @@ const styles = StyleSheet.create({
     color: '#D9D9D9',
     textAlign: 'center',
     width: 260,
-    marginHorizontal: 25
+    marginHorizontal: 25,
   },
   submitButton: {
-    backgroundColor: '#00796B',
+    backgroundColor: '#073B3E',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
   },
   submitButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: '#7A9EA0',
+    fontWeight: '600',
+    fontSize: Dimensions.get('screen').width * 0.05,
   },
-  descriptionTitle:{
+  descriptionTitle: {
     color: '#D9D9D9',
-    fontSize:18,
-    fontWeight:'500'
+    fontSize: 18,
+    fontWeight: '500',
   },
   description: {
     color: '#BFBFBF',
     textAlign: 'center',
     marginTop: 60,
     fontSize: 13,
-    width:200
+    width: 200,
+    alignSelf: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -291,6 +318,6 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Вертикальне вирівнювання елементів
   },
   imageIcon: {
-    marginLeft:120, // Відступ між зображенням та текстом
+    marginLeft: 120, // Відступ між зображенням та текстом
   },
 });

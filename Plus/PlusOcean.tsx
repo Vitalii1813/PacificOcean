@@ -1,6 +1,16 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import SSG from '../svg/setting';
 
 const PlusOcean = () => {
   const navigation = useNavigation();
@@ -13,28 +23,46 @@ const PlusOcean = () => {
     navigation.navigate('Settings'); // Назва сторінки, на яку ви хочете перейти
   };
   const players = [
-    { rank: 1, name: 'Big Gary', weight: '57 kg' },
-    { rank: 2, name: 'Ser Roiy', weight: '53 kg' },
-    { rank: 3, name: 'MC Lui', weight: '48 kg' },
+    {
+      rank: 1,
+      name: 'Big Gary',
+      weight: '704 kg',
+      image: require('../svg/img/sharkOne.jpg'),
+      fishName: 'Blue\nshark',
+    },
+    {
+      rank: 2,
+      name: 'Ser Roiy',
+      weight: '641 kg',
+      image: require('../svg/img/sharkTwo.jpg'),
+      fishName: 'Shortfin\nmako shark',
+    },
+    {
+      rank: 3,
+      name: 'MC Lui',
+      weight: '563 kg',
+      image: require('../svg/img/sharkThree.jpg'),
+      fishName: 'Blue\nshark',
+    },
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <SafeAreaView>
-        <View style={styles.header}>
-          <Text style={styles.title}>PACIFIC OCEAN</Text>
-          <TouchableOpacity onPress={handleImagePress}>
-            <Image
-              source={require("../svg/home_img/settings.png")}
-              style={styles.settings_img}
-            />
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+    <View style={styles.container}>
+      <SafeAreaView />
+
+      <View style={styles.header}>
+        <Text style={styles.title}>PACIFIC OCEAN</Text>
+
+        <TouchableOpacity onPress={handleImagePress}>
+          <SSG col={'#7A9EA0'} sis={Dimensions.get('screen').width * 0.08} />
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.ratingContainer}>
-        <Text style={styles.ratingTitle}>Rating</Text>
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView
+          style={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}>
+          <Text style={styles.ratingTitle}>Top 3 Ranking</Text>
           {players.map((player, index) => (
             <View key={index} style={styles.remindContainer}>
               <View style={styles.ratingRow}>
@@ -48,12 +76,18 @@ const PlusOcean = () => {
               </View>
 
               <View style={styles.emptyBoxesContainer}>
-                {/* Пусті квадрати */}
-                <View style={styles.emptyBox}></View>
-                <View style={styles.emptyBox}></View>
-                <View style={styles.emptyBox}></View>
-                <View style={styles.emptyBox}></View>
-                <View style={styles.emptyBox}></View>
+                <View style={styles.emptyBox}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: Dimensions.get('screen').width * 0.06,
+                      fontWeight: '600',
+                    }}>
+                    {player.fishName}
+                  </Text>
+                </View>
+
+                <Image source={player.image} style={styles.imageSmall} />
               </View>
             </View>
           ))}
@@ -63,7 +97,7 @@ const PlusOcean = () => {
       <TouchableOpacity style={styles.buttonNext} onPress={onPress}>
         <Text style={styles.buttonNextText}>Add my result</Text>
         <Image
-          source={require("../svg/plus_img/arrow-right.png")}
+          source={require('../svg/plus_img/arrow-right.png')}
           style={styles.image}
         />
       </TouchableOpacity>
@@ -72,15 +106,15 @@ const PlusOcean = () => {
           source={require('../svg/plus_img/moon.png')}
           style={styles.moonImg}
         />
-       <View style={styles.descriptionContainer}>
+        <View style={styles.descriptionContainer}>
           <Text style={styles.description}>Description</Text>
           <Text style={styles.subtext}>
-          You can be the next champion of our club. Add your result and check the rating
+            You can be the next champion of our club. Add your result and check
+            the rating
           </Text>
         </View>
       </View>
-      
-    </ScrollView>
+    </View>
   );
 };
 
@@ -88,33 +122,35 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: '#053281',
-    padding: 20,
     paddingBottom: 50,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    backgroundColor: '#053281',
+    borderRadius: 15,
     alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    width: '95%',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
+    fontWeight: '900',
+    color: '#7A9EA0',
     textAlign: 'center',
-    marginRight: 0,
-    marginLeft: 25
   },
   settingsImg: {
     marginRight: 20,
   },
   ratingContainer: {
-    padding: 12, // зменшено з 16
+    paddingHorizontal: 12, // зменшено з 16
     backgroundColor: '#E2E6E9',
     borderRadius: 16, // зменшено з 20
     width: '90%',
     alignSelf: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   ratingTitle: {
     fontSize: 18, // зменшено з 22
@@ -122,13 +158,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 16, // зменшено з 20
     color: '#1C1C1C',
+    paddingTop: 12,
   },
   remindContainer: {
     marginBottom: 16, // зменшено з 20
     borderRadius: 10, // зменшено з 12
     padding: 5, // зменшено з 10
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
@@ -142,7 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 16, // зменшено з 20
     fontWeight: 'bold',
     color: '#1C1C1C',
-    marginRight: 5
+    marginRight: 5,
   },
   trophyIcon: {
     width: 18, // зменшено з 22
@@ -165,13 +202,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 8, // зменшено з 10
-    marginLeft: 10
+    marginLeft: 10,
   },
   emptyBox: {
-    width: 35, // зменшено з 35
-    height: 35, // зменшено з 35
+    width: Dimensions.get('screen').width * 0.15 * 3, // зменшено з 35
+    height: Dimensions.get('screen').width * 0.15, // зменшено з 35
     backgroundColor: '#7A9EA0',
     borderRadius: 6, // зменшено з 8
+  },
+  imageSmall: {
+    width: Dimensions.get('screen').width * 0.3, // зменшено з 35
+    height: Dimensions.get('screen').width * 0.15,
+    borderRadius: 6,
   },
   moonContainer: {
     flexDirection: 'row', // Вирівнює елементи в ряд
@@ -182,7 +224,7 @@ const styles = StyleSheet.create({
   moonImg: {
     width: 190,
     height: 220,
-    resizeMode:'cover', // Зображення зберігає пропорції
+    resizeMode: 'cover', // Зображення зберігає пропорції
     marginRight: 20, // Відступ між зображенням і текстом
   },
   descriptionContainer: {
@@ -203,7 +245,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   scrollContainer: {
-    height: 270, // зменшено з 320
+    height: Dimensions.get('screen').height * 0.35,
   },
   settings_img: {
     marginTop: 0,
@@ -216,7 +258,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Вирівнювання по вертикалі
     justifyContent: 'space-between', // Розподілення простору між текстом та іконкою
     width: '90%',
-    marginLeft: 18
+    marginLeft: 18,
   },
   buttonNextText: {
     color: 'white',
@@ -236,7 +278,7 @@ const styles = StyleSheet.create({
   image: {
     width: 20,
     height: 20,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
 });
 

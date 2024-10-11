@@ -170,7 +170,11 @@ export default function App() {
               component={MainTabs}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="AddResultForm" component={AddResultForm} />
+            <Stack.Screen
+              name="AddResultForm"
+              component={AddResultForm}
+              options={{headerShown: false}}
+            />
             <Stack.Screen name="SecondMap" component={SecondMapView} />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Booked" component={BookedMapScreen} />
@@ -214,7 +218,11 @@ export default function App() {
               component={MainTabs}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="AddResultForm" component={AddResultForm} />
+            <Stack.Screen
+              name="AddResultForm"
+              component={AddResultForm}
+              options={{headerShown: false}}
+            />
             <Stack.Screen name="SecondMap" component={SecondMapView} />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Booked" component={BookedMapScreen} />
