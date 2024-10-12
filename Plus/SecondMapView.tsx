@@ -1,72 +1,169 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  Animated,
+  LayoutAnimation,
+} from 'react-native';
+import MapView, {Marker, AnimatedRegion} from 'react-native-maps';
+import Bsg from '../svg/back';
 
-export default function SecondMapView() {
-  const navigation = useNavigation();
-  const [selectedLocation, setSelectedLocation] = useState(null);
+export default function SecondMapView({
+  selectedLocation,
+  setSelectedLocation,
+  backPress,
+  setShowMap,
+}: any) {
+  const markerAnimated = useRef(
+    new AnimatedRegion({
+      latitude: 20.0522, // Початкові координати
+      longitude: -130.2437,
+      latitudeDelta: 0.1,
+      longitudeDelta: 0.1,
+    }),
+  ).current;
 
-  const handleImagePress = () => {
-    navigation.navigate('Settings'); // Перехід на сторінку налаштувань
+  const handleMapPress = event => {
+    const {latitude, longitude} = event.nativeEvent.coordinate;
+
+    markerAnimated
+      .timing({
+        latitude,
+        longitude,
+        duration: 500,
+        useNativeDriver: false,
+      })
+      .start();
+
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    setSelectedLocation({latitude, longitude});
   };
 
-  const handleButtonPress = () => {
-    navigation.navigate('AddResultForm'); // Переходить на екран AddResultFor
-  };
+  useEffect(() => {
+    setSelectedLocation(null);
+  }, []);
 
-  const handleMapPress = (event) => {
-    setSelectedLocation(event.nativeEvent.coordinate); // Вибір точки на карті
-  };
+  function back() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    backPress();
+  }
+
+  function clear() {
+    setSelectedLocation(null);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
+  function save() {
+    setShowMap(false);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'space-between',
+          marginBottom: 30,
+        }}>
         <View style={styles.header}>
-          <Text style={styles.title}>PACIFIC OCEAN</Text>
-          <TouchableOpacity onPress={handleImagePress}>
-            <Image
-              source={require("../svg/home_img/settings.png")}
-            />
+          <TouchableOpacity onPress={back}>
+            <Bsg col={'#7A9EA0'} sis={Dimensions.get('screen').width * 0.06} />
           </TouchableOpacity>
-        </View>
-      </SafeAreaView>
 
-      <View style={styles.mapContainer}>
-        <TouchableOpacity style={styles.mapButton} onPress={handleButtonPress}>
-          <View style={styles.row}>
-            <Image
-              source={require("../svg/plus_img/arrow-left.png")}
-              style={styles.imageIcon} // Додаємо стиль для зображення
-            />
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
+        </View>
+
+        <View style={styles.mapContainer}>
+          <View style={styles.mapButton}>
             <Text style={styles.mapButtonText}>Select a place on the map</Text>
           </View>
-        </TouchableOpacity>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 9.1021, // Центр Африки
-            longitude: 18.2812,
-            latitudeDelta: 25.0, // Ширина для охоплення всієї Африки
-            longitudeDelta: 25.0,
-          }}
-          zoomEnabled={true} // Дозволяє збільшення/зменшення масштабу
-          scrollEnabled={true} // Дозволяє прокручування карти
-          pitchEnabled={true} // Дозволяє нахил карти
-          rotateEnabled={true} // Дозволяє обертання карти
-          onPress={handleMapPress} // Обробка натискань на карту
-        >
-          {selectedLocation && (
-            <Marker coordinate={selectedLocation}>
-              <View style={styles.marker} />
-            </Marker>
-          )}
-        </MapView>
-      </View>
 
-      <Text style={styles.description}>
-        Description{'\n'}You can delete a result that you have added in the settings
-      </Text>
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 20.0522, // Лос-Анджелес, США
+              longitude: -130.2437,
+              latitudeDelta: 100, // Менший масштаб для більш точного огляду
+              longitudeDelta: 0.1,
+            }}
+            scrollEnabled={false} // Забороняє прокручування карти
+            pitchEnabled={false} // Забороняє нахил карти
+            rotateEnabled={false} // Забороняє обертання карти
+            onPress={handleMapPress} // Обробка натискань на карту
+          >
+            {selectedLocation && (
+              <Marker.Animated
+                coordinate={markerAnimated} // Використання анімованого маркера
+              >
+                <View style={styles.marker} />
+              </Marker.Animated>
+            )}
+          </MapView>
+        </View>
+
+        {selectedLocation ? (
+          <View
+            style={{
+              width: '90%',
+              alignSelf: 'center',
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
+              onPress={clear}
+              activeOpacity={0.7}
+              style={{
+                width: '47%',
+                backgroundColor: '#7A9EA0',
+                paddingVertical: 7,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: Dimensions.get('screen').width * 0.056,
+                  color: '#01172F',
+                  fontWeight: '500',
+                }}>
+                Clear
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={save}
+              activeOpacity={0.7}
+              style={{
+                width: '47%',
+                backgroundColor: '#01172F',
+                paddingVertical: 7,
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: Dimensions.get('screen').width * 0.056,
+                  color: '#FFF',
+                  fontWeight: '500',
+                }}>
+                Save
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <Text style={styles.description}>
+            Description{'\n'}You can delete a result that you have added in the
+            settings
+          </Text>
+        )}
+      </View>
     </View>
   );
 }
@@ -75,35 +172,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#053281',
-    alignItems: 'center',
-    padding: 20,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    borderRadius: 15,
     alignItems: 'center',
-    marginBottom: 20,
+    justifyContent: 'space-between',
+    width: '95%',
+    alignSelf: 'center',
   },
   title: {
     fontSize: 32,
-    fontWeight: "900",
-    color: "#7A9EA0",
+    fontWeight: '900',
+    color: '#7A9EA0',
     textAlign: 'center',
-    marginRight: 15,
-  },
-  settingsImg: {
-    marginRight: 10,
   },
   mapContainer: {
-    width: '100%',
-    height: 500,
-    marginBottom: 20,
+    width: '93%',
+    height: Dimensions.get('screen').height * 0.7,
     overflow: 'hidden',
     borderRadius: 10,
+    alignSelf: 'center',
   },
   map: {
     width: '100%',
     height: '100%',
+    position: 'absolute',
+    zIndex: -1,
+    borderRadius: 30,
   },
   marker: {
     backgroundColor: '#374049',
@@ -117,17 +215,19 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   mapButton: {
-    alignItems: 'flex-start',
-    marginBottom: 15,
-  },
-  row: {
-    flexDirection: 'row', // Елементи всередині будуть розташовані по горизонталі
-    alignItems: 'center', // Вертикальне вирівнювання елементів
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#7A9EA0',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+    margin: 12,
   },
   imageIcon: {
     marginRight: 10, // Відступ між зображенням та текстом
   },
   mapButtonText: {
-    color: '#00796B',
+    color: '#D9D9D9',
   },
 });

@@ -175,7 +175,11 @@ export default function App() {
               component={AddResultForm}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="SecondMap" component={SecondMapView} />
+            <Stack.Screen
+              name="SecondMap"
+              component={SecondMapView}
+              options={{headerShown: false}}
+            />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Booked" component={BookedMapScreen} />
             <Stack.Screen
@@ -223,7 +227,11 @@ export default function App() {
               component={AddResultForm}
               options={{headerShown: false}}
             />
-            <Stack.Screen name="SecondMap" component={SecondMapView} />
+            <Stack.Screen
+              name="SecondMap"
+              component={SecondMapView}
+              options={{headerShown: false}}
+            />
             <Stack.Screen name="Map" component={MapScreen} />
             <Stack.Screen name="Booked" component={BookedMapScreen} />
           </Stack.Navigator>

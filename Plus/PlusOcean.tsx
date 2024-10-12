@@ -16,7 +16,6 @@ const PlusOcean = () => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    // Обробка натискання на кнопку
     navigation.navigate('AddResultForm');
   };
   const handleImagePress = () => {

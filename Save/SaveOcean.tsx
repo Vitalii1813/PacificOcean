@@ -9,17 +9,32 @@ import {
   SafeAreaView,
   Image,
   Dimensions,
+  Modal,
+  Keyboard,
+  Alert,
 } from 'react-native';
 import SSG from '../svg/setting';
 import ReservationOcean from './ReservationOcean';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoaderModal from '../Modal/modal';
+import DatePicker from 'react-native-date-picker';
 
 const SaveOcean: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [dateShow, setDateShow] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [codeScreen, setCodeScreen] = useState(0);
   const [selectedDate, setSelectedDate] = useState('17 September');
   const [needCaptain, setNeedCaptain] = useState(true);
   const [needFishingGear, setNeedFishingGear] = useState(true);
   const navigation = useNavigation();
+
+  const today = new Date(); // Отримуємо поточну дату
+  const sixMonthsLater = new Date(today); // Копіюємо поточну дату
+  sixMonthsLater.setMonth(sixMonthsLater.getMonth() + 6);
+  const twoDaysLater = new Date(today); // Копіюємо поточну дату
+  twoDaysLater.setDate(twoDaysLater.getDate() + 2); // Додаємо 2 дні
 
   async function gaDa() {
     const sos = await AsyncStorage.getItem('SaveOcean');
@@ -29,6 +44,11 @@ const SaveOcean: React.FC = () => {
     } else {
       setCodeScreen(1);
     }
+  }
+
+  function end() {
+    handleReserve();
+    setModalVisible(false);
   }
 
   useFocusEffect(
@@ -57,9 +77,17 @@ const SaveOcean: React.FC = () => {
     navigation.navigate('Settings'); // Navigate to SaveOcean screen
   };
 
+  function reservePress() {
+    if (dateShow) {
+      setModalVisible(true);
+    } else {
+      Alert.alert('Please select a reservation date');
+    }
+  }
+
   if (codeScreen === 1) {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onTouchStart={Keyboard.dismiss}>
         <SafeAreaView />
 
         <View style={{flex: 1, justifyContent: 'space-between'}}>
@@ -75,13 +103,14 @@ const SaveOcean: React.FC = () => {
           </View>
 
           <View style={styles.wrapper}>
-            <TextInput
-              style={styles.input}
-              value={selectedDate}
-              onChangeText={handleDateChange}
-              placeholder="Choose available date"
-              placeholderTextColor="#92a2ad"
-            />
+            <TouchableOpacity onPress={() => setOpen(true)}>
+              <TextInput
+                pointerEvents="none"
+                style={styles.input}
+                value={dateShow ? date.toDateString() : 'Choose available date'}
+                onChangeText={handleDateChange}
+              />
+            </TouchableOpacity>
 
             <Text style={styles.label}>Do you need captain?</Text>
             <View style={styles.buttonGroup}>
@@ -127,7 +156,7 @@ const SaveOcean: React.FC = () => {
 
             <TouchableOpacity
               style={styles.reserveButton}
-              onPress={handleReserve}>
+              onPress={reservePress}>
               <Text style={styles.reserveButtonText}>Reserve</Text>
             </TouchableOpacity>
           </View>
@@ -149,6 +178,31 @@ const SaveOcean: React.FC = () => {
             </View>
           </View>
         </View>
+
+        {modalVisible && (
+          <LoaderModal
+            modalVisible={modalVisible}
+            end={end}
+            title={'Reservation successful'}
+            description={'You have successfully made a reservation. You can cancel the reservation in the settings or on the reservation results page.'}
+          />
+        )}
+
+        <DatePicker
+          modal
+          open={open}
+          date={date}
+          maximumDate={sixMonthsLater}
+          minimumDate={twoDaysLater}
+          onConfirm={date => {
+            setOpen(false);
+            setDate(date);
+            setDateShow(true);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
       </View>
     );
   }
