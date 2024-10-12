@@ -1,44 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+} from 'react-native';
 import BookedMapScreen from './BookedMapScreen';
 import Maps from './Map';
-import { useNavigation } from '@react-navigation/native';
+import Bsg from '../svg/back';
+import {findFocusedRoute} from '@react-navigation/native';
+import LoaderModal from '../Modal/modal';
 
-const MapScreen = () => {
-  const [isMapLaunched, setIsMapLaunched] = useState(false);
-  const navigation = useNavigation();
-  const [generatedCode, setGeneratedCode] = useState('');
-  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
-  const dates = ['10', '11', '12', '13', '14', '15', '16'];
+const today = new Date();
+const currentDate = today.getDate();
 
-  // Функція для генерації кількості заброньованих місць для кожного дня
-  const generateRandomPlacesForAllDays = () => {
-    return daysOfWeek.map(() => {
-      const totalPlaces = 10;
-      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
-      return { booked: bookedPlaces, total: totalPlaces };
-    });
-  };
+const createDatesArray = (startDate, numberOfDays) => {
+  const datesArray = [];
+  const date = new Date(today);
+  for (let i = 0; i < numberOfDays; i++) {
+    date.setDate(startDate + i);
+    datesArray.push(date.getDate().toString());
+  }
+  return datesArray;
+};
 
-  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
-  const [selectedDay, setSelectedDay] = useState({
-    day: 'Fri',
-    date: '13',
-    places: placesForDays[3], // Ініціалізуємо як п'ятницю
+const dates = createDatesArray(currentDate + 1, 7);
+
+function getDate(props: number) {
+  return new Date(2024, 9, props).toDateString().slice(0, 3);
+}
+
+const daysOfWeek = [
+  getDate(dates[0]),
+  getDate(dates[1]),
+  getDate(dates[2]),
+  getDate(dates[3]),
+  getDate(dates[4]),
+  getDate(dates[5]),
+  getDate(dates[6]),
+];
+
+const generateRandomPlacesForAllDays = () => {
+  return daysOfWeek.map(() => {
+    const totalPlaces = 10;
+    const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
+    return {booked: bookedPlaces, total: totalPlaces};
   });
-  
+};
+
+const first = [3, 0, 5, 2, 1, 0, 1];
+const two = [1, 5, 7, 3, 0, 0, 1];
+
+const MapScreen = ({
+  selectedOption,
+  setIsMapOpen,
+  cancelBooking,
+  preDa,
+}: {
+  selectedOption: string;
+  setIsMapOpen: any;
+  cancelBooking: any;
+  preDa: any;
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalCloseVisible, setModalCloseVisible] = useState(false);
+  const [isMapLaunched, setIsMapLaunched] = useState(preDa ? true : false);
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [placesForDays, setPlacesForDays] = useState(
+    generateRandomPlacesForAllDays(),
+  );
+
+  const [selectedDate, setSelectedDate] = useState<number | null>(
+    preDa ? preDa.Ikey : 0,
+  );
+  const [selectedDay, setSelectedDay] = useState({
+    day: daysOfWeek[0],
+    date: dates[0],
+    places: placesForDays[0],
+  });
 
   const handleSelectDay = (day: string, index: number) => {
     setSelectedDate(index);
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
+    setSelectedDay({day, date: dates[index], places: placesForDays[index]});
   };
 
-  // Оновлюємо дані через певний час (10 хвилин у прикладі)
   useEffect(() => {
     const intervalId = setInterval(() => {
       setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); // 10 хвилин
+    }, 600000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -47,102 +98,194 @@ const MapScreen = () => {
     const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < 8; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length),
+      );
     }
     return result;
   };
 
-  // Генеруємо новий код при завантаженні компонента
+  function end() {
+    setIsMapLaunched(!isMapLaunched);
+    setModalVisible(false);
+  }
+
+  function bookButtonPress() {
+    setModalVisible(true);
+  }
+
+  function endTwo() {
+    cancelBooking();
+  }
+
+  function cancelCancelBooking() {
+    setModalCloseVisible(true);
+  }
+
   useEffect(() => {
     setGeneratedCode(generateRandomCode());
   }, []);
 
   return (
-    <View>
-      {!isMapLaunched ? (
-        <View style={styles.dateContainer}>
-          <Text style={styles.dateLabel}>Date of dispatch:</Text>
-          <Text style={styles.dateText}>17</Text>
-        </View>
-      ) : (
-        <View />
-      )}
+    <View style={styles.container}>
+      <SafeAreaView />
 
-      <Maps key={selectedDate} />
+      <View style={{justifyContent: 'space-between', flex: 1}}>
+        <View style={styles.header}>
+          {!isMapLaunched && (
+            <TouchableOpacity onPress={() => setIsMapOpen(false)}>
+              <Bsg
+                col={'#7A9EA0'}
+                sis={Dimensions.get('screen').width * 0.06}
+              />
+            </TouchableOpacity>
+          )}
 
-      <View>
-        <Text style={styles.descriptionTitle}>Description</Text>
-      </View>
-      {!isMapLaunched ? (
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>
-            On this page you can see which route the boat will take today. Also, the number of free places and book a trip. To cancel the trip, open the settings.
-          </Text>
+          <Text style={styles.title}>PACIFIC OCEAN</Text>
         </View>
-      ) : (
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>
-            If your plans have changed, you can easily cancel the reservation with just one click in the settings
-          </Text>
-        </View>
-      )}
 
-      {!isMapLaunched ? (
-        <View style={styles.dateBarContainer}>
-          {/* Сітка календаря */}
-          <View style={styles.calendarGrid}>
-            {daysOfWeek.map((day, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.calendarDateContainer}
-                onPress={() => handleSelectDay(day, index)}
-              >
-                <Text style={styles.ofWeek}>{day}</Text>
-                <Text style={styles.dateText}>{dates[index]}</Text>
-              </TouchableOpacity>
-            ))}
+        {!isMapLaunched ? (
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateLabel}>Date of dispatch:</Text>
+            <Text style={styles.dateText}>{selectedDay.date}</Text>
           </View>
+        ) : (
+          <View />
+        )}
 
-          {/* Деталі вибраного дня */}
-          <View style={styles.selectedDayDetails}>
-            <View style={styles.textAndProgress}>
-              <Text style={styles.selectedDayText}>
-                {selectedDay.day} {selectedDay.date} places
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View
-                  style={[
-                    styles.progressBarFilled,
-                    { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
-                  ]}
-                />
-              </View>
-              <Text style={styles.placesCount}>
-                {selectedDay.places.booked}/{selectedDay.places.total}
-              </Text>
+        <Maps
+          key={selectedDate}
+          selectedDate={selectedDate}
+          selectedOption={selectedOption}
+        />
+
+        <Text style={styles.descriptionTitle}>Description</Text>
+
+        {!isMapLaunched ? (
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.descriptionText}>
+              On this page you can see which route the boat will take today.
+              Also, the number of free places and book a trip. To cancel the
+              trip, open the settings.
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.descriptionText}>
+              If your plans have changed, you can easily cancel the reservation
+              with just one click in the settings or on this page
+            </Text>
+          </View>
+        )}
+
+        {!isMapLaunched ? (
+          <View style={styles.dateBarContainer}>
+            <View style={styles.calendarGrid}>
+              {daysOfWeek.map((day, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.calendarDateContainer}
+                  onPress={() => handleSelectDay(day, index)}>
+                  <Text style={styles.ofWeek}>{day}</Text>
+                  <Text style={styles.dateText}>{dates[index]}</Text>
+                </TouchableOpacity>
+              ))}
             </View>
 
-            <TouchableOpacity style={styles.bookButton} onPress={() => setIsMapLaunched(!isMapLaunched)}>
-              <Text style={styles.bookButtonText}>Book</Text>
-            </TouchableOpacity>
+            <View style={styles.selectedDayDetails}>
+              <View style={{gap: 4}}>
+                <Text style={styles.selectedDayText}>
+                  {selectedDay.day} {selectedDay.date}
+                </Text>
+                <View style={styles.progressBarContainer}>
+                  <View
+                    style={[
+                      styles.progressBarFilled,
+                      {
+                        width: `${((selectedOption === 'sailing' ? first[selectedDate] : two[selectedDate]) / 10) * 100}%`,
+                      },
+                    ]}
+                  />
+                </View>
+                <Text style={styles.placesCount}>
+                  Places{' '}
+                  {selectedOption === 'sailing'
+                    ? first[selectedDate]
+                    : two[selectedDate]}
+                  /{10}
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                style={styles.bookButton}
+                onPress={bookButtonPress}>
+                <Text style={styles.bookButtonText}>Book</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      ) : (
-        <BookedMapScreen />
+        ) : (
+          <BookedMapScreen
+            Ikey={selectedDate}
+            selectedDate={selectedDate}
+            selectedOption={selectedOption}
+            cancelBooking={cancelCancelBooking}
+            preDa={preDa}
+          />
+        )}
+      </View>
+
+      {modalVisible && (
+        <LoaderModal
+          modalVisible={modalVisible}
+          end={end}
+          title={'Success'}
+          description={
+            'You have successfully registered for the next sailing. Thank you for being a part of our team!'
+          }
+        />
+      )}
+
+      {modalCloseVisible && (
+        <LoaderModal
+          modalVisible={modalCloseVisible}
+          end={endTwo}
+          title={'Success'}
+          description={'You have successfully canceled the scheduled sailing'}
+        />
       )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#063a3d',
+  },
+  header: {
+    flexDirection: 'row',
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '95%',
+    alignSelf: 'center',
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#7A9EA0',
+    textAlign: 'center',
+  },
   dateContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: "#073b3e",
-    padding: 10,
+    backgroundColor: '#073b3e',
+    width: '90%',
+    alignSelf: 'center',
     borderRadius: 5,
-    marginBottom: 20,
   },
   dateLabel: {
     fontSize: 16,
@@ -155,7 +298,8 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     backgroundColor: 'transparent',
-    padding: 15,
+    width: '90%',
+    alignSelf: 'center',
     borderRadius: 5,
     marginBottom: 0,
   },
@@ -166,14 +310,15 @@ const styles = StyleSheet.create({
   dateBarContainer: {
     backgroundColor: '#809E9F',
     borderRadius: 20,
-    padding: 20,
+    padding: 10,
     marginBottom: 20,
+    width: '90%',
+    alignSelf: 'center',
   },
   calendarGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 0,
   },
   calendarDateContainer: {
     width: '14.28%',
@@ -191,7 +336,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#344E51',
     borderRadius: 10,
-    padding: 15,
+    paddingVertical: 10,
+    paddingHorizontal: '5%',
   },
   selectedDayText: {
     color: '#FFFFFF',
@@ -212,13 +358,12 @@ const styles = StyleSheet.create({
   placesCount: {
     color: '#FFFFFF',
     fontSize: 16,
-    marginLeft: 10,
   },
   bookButton: {
     backgroundColor: '#54666A',
     borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
   },
   bookButtonText: {
     color: '#FFFFFF',
@@ -228,7 +373,8 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     color: 'white',
     fontSize: 18,
-    marginLeft: 12,
+    width: '90%',
+    alignSelf: 'center',
   },
 });
 

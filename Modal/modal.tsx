@@ -52,7 +52,7 @@ export default function LoaderModal({
             }}>
             <Text
               style={{
-                fontSize: Dimensions.get('screen').width * 0.08,
+                fontSize: Dimensions.get('screen').width * 0.065,
                 fontWeight: '800',
                 color: '#FFF',
                 textAlign: 'center',

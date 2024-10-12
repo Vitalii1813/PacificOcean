@@ -1,138 +1,76 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-const BookedMapScreen = () => {
-  const [isMapLaunched, setIsMapLaunched] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState('');
-  const handleLaunchMap = () => {
-    setIsMapLaunched(!isMapLaunched)
-  }
-  const navigation = useNavigation();
-  const daysOfWeek = ['Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon'];
-  const dates = ['10', '11', '12', '13', '14', '15', '16'];
+const BookedMapScreen = ({
+  date,
+  Ikey,
+  selectedDate,
+  selectedOption,
+  cancelBooking,
+  preDa,
+}: any) => {
+  function generateCode(length: number) {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let code = '';
 
-  // Функція для генерації кількості заброньованих місць для кожного дня
-  const generateRandomPlacesForAllDays = () => {
-    return daysOfWeek.map(() => {
-      const totalPlaces = 10;
-      const bookedPlaces = Math.floor(Math.random() * (totalPlaces + 1));
-      return { booked: bookedPlaces, total: totalPlaces };
-    });
-  };
-
-  const [placesForDays, setPlacesForDays] = useState(generateRandomPlacesForAllDays());
-  const [selectedDate, setSelectedDate] = useState<number | null>(null);
-  const [selectedDay, setSelectedDay] = useState({
-    day: 'Fri',
-    date: '13',
-    places: placesForDays[3], // Ініціалізуємо як п'ятницю
-  });
-
-
-  const handleSelectDay = (day: string, index: number) => {
-    setSelectedDate(index);
-    setSelectedDay({ day, date: dates[index], places: placesForDays[index] });
-  };
-
-  // Оновлюємо дані через певний час (10 хвилин у прикладі)
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setPlacesForDays(generateRandomPlacesForAllDays());
-    }, 600000); // 10 хвилин
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const handleCancelPress = () => {
-    setIsMapLaunched(!isMapLaunched);
-  };
-
-  const generateRandomCode = () => {
-    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < 8; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      code += characters[randomIndex];
     }
-    return result;
-  };
 
-  // Генеруємо новий код при завантаженні компонента
+    return code;
+  }
+
+  const generatedCode = generateCode(5);
+
+  function handleCancelPress() {
+    cancelBooking();
+  }
+
+  async function saveDate() {
+    const aoos = await AsyncStorage.getItem('map');
+    if (!aoos) {
+      const kasd = {Ikey, selectedDate, selectedOption, date, generatedCode};
+
+      await AsyncStorage.setItem('map', JSON.stringify(kasd));
+    }
+  }
+
   useEffect(() => {
-    setGeneratedCode(generateRandomCode());
+    saveDate();
   }, []);
 
   return (
-    <View>
-      {!isMapLaunched ? (
-        <>
-          <View style={styles.bookedOnWrapper}>
-            <TouchableOpacity style={styles.bookedOnButton}>
-              <Text style={styles.bookedOnButtonText}>
-                Booked on {selectedDay.date} {selectedDay.day}
-              </Text>
-            </TouchableOpacity>
-          </View>
+    <View style={{width: '90%', alignSelf: 'center', marginBottom: 20}}>
+      <View style={styles.bookedOnButton}>
+        <Text style={styles.bookedOnButtonText}>Booked on {date}</Text>
+      </View>
 
-          <View style={styles.containerStep}>
-            <View style={styles.header}></View>
-            <Text style={styles.successText}>
-              Your booking is successful. Save your personal code that you can use to cancel the reservation.
+      <View style={styles.containerStep}>
+        <View style={styles.header}></View>
+
+        <Text style={styles.successText}>
+          Your booking is successful. Save your personal code that you can use
+          to cancel the reservation.
+        </Text>
+
+        <View style={styles.codeContainer}>
+          <View style={styles.secondCodeContainer}>
+            <Text style={styles.codeLabel}>Your reservation code:</Text>
+            <Text style={styles.codeText}>
+              {preDa?.generatedCode ? preDa.generatedCode : generatedCode}
             </Text>
-            <View style={styles.codeContainer}>
-              <View style={styles.secondCodeContainer}>
-                <Text style={styles.codeLabel}>Your reservation code:</Text>
-                <Text style={styles.codeText}>{generatedCode}</Text>
-              </View>
-              <TouchableOpacity style={styles.cancelButton} onPress={handleCancelPress}>
-                <Text style={styles.cancelButtonText}>Cancel</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </>
-      ) : (
-        <View>
-          <View style={styles.dateBarContainer}>
-            {/* Сітка календаря */}
-            <View style={styles.calendarGrid}>
-              {daysOfWeek.map((day, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.calendarDateContainer}
-                  onPress={() => handleSelectDay(day, index)}
-                >
-                  <Text style={styles.dayOfWeek}>{day}</Text>
-                  <Text style={styles.dateText}>{dates[index]}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
 
-            {/* Деталі вибраного дня */}
-            <View style={styles.selectedDayDetails}>
-              <View style={styles.textAndProgress}>
-                <Text style={styles.selectedDayText}>
-                  {selectedDay.day} {selectedDay.date} places
-                </Text>
-                <View style={styles.progressBarContainer}>
-                  <View
-                    style={[
-                      styles.progressBarFilled,
-                      { width: `${(selectedDay.places.booked / selectedDay.places.total) * 100}%` },
-                    ]}
-                  />
-                </View>
-                <Text style={styles.placesCount}>
-                  {selectedDay.places.booked}/{selectedDay.places.total}
-                </Text>
-              </View>
-
-              <TouchableOpacity style={styles.bookButton} onPress={handleLaunchMap}>
-                <Text style={styles.bookButtonText}>Book</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={handleCancelPress}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </TouchableOpacity>
         </View>
-      )}
+      </View>
     </View>
   );
 };
@@ -154,6 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#073B3E',
     marginBottom: 20,
+    textAlign: 'justify',
   },
   codeContainer: {
     flexDirection: 'row',
@@ -173,8 +112,8 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: '#54666A',
     borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
   },
   cancelButtonText: {
     textAlign: 'right',
@@ -185,18 +124,15 @@ const styles = StyleSheet.create({
   secondCodeContainer: {
     color: '#002224',
   },
-  bookedOnWrapper: {
-    paddingHorizontal: 10,
-    marginBottom: 0,
-    alignItems: 'flex-end',
-  },
+
   bookedOnButton: {
     backgroundColor: '#7A9EA0',
-    borderRadius: 20,
+    borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 20,
     height: 40,
     justifyContent: 'space-between',
+    alignSelf: 'flex-end',
   },
   bookedOnButtonText: {
     color: 'white',
@@ -212,7 +148,6 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontSize: 16,
     color: '#7A9EA0',
-
   },
   dateBarContainer: {
     backgroundColor: '#809E9F',
@@ -280,8 +215,8 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     color: 'white',
     fontSize: 18,
-    marginLeft: 12
-  }
+    marginLeft: 12,
+  },
 });
 
 export default BookedMapScreen;

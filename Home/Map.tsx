@@ -1,140 +1,168 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
-import MapView, { Marker, Polyline, Region } from 'react-native-maps';
+import React, {useState, useRef, useEffect} from 'react';
+import {Dimensions} from 'react-native';
+import {View, StyleSheet, Button} from 'react-native';
+import MapView, {Marker, Polyline, Region} from 'react-native-maps';
 
-const predefinedRoutesArray = [
-  [ // Масив 1 - Південноафриканська Республіка
-    { latitude: -33.9249, longitude: 18.4241 }, // Кейптаун
-    { latitude: -26.2041, longitude: 28.0473 }, // Йоганнесбург
-    { latitude: -29.8587, longitude: 31.0218 }, // Дурбан
-  ],
-  [ // Масив 2 - Кенія
-    { latitude: -1.286389, longitude: 36.817223 }, // Найробі
-    { latitude: -1.2865, longitude: 36.8172 },     // Найробі (позначення)
-    { latitude: -3.2287, longitude: 35.6895 },     // Масай-Мара
-  ],
-  [ // Масив 3 - Нігерія
-    { latitude: 6.5244, longitude: 3.3792 },      // Лагос
-    { latitude: 8.9806, longitude: 7.4951 },      // Абуджа
-    { latitude: 12.6392, longitude: 8.5619 },     // Кано
-  ],
-  [ // Масив 4 - Єгипет
-    { latitude: 30.0444, longitude: 31.2357 },    // Каїр
-    { latitude: 25.7617, longitude: 32.7157 },    // Луксор
-    { latitude: 27.0189, longitude: 31.2001 },     // Асуан
-  ],
-  [ // Масив 5 - Танзанія
-    { latitude: -6.7924, longitude: 39.2083 },    // Дар-ес-Салам
-    { latitude: -3.3674, longitude: 38.1494 },    // Нгоронгоро
-    { latitude: -6.8652, longitude: 38.1962 },     // Кіліманджаро
-  ],
-  [ // Масив 6 - Уганда
-    { latitude: 0.3476, longitude: 32.5825 },     // Кампала
-    { latitude: 1.3733, longitude: 32.2903 },     // Мбале
-    { latitude: 0.6000, longitude: 32.6580 },     // Джинджа
-  ],
-  [ // Масив 7 - Гана
-    { latitude: 5.6037, longitude: -0.1870 },     // Аккра
-    { latitude: 7.0220, longitude: -0.5130 },     // Кумасі
-    { latitude: 5.6460, longitude: -1.5771 },     // Такораді
-  ],
-];
-
-const getRandomRoutes = () => {
-  const randomIndex = Math.floor(Math.random() * predefinedRoutesArray.length);
-  return predefinedRoutesArray[randomIndex];
-};
-
-const Map: React.FC = () => {
-  const [predefinedRoutes, setPredefinedRoutes] = useState(getRandomRoutes());
-  const [region, setRegion] = useState<Region>({
-    latitude: -2.0, // Середина Африки
-    longitude: 23.0,
-    latitudeDelta: 10.0,
-    longitudeDelta: 10.0,
-  });
-
+const Map: React.FC = ({
+  selectedDate,
+  selectedOption,
+}: {
+  selectedDate: any;
+  selectedOption: any;
+}) => {
   const mapRef = useRef<MapView | null>(null);
 
-  useEffect(() => {
-    if (mapRef.current && predefinedRoutes.length > 0) {
-      mapRef.current.fitToCoordinates(predefinedRoutes, {
-        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-        animated: true,
-      });
-    }
-  }, [predefinedRoutes]);
+  const routeCoordinates = [
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 40.0522, longitude: -135.2437},
+      {latitude: 20.0522, longitude: -115.2437},
+      {latitude: 0.0522, longitude: -85.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -145.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: -10.0522, longitude: -175.2437},
+      {latitude: -10.0522, longitude: -155.2437},
+      {latitude: -20.0522, longitude: -145.2437},
+      {latitude: -20.0522, longitude: -105.2437},
+      {latitude: 20.0522, longitude: -145.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 0.0522, longitude: -125.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 0.0522, longitude: -135.2437},
+      {latitude: -20.0522, longitude: -105.2437},
+      {latitude: -0.0522, longitude: -165.2437},
+      {latitude: 30.0522, longitude: -165.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -135.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+  ];
 
-  const zoomIn = () => {
-    setRegion((prevRegion) => ({
-      ...prevRegion,
-      latitudeDelta: prevRegion.latitudeDelta / 2,
-      longitudeDelta: prevRegion.longitudeDelta / 2,
-    }));
-  };
+  const routeSailingCoordinates = [
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -135.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 40.0522, longitude: -135.2437},
+      {latitude: 20.0522, longitude: -115.2437},
+      {latitude: 0.0522, longitude: -85.2437},
+    ],
 
-  const zoomOut = () => {
-    setRegion((prevRegion) => ({
-      ...prevRegion,
-      latitudeDelta: prevRegion.latitudeDelta * 2,
-      longitudeDelta: prevRegion.longitudeDelta * 2,
-    }));
-  };
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: -10.0522, longitude: -175.2437},
+      {latitude: -10.0522, longitude: -155.2437},
+      {latitude: -20.0522, longitude: -145.2437},
+      {latitude: -20.0522, longitude: -105.2437},
+      {latitude: 20.0522, longitude: -145.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 0.0522, longitude: -125.2437},
+      {latitude: 20.0522, longitude: -175.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 0.0522, longitude: -135.2437},
+      {latitude: -20.0522, longitude: -105.2437},
+      {latitude: -0.0522, longitude: -165.2437},
+      {latitude: 30.0522, longitude: -165.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+    [
+      {latitude: 55.0522, longitude: -135.2437},
+      {latitude: 50.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -175.2437},
+      {latitude: 0.0522, longitude: -145.2437},
+      {latitude: 55.0522, longitude: -135.2437},
+    ],
+  ];
 
   return (
     <View style={styles.mapContainer}>
       <MapView
         ref={mapRef}
         style={styles.map}
-        region={region}
-        onRegionChangeComplete={setRegion}
-        zoomEnabled={true}
-        scrollEnabled={true}
-        pitchEnabled={true}
-        rotateEnabled={true}
-      >
-        {predefinedRoutes.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={marker}
-            title={`Point ${index + 1}`}
-          >
-            <View style={styles.marker}>
-              <View style={styles.markerInner} />
-            </View>
-          </Marker>
-        ))}
-
-        {predefinedRoutes.length > 1 && (
-          <Polyline
-            coordinates={predefinedRoutes}
-            strokeColor="#1E90FF"
-            strokeWidth={4}
-            lineDashPattern={[10, 5]}
-          />
-        )}
+        region={{
+          latitude: 20.0522, // Середина Африки
+          longitude: -130.2437,
+          latitudeDelta: 100,
+          longitudeDelta: 0.1,
+        }}
+        zoomEnabled={false}
+        scrollEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}>
+        {/* Додаємо лінію маршруту */}
+        <Polyline
+          coordinates={
+            selectedOption === 'sailing'
+              ? routeSailingCoordinates[selectedDate]
+              : routeCoordinates[selectedDate]
+          }
+          strokeColor="#FF0000" // Колір лінії (червоний)
+          strokeWidth={3} // Товщина лінії
+        />
       </MapView>
-
-      <View style={styles.zoomButtons}>
-        <Button title="+" onPress={zoomIn} />
-        <Button title="-" onPress={zoomOut} />
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   mapContainer: {
-    width: '100%',
-    height: 290,
-    marginBottom: 10,
+    width: '90%',
+    height: Dimensions.get('screen').height * 0.35,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#ccc',
+    alignSelf: 'center',
+    overflow: 'hidden',
   },
   map: {
     width: '100%',
     height: '100%',
+    borderRadius: 15,
   },
   marker: {
     backgroundColor: '#000',
@@ -143,7 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 5,

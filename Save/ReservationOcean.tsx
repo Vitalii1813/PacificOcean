@@ -11,16 +11,17 @@ import {
 import {useNavigation} from '@react-navigation/native'; // Import navigation hook
 import SSG from '../svg/setting';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoaderModal from '../Modal/modal';
 
 const ReservationOcean = ({setCodeScreen, codeScreen}: any) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation(); // Use navigation hook
   const firstNum = codeScreen !== 2 ? codeScreen : generateReservationCode();
 
   const [reservationCode, setReservationCode] = useState(firstNum);
   // Function to handle cancel button press
   const handleCancelReservation = async () => {
-    await AsyncStorage.setItem('SaveOcean', '');
-    setCodeScreen(1);
+    setModalVisible(true);
   };
 
   const handleSettings = () => {
@@ -29,6 +30,11 @@ const ReservationOcean = ({setCodeScreen, codeScreen}: any) => {
 
   function generateReservationCode() {
     return Math.random().toString(36).substring(2, 15); // Generates a random alphanumeric string
+  }
+
+  async function end() {
+    await AsyncStorage.setItem('SaveOcean', '');
+    setCodeScreen(1);
   }
 
   useEffect(() => {
@@ -100,6 +106,17 @@ const ReservationOcean = ({setCodeScreen, codeScreen}: any) => {
           </View>
         </View>
       </View>
+
+      {modalVisible && (
+        <LoaderModal
+          modalVisible={modalVisible}
+          end={end}
+          title={'You have successfully canceled the reservation'}
+          description={
+            'If needed, you can reserve again for the date that works for you'
+          }
+        />
+      )}
     </View>
   );
 };

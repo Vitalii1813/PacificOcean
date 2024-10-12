@@ -9,8 +9,11 @@ import {
   PanResponder,
   Dimensions,
 } from 'react-native';
+import LoaderModal from '../Modal/modal';
 
-const BoatScreen = ({coordinates, setCoordinates}: any) => {
+const BoatScreen = ({coordinates, setCoordinates, close}: any) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const animatedValue = useRef(new Animated.ValueXY()).current;
 
   // Функція для обробки натискань
@@ -30,8 +33,12 @@ const BoatScreen = ({coordinates, setCoordinates}: any) => {
   };
 
   const sendBoat = () => {
-    // setShowButton(!showButton);
+    setModalVisible(true);
   };
+
+  function end() {
+    close();
+  }
 
   return (
     <View style={styles.newScreenContainer}>
@@ -101,6 +108,17 @@ const BoatScreen = ({coordinates, setCoordinates}: any) => {
             styles.dot,
             {transform: animatedValue.getTranslateTransform()},
           ]}
+        />
+      )}
+
+      {modalVisible && (
+        <LoaderModal
+          modalVisible={modalVisible}
+          end={end}
+          title={'Success'}
+          description={
+            'You have successfully created a bait deployment request for the boat. The boat will soon drop the bait at the specified location relative to the ship'
+          }
         />
       )}
     </View>

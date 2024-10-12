@@ -43,6 +43,16 @@ const CodeOcean = () => {
     });
   };
 
+  function close() {
+    setCoordinates({x: 0, y: 0});
+    setSelectedImage(null);
+    setShowNext(false);
+    setBait('null');
+    setWeight(1);
+    setShowSlider(false);
+    setIsBoatLaunched(false);
+  }
+
   const handleNextPress = () => {
     setShowSlider(true);
   };
@@ -96,7 +106,7 @@ const CodeOcean = () => {
         )}
       </View>
 
-      {showSlider && isBoatLaunched ? (
+      {!showSlider && !isBoatLaunched ? (
         <>
           <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionTitle}>Description</Text>
@@ -137,7 +147,7 @@ const CodeOcean = () => {
 
           {showNext && (
             <TouchableOpacity
-              style={styles.nextButton}
+              style={[styles.nextButton, {width: '90%', alignSelf: 'center'}]}
               onPress={handleNextPress}>
               <Text style={styles.nextButtonText}>Next</Text>
             </TouchableOpacity>
@@ -192,15 +202,28 @@ const CodeOcean = () => {
             Depending on the weight of the fish you want to catch, the type of
             bait will be selected.
           </Text>
+          <>
+            <TouchableOpacity
+              style={[styles.nextButton]}
+              onPress={() => {
+                setShowSlider(false), setShowNext(false);
+              }}>
+              <Text style={styles.nextButtonText}>Back</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.launchButton}
-            onPress={handleLaunchBoat}>
-            <Text style={styles.launchButtonText}>Launch the boat</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.launchButton, {marginTop: 15}]}
+              onPress={handleLaunchBoat}>
+              <Text style={styles.launchButtonText}>Launch the boat</Text>
+            </TouchableOpacity>
+          </>
         </View>
       ) : (
-        <BoatScreen coordinates={coordinates} setCoordinates={setCoordinates} />
+        <BoatScreen
+          coordinates={coordinates}
+          setCoordinates={setCoordinates}
+          close={close}
+        />
       )}
     </View>
   );
