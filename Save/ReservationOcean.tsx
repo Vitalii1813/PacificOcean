@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     width: '70%',
     alignSelf: 'flex-end',
     marginRight: '2.5%',
-    marginTop: 30,
+    marginTop: 0,
   },
   descriptionTitle: {
     color: '#D1D6D7',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   yachtImage: {
     width: '70%',
-    height: 180,
+    height: Dimensions.get('screen').height * 0.2,
     alignSelf: 'flex-end',
     bottom: -20,
   },

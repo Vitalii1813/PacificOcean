@@ -216,8 +216,8 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     justifyContent: 'flex-start',
-
-    flex: 1,
+    width: '60%',
+    marginLeft: '5%',
   },
   subtext: {
     fontSize: 12,
@@ -225,15 +225,14 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   imageContainer: {
-    flexDirection: 'row',
-    height: 350,
     width: '90%',
-    marginTop: 10,
-    alignSelf: 'center',
   },
   backgroundImage: {
-    flex: 1.7,
+    width: Dimensions.get('screen').width * 0.5,
+    height: Dimensions.get('screen').height * 0.3,
     marginTop: 40,
+    resizeMode: 'stretch',
+    alignSelf: 'flex-end',
   },
   options: {
     marginBottom: 20,

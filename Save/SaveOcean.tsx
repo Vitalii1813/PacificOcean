@@ -184,7 +184,9 @@ const SaveOcean: React.FC = () => {
             modalVisible={modalVisible}
             end={end}
             title={'Reservation successful'}
-            description={'You have successfully made a reservation. You can cancel the reservation in the settings or on the reservation results page.'}
+            description={
+              'You have successfully made a reservation. You can cancel the reservation in the settings or on the reservation results page.'
+            }
           />
         )}
 
@@ -240,7 +242,8 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     backgroundColor: '#82a8a4', // Adjust background color as per the image
-    padding: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 20,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 5},
@@ -256,7 +259,7 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 16,
     color: '#527275', // Darker input text color
-    marginBottom: 20,
+    marginBottom: 10,
   },
   label: {
     fontSize: 18,
@@ -266,7 +269,7 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   optionButton: {
     flex: 1,
@@ -282,18 +285,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#d1d9d9', // Slightly lighter color for selected buttons
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: Dimensions.get('screen').width * 0.04,
     color: '#203838', // Dark green for button text
   },
   reserveButton: {
     backgroundColor: '#203838', // Dark background for the reserve button
-    paddingVertical: 15,
+    paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
   },
   reserveButtonText: {
     color: '#ffffff', // White text for the reserve button
-    fontSize: 18,
+    fontSize: Dimensions.get('screen').width * 0.05,
     fontWeight: 'bold',
   },
   container: {
@@ -332,7 +335,10 @@ const styles = StyleSheet.create({
     width: 40,
     marginRight: 25,
   },
-  image: {},
+  image: {
+    width: Dimensions.get('screen').width * 0.6,
+    height: Dimensions.get('screen').height * 0.2,
+  },
 });
 
 export default SaveOcean;
