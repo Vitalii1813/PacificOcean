@@ -223,6 +223,13 @@ export default function App() {
               options={{headerShown: false}}
             />
             <Stack.Screen
+              name="Settings"
+              component={SettingsStack}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="AddResultForm"
               component={AddResultForm}
               options={{headerShown: false}}

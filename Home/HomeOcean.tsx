@@ -50,6 +50,9 @@ const HomeOcean = () => {
         if (dadasd) {
           setPreDa(JSON.parse(dadasd));
           setIsMapOpen(true);
+        } else {
+          setPreDa(undefined);
+          setIsMapOpen(false);
         }
       }
 

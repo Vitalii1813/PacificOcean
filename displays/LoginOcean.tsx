@@ -15,12 +15,15 @@ export default function LoginScreen({navigation}: any) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    if (email && password) {
+    if (
+      email.toLocaleLowerCase() === 'admin' &&
+      password.toLocaleLowerCase() === 'admin'
+    ) {
       // Here you can also pass the email if needed
       navigation.replace('MainTabs', {userName: 'Bill Goas'});
       await AsyncStorage.setItem('Log', 'true');
     } else {
-      alert('Please enter your username and password');
+      alert('Your password or login was entered incorrectly');
     }
   };
 
